@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QMainWindow>
-#include <Box2D/Box2D.h>
+#include <Box2D/include/box2d/box2d.h>
 #include <QGraphicsScene>
 #include <QVector>
 #include "scenemanager.h"

@@ -59,3 +59,10 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     rc.qrc
 LIBS += Box2D.lib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Box2D/build/bin/release/ -lbox2d
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Box2D/build/bin/debug/ -lbox2d
+else:unix: LIBS += -L$$PWD/Box2D/build/bin/ -lbox2d
+
+INCLUDEPATH += $$PWD/Box2D/build/bin/Debug
+DEPENDPATH += $$PWD/Box2D/build/bin/Debug
