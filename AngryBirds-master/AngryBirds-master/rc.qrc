@@ -1,0 +1,64 @@
+<RCC>
+    <qresource prefix="/piggs">
+        <file>piggs/corporal-pig.png</file>
+        <file>piggs/Fat_pig.png</file>
+        <file>piggs/foreman.png</file>
+        <file>piggs/king.png</file>
+        <file>piggs/professor.png</file>
+        <file>piggs/sodier.png</file>
+    </qresource>
+    <qresource prefix="/fixture">
+        <file>fixture/hill_b_s.png</file>
+        <file>fixture/sky.png</file>
+        <file>fixture/sun.png</file>
+        <file>fixture/ground1.png</file>
+        <file>fixture/ground2.png</file>
+        <file>fixture/sky2.png</file>
+        <file>fixture/sky3.png</file>
+        <file>fixture/satellite.png</file>
+        <file>fixture/cursor.png</file>
+        <file>fixture/grass.png</file>
+        <file>fixture/logo.png</file>
+        <file>fixture/score1.png</file>
+        <file>fixture/score5.png</file>
+        <file>fixture/strip.png</file>
+        <file>fixture/cloude1.png</file>
+        <file>fixture/cloude2.png</file>
+        <file>fixture/ground3.png</file>
+        <file>fixture/jungle.png</file>
+        <file>fixture/sky4.png</file>
+        <file>fixture/splash.jpg</file>
+    </qresource>
+    <qresource prefix="/blocks">
+        <file>Blocks/ice_hrec.png</file>
+        <file>Blocks/ice_rec.png</file>
+        <file>Blocks/ice_triangle.png</file>
+        <file>Blocks/ice_vrec.png</file>
+        <file>Blocks/melon.png</file>
+        <file>Blocks/stone_hrec.png</file>
+        <file>Blocks/stone_rec.png</file>
+        <file>Blocks/stone_triangle.png</file>
+        <file>Blocks/stone_vrec.png</file>
+        <file>Blocks/wood_hrec.png</file>
+        <file>Blocks/wood_rec.png</file>
+        <file>Blocks/wood_table.png</file>
+        <file>Blocks/wood_triangle.png</file>
+        <file>Blocks/wood_triangle1.png</file>
+        <file>Blocks/wood_vrec.png</file>
+        <file>Blocks/wideTable.png</file>
+    </qresource>
+    <qresource prefix="/actors">
+        <file>Characters/Bomb.png</file>
+        <file>Characters/chunk.png</file>
+        <file>Characters/hal.png</file>
+        <file>Characters/matida.png</file>
+        <file>Characters/red.png</file>
+        <file>Characters/terence.png</file>
+        <file>Characters/blue.png</file>
+    </qresource>
+    <qresource prefix="/zoom">
+        <file>icon/zoom_in.png</file>
+        <file>icon/zoom_out.png</file>
+        <file>icon/start.png</file>
+    </qresource>
+</RCC>
