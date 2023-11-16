@@ -2,7 +2,7 @@
 #define PHYSICITEM_H
 
 #include <QGraphicsItem>
-#include <Box2D/include/box2d/b2_body.h>
+#include <Box2D/Dynamics/b2Body.h>
 #include "material.h"
 #include "world.h"
 

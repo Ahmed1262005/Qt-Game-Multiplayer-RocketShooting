@@ -4,7 +4,7 @@
 #include "physicitem.h"
 #include "material.h"
 #include <QGraphicsObject>
-#include <Box2D/include/box2d/box2d.h>
+#include <Box2D/Box2D.h>
 #include <QTimer>
 
 class Piggs : public PhysicItem
