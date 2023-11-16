@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _scene->addItem(logoitem);
     logoitem->setPos(1000, 200);
 
+
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui->graphicsView->scale(.75, .75);
     ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
