@@ -29,3 +29,17 @@ else:unix: LIBS += -L$$PWD/Box2D/lib/ -lbox2
 
 INCLUDEPATH += $$PWD/Box2D
 DEPENDPATH += $$PWD/Box2D
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Box2D/lib/ -lbox2
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Box2D/lib/ -lbox2d
+else:unix: LIBS += -L$$PWD/Box2D/lib/ -lbox2
+
+INCLUDEPATH += $$PWD/Box2D
+DEPENDPATH += $$PWD/Box2D
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/lib/ -lBox2
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/lib/ -lBox2d
+else:unix: LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MinGW_64_bit-Debug/lib/ -lBox2
+
+INCLUDEPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MinGW_64_bit-Debug
+DEPENDPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MinGW_64_bit-Debug

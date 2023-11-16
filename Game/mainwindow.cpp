@@ -34,7 +34,7 @@ void MainWindow::createGround()
     b2BodyDef groundBodyDef; // Ground 0
     groundBodyDef.position.Set(0.0f, -10.0f);
 
-    b2Body *groundBody = world->CreateBody(&groundBodyDef);
+    groundBody = world->CreateBody(&groundBodyDef);
 
     b2PolygonShape groundBox;
     groundBox.SetAsBox(50.0f, 10.0f);
@@ -51,7 +51,7 @@ void MainWindow::createDynamicBox(float x, float y)
     b2Body *body = world->CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f, 1.0f);
+    dynamicBox.SetAsBox(1000.0f, 1000.0f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -81,7 +81,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext())
     {
         b2Vec2 position = body->GetPosition();
-        painter.drawRect(QRectF(position.x - 0.5, position.y - 0.5, 1.0, 1.0));
+        painter.drawRect(QRectF(position.x - 0.5, position.y - 0.5, 1, 1));
     }
 }
 
@@ -89,7 +89,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space)
     {
-        createDynamicBox(0, 5);
+        createDynamicBox(2, 5);
     }
 }
 void MainWindow::createThrowableObject(float x, float y)
@@ -123,12 +123,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         aabb.upperBound = mousePos + d;
 
         // Query the world to find the clicked object
-        b2QueryCallback callback(mousePos);
+        QueryCallback callback(mousePos);
         world->QueryAABB(&callback, aabb);
 
-        if (callback.fixture)
+        if (callback.m_fixture)
         {
-            b2Body* clickedBody = callback.fixture->GetBody();
+            b2Body* clickedBody = callback.m_fixture->GetBody();
 
             if (clickedBody == throwableObject)
             {
@@ -171,4 +171,5 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
         throwableObject->ApplyLinearImpulse(impulse, throwableObject->GetWorldCenter(), true);
     }
 }
+
 
