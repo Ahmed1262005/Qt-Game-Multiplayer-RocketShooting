@@ -22,3 +22,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Box2D/lib/ -lbox2
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Box2D/lib/ -lbox2d
+else:unix: LIBS += -L$$PWD/Box2D/lib/ -lbox2
+
+INCLUDEPATH += $$PWD/Box2D
+DEPENDPATH += $$PWD/Box2D
