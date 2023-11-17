@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< Updated upstream
 <!-- Written by QtCreator 11.0.3, 2023-11-16T22:00:47. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
   <value type="QByteArray">{156de657-572b-4139-b262-da50de602978}</value>
+=======
+<!-- Written by QtCreator 11.0.2, 2023-11-16T23:24:56. -->
+<qtcreator>
+ <data>
+  <variable>EnvironmentId</variable>
+  <value type="QByteArray">{e0fe27c7-7b45-4d66-9127-01a4ac79c7fd}</value>
+>>>>>>> Stashed changes
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -95,9 +103,13 @@
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+<<<<<<< Updated upstream
     <value type="int" key="EnableQmlDebugging">0</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\QtAssignment\Qt-Game-Multiplayer-RocketShooting\AngryBirds-master\build-AngryBirdsSimulation-Desktop-Debug</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">D:/QtAssignment/Qt-Game-Multiplayer-RocketShooting/AngryBirds-master/build-AngryBirdsSimulation-Desktop-Debug</value>
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Dell-\Desktop\Not Angry Birds\Qt-Game-Multiplayer-RocketShooting\AngryBirds-master\AngryBirds-master</value>
+>>>>>>> Stashed changes
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -135,8 +147,12 @@
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">2</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+<<<<<<< Updated upstream
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\QtAssignment\Qt-Game-Multiplayer-RocketShooting\AngryBirds-master\build-AngryBirdsSimulation-Desktop-Release</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">D:/QtAssignment/Qt-Game-Multiplayer-RocketShooting/AngryBirds-master/build-AngryBirdsSimulation-Desktop-Release</value>
+=======
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Dell-\Desktop\Not Angry Birds\Qt-Game-Multiplayer-RocketShooting\AngryBirds-master\AngryBirds-master</value>
+>>>>>>> Stashed changes
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -238,10 +254,20 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+<<<<<<< Updated upstream
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey"></value>
+=======
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">AngryBirdsSimulation2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/Dell-/Desktop/Not Angry Birds/Qt-Game-Multiplayer-RocketShooting/AngryBirds-master/AngryBirds-master/AngryBirdsSimulation.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/Dell-/Desktop/Not Angry Birds/Qt-Game-Multiplayer-RocketShooting/AngryBirds-master/AngryBirds-master/AngryBirdsSimulation.pro</value>
+>>>>>>> Stashed changes
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+<<<<<<< Updated upstream
+=======
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Dell-/Desktop/Not Angry Birds/Qt-Game-Multiplayer-RocketShooting/AngryBirds-master/AngryBirds-master</value>
+>>>>>>> Stashed changes
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
