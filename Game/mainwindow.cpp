@@ -26,7 +26,7 @@ void MainWindow::initializeBox2D()
     world = new b2World(gravity);
 
     createGround();
-    createDynamicBox(0, 5);
+    createDynamicBox(100, 100);
 }
 
 void MainWindow::createGround()
