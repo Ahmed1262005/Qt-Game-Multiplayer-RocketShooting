@@ -93,6 +93,44 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         createDynamicBox(100, 0);
     }
 }
+void MainWindow::createRocket(float x, float y)
+{
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(x, y);
+
+    b2Body *body = world->CreateBody(&bodyDef);
+
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.3f;
+
+    body->CreateFixture(&fixtureDef);
+}
+
+void MainWindow::createTarget(float x, float y)
+{
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_staticBody;
+    bodyDef.position.Set(x, y);
+
+    b2Body *body = world->CreateBody(&bodyDef);
+
+    b2CircleShape staticCircle;
+    staticCircle.m_radius = 1.0f; // Target shape
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &staticCircle;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.3f;
+
+    body->CreateFixture(&fixtureDef);
+}
+
 void MainWindow::createThrowableObject(float x, float y)
 {
     b2BodyDef bodyDef;

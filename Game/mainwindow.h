@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QKeyEvent>
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 
 
 
@@ -31,6 +31,8 @@ private slots:
 private:
     void initializeBox2D();
     void createGround();
+    void createRocket(float x, float y);
+    void createTarget(float x, float y);
     void createDynamicBox(float x, float y);
     void createThrowableObject(float x, float y);
     b2Body *groundBody;
