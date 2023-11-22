@@ -26,18 +26,18 @@ void MainWindow::initializeBox2D()
     world = new b2World(gravity);
 
     createGround();
-    createDynamicBox(0, 5);
+    createDynamicBox(100, 100);
 }
 
 void MainWindow::createGround()
 {
     b2BodyDef groundBodyDef; // Ground 0
-    groundBodyDef.position.Set(0.0f, -10.0f);
+    groundBodyDef.position.Set(0.0f, 100.f);
 
     groundBody = world->CreateBody(&groundBodyDef);
 
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(50.0f, 10.0f);
+    groundBox.SetAsBox(100.0f, 100.0f);
 
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
@@ -52,6 +52,7 @@ void MainWindow::createDynamicBox(float x, float y)
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1000.0f, 1000.0f);
+
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -89,7 +90,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space)
     {
-        createDynamicBox(2, 5);
+        createDynamicBox(100, 0);
     }
 }
 void MainWindow::createThrowableObject(float x, float y)
