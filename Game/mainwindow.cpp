@@ -19,7 +19,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::drawTrajectory(QPainter &painter) {
-    painter.setPen(QPen(Qt::black, 2, Qt::SolidLine));
+    painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
 
     TrajectoryRayCastClosestCallback raycastCallback;
     b2Vec2 lastTP = rocketPosition;
