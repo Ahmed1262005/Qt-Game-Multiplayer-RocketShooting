@@ -30,6 +30,8 @@ private slots:
 
 private:
     void drawTrajectory(QPainter &painter);
+    b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
+
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
     public:
@@ -58,7 +60,7 @@ private:
 
     void initializeBox2D();
     void createGround();
-    void launchRocket();
+    void launchRocket(float desiredHeight);
     void updateRocketTrajectory();
     void createRocket(float x, float y);
     void createTarget(float x, float y);
