@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QKeyEvent>
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 
 
 
@@ -21,21 +21,53 @@ public:
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);
-    void mousePressEvent(QMouseEvent*);
+    //void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
+    //void mouseReleaseEvent(QMouseEvent*);
 
 private slots:
             void updateWorld();
 
 private:
+    void drawTrajectory(QPainter &painter);
+    bool drawPredictedCollision;
+    class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
+    public:
+        TrajectoryRayCastClosestCallback() : m_hit(false) {}
+
+        float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,
+                              const b2Vec2& normal, float32 fraction) override {
+            m_hit = true;
+            m_point = point;
+            return fraction;
+        }
+
+        bool m_hit;
+        b2Vec2 m_point;
+    };
+    b2Vec2 getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &startingVelocity, float n);
+    b2Vec2 predictedCollisionPoint;
+
+    b2Vec2 rocketPosition;
+    b2Vec2 rocketVelocity;
+
+    QVector2D mousePosition;
+    bool isMousePressed;
+
+    int trajectoryPointsCount;
+
     void initializeBox2D();
     void createGround();
+    void launchRocket();
+    void updateRocketTrajectory();
+    void createRocket(float x, float y);
+    void createTarget(float x, float y);
     void createDynamicBox(float x, float y);
     void createThrowableObject(float x, float y);
     b2Body *groundBody;
     b2Body* throwableObject;
     b2MouseJoint* mouseJoint;
+    b2Body* rocketBody;
 
 
     b2Vec2 dragStart;
@@ -93,8 +125,6 @@ public:
 
         _transform.scale(10.0f, -10.0f);
         _transform.translate(0.0f, -64.0f);
-        qDebug() << _transform.map(QPointF(0.0f,0.0f));
-        qDebug() << _transform.map(QPointF(36.0f,64.0f));
         _objects.append(createWall(0.0f, 0.0f, 36.0f, 1.0f));
         _objects.append(createWall(0.0f, 0.0f, 1.0f, 64.0f));
         _objects.append(createWall(35.0f, 0.0f, 1.0f, 64.0f));
