@@ -27,7 +27,7 @@ void MainWindow::drawTrajectory(QPainter &painter) {
     for (int i = 0; i < trajectoryPointsCount; ++i) {
         b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
         // Adjust the y-coordinate to consider the vertical inversion
-        QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
+        QPointF point(trajectoryPosition.x, height()-trajectoryPosition.y);
         painter.drawPoint(point);
 
         if (i > 0) {
@@ -72,13 +72,12 @@ void MainWindow::initializeBox2D() {
 
     // Move the ground down
     createGround();
-    createDynamicBox(100, 100);
-    createRocket(2.0f, 2.0f); // Set initial rocket position
+    createRocket(100.0f, 100.0f); // Set initial rocket position
     rocketVelocity.Set(300.0f, 50.0f); // Set initial rocket velocity
 
     // Initialize rocket-related variables
-    rocketPosition.Set(1000.0f, 20.0f);
-    trajectoryPointsCount = 180; // Adjust the count as needed
+    rocketPosition.Set(100.f, 100.f);
+    trajectoryPointsCount = 1200; // Adjust the count as needed
 }
 void MainWindow::createGround() {
     b2BodyDef groundBodyDef; // Ground 0
@@ -141,18 +140,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space)
     {
-        createDynamicBox(100, 0);
+        createDynamicBox(100, 100);
         rocketVelocity = { 450.0f, 90.0f };
 
         // Launch the rocket
         launchRocket();
+        setMouseTracking(false);
 
         // Reset rocket position and trajectory
-        rocketPosition.Set(2.0f, 2.0f);
-        updateRocketTrajectory();
+        //rocketPosition.Set(100.0f, 100.0f);
+        //updateRocketTrajectory();
     }
 }
-void MainWindow::launchRocket()
+void MainWindow:: launchRocket()
 {
     if (rocketBody)
     {
@@ -173,7 +173,7 @@ void MainWindow::updateRocketTrajectory()
         // Update trajectory points based on the new rocket position and velocity
         for (int i = 0; i < trajectoryPointsCount; ++i)
         {
-            b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
+        b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
             // Store the trajectory points in a container or draw them directly
             // (e.g., store in a QVector<b2Vec2> and draw in the paintEvent function)
         }
@@ -271,9 +271,10 @@ void MainWindow::createThrowableObject(float x, float y) {
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (mouseJoint) {
         // Adjust the rocket's position and velocity based on the mouse position
+        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
-        rocketPosition.Set(mousePos.x, qBound(0.0f, mousePos.y, 200.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 200.0f)); // Adjust as needed
+        rocketPosition.Set(qBound(100.f,mousePos.x,100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 100.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
         qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
@@ -283,17 +284,19 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-//void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
-//    if (event->button() == Qt::LeftButton && mouseJoint) {
-//        world->DestroyJoint(mouseJoint);
-//        mouseJoint = nullptr;
-//
-//        // Calculate the impulse based on the drag distance
-//        b2Vec2 dragEnd(event->pos().x(), event->pos().y());
-//        b2Vec2 impulse = 10.0f * (dragEnd - dragStart); // Adjust the multiplier as needed
-//
-//        throwableObject->ApplyLinearImpulse(impulse, throwableObject->GetWorldCenter(), true);
-//    }
-//}
+/*
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton && mouseJoint) {
+        world->DestroyJoint(mouseJoint);
+        mouseJoint = nullptr;
+
+        // Calculate the impulse based on the drag distance
+        b2Vec2 dragEnd(event->pos().x(), event->pos().y());
+        b2Vec2 impulse = 10.0f * (dragEnd - dragStart); // Adjust the multiplier as needed
+
+        throwableObject->ApplyLinearImpulse(impulse, throwableObject->GetWorldCenter(), true);
+    }
+}
+*/
 
 

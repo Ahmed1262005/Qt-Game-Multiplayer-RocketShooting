@@ -68,8 +68,8 @@ void Rocket::loadExplosionFrames()
     // Replace this with your actual loading logic
     // For simplicity, assuming explosionFrames is a QVector of QPixmap
     // You might want to use QImageReader or other methods to load GIF frames
-    explosionFrames.append(QPixmap(":/explosion_frame_1.png"));
-    explosionFrames.append(QPixmap(":/explosion_frame_2.png"));
+    //explosionFrames.append(QPixmap(":/explosion_frame_1.png"));
+    //explosionFrames.append(QPixmap(":/explosion_frame_2.png"));
     // Add more frames as needed
 }
 

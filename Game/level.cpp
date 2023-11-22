@@ -26,13 +26,15 @@ void Level::initializeLevel() {
 //    }
 //}
 //
-//void Level::createInitialEnemies()
-//{
-//    // Adjust as needed based on the level and difficulty
-//    for (int i = 0; i < difficulty; ++i) {
-//        enemies.push_back(Enemy(Enemy::EnemyType::BasicEnemy, enemyHealth));
-//    }
-//}
+
+/*void Level::createInitialEnemies()
+{
+    // Adjust as needed based on the level and difficulty
+    for (int i = 0; i < difficulty; ++i) {
+        enemies.push_back(Enemy(Enemy::EnemyType::BasicEnemy, enemyHealth));
+    }
+}
+*/
 
 void Level::update() {
     if (!gamePaused) {

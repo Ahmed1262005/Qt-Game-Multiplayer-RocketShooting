@@ -21,9 +21,9 @@ public:
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);
-//    void mousePressEvent(QMouseEvent*);
+    //void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
-//    void mouseReleaseEvent(QMouseEvent*);
+    //void mouseReleaseEvent(QMouseEvent*);
 
 private slots:
             void updateWorld();

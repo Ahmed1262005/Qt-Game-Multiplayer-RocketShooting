@@ -12,6 +12,7 @@ Q_OBJECT
 public:
     enum EnemyType {
         BasicEnemy,
+        ArmoredEnemy
         // Add more enemy types as needed
     };
     Enemy(EnemyType type, int health): enemyType(type),health(health){};

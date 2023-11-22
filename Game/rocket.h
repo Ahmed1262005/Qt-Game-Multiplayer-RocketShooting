@@ -16,7 +16,8 @@ Q_OBJECT
 public:
     enum RocketType {
         BasicRocket,
-        AdvancedRocket
+        AdvancedRocket,
+        SuperAdvancedRocket
         // Add more rocket types as needed
     };
 
