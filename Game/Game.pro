@@ -63,3 +63,6 @@ else:unix: LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug/lib
 
 INCLUDEPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug
 DEPENDPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug
+
+RESOURCES += \
+    resources.qrc

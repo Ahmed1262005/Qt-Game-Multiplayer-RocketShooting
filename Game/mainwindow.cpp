@@ -21,11 +21,33 @@ MainWindow::~MainWindow() {
 void MainWindow::drawTrajectory(QPainter &painter) {
     painter.setPen(QPen(Qt::black, 2, Qt::SolidLine));
 
+    TrajectoryRayCastClosestCallback raycastCallback;
+    b2Vec2 lastTP = rocketPosition;
+
     for (int i = 0; i < trajectoryPointsCount; ++i) {
         b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
         // Adjust the y-coordinate to consider the vertical inversion
         QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
         painter.drawPoint(point);
+
+        if (i > 0) {
+            // Perform a raycast check between successive points
+            world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
+            if (raycastCallback.m_hit) {
+                predictedCollisionPoint = raycastCallback.m_point;
+                drawPredictedCollision = true;
+                break;  // Exit the loop if a collision is detected
+            }
+        }
+
+        lastTP = trajectoryPosition;
+    }
+
+    // Draw the predicted collision point
+    if (drawPredictedCollision) {
+        QPointF collisionPoint(predictedCollisionPoint.x, height() - predictedCollisionPoint.y);
+        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+        painter.drawPoint(collisionPoint);
     }
 }
 
@@ -56,7 +78,7 @@ void MainWindow::initializeBox2D() {
 
     // Initialize rocket-related variables
     rocketPosition.Set(1000.0f, 20.0f);
-    trajectoryPointsCount = 100; // Adjust the count as needed
+    trajectoryPointsCount = 180; // Adjust the count as needed
 }
 void MainWindow::createGround() {
     b2BodyDef groundBodyDef; // Ground 0
@@ -248,12 +270,16 @@ void MainWindow::createThrowableObject(float x, float y) {
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (mouseJoint) {
+        // Adjust the rocket's position and velocity based on the mouse position
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
-//        mouseJoint->SetTarget(mousePos);
-        rocketPosition.Set(mousePos.x, mousePos.y);
-        rocketVelocity.Set(mousePos.x, mousePos.y);
+        rocketPosition.Set(mousePos.x, qBound(0.0f, mousePos.y, 200.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 200.0f)); // Adjust as needed
 
-        qDebug() << event->pos().x();
+        // You can print the rocket's position for debugging
+        qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
+
+        // Redraw the trajectory based on the updated rocket position and velocity
+        updateRocketTrajectory();
     }
 }
 

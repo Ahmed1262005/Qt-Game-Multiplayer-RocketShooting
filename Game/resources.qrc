@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>explosion_frame_1.png</file>
+        <file>explosion_frame_2.png</file>
+    </qresource>
+    <qresource prefix="/new/prefix1"/>
+</RCC>

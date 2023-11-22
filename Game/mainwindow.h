@@ -30,7 +30,24 @@ private slots:
 
 private:
     void drawTrajectory(QPainter &painter);
+    bool drawPredictedCollision;
+    class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
+    public:
+        TrajectoryRayCastClosestCallback() : m_hit(false) {}
+
+        float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,
+                              const b2Vec2& normal, float32 fraction) override {
+            m_hit = true;
+            m_point = point;
+            return fraction;
+        }
+
+        bool m_hit;
+        b2Vec2 m_point;
+    };
     b2Vec2 getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &startingVelocity, float n);
+    b2Vec2 predictedCollisionPoint;
+
     b2Vec2 rocketPosition;
     b2Vec2 rocketVelocity;
 
