@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-//#include "ui_mainwindow.h"
-//#include "mainwindow.h"
 #include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -27,7 +25,7 @@ void MainWindow::drawTrajectory(QPainter &painter) {
     for (int i = 0; i < trajectoryPointsCount; ++i) {
         b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
         // Adjust the y-coordinate to consider the vertical inversion
-        QPointF point(trajectoryPosition.x, height()-trajectoryPosition.y);
+        QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
         painter.drawPoint(point);
 
         if (i > 0) {
@@ -79,6 +77,7 @@ void MainWindow::initializeBox2D() {
     rocketPosition.Set(100.f, 100.f);
     trajectoryPointsCount = 1200; // Adjust the count as needed
 }
+
 void MainWindow::createGround() {
     b2BodyDef groundBodyDef; // Ground 0
     groundBodyDef.position.Set(0.0f, -100.f); // Move the ground down
@@ -136,52 +135,84 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     drawTrajectory(painter);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Space)
-    {
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Space) {
         createDynamicBox(100, 100);
-        rocketVelocity = { 450.0f, 90.0f };
 
         // Launch the rocket
-        launchRocket();
-        setMouseTracking(false);
+        launchRocket(900.0f);
+//        setMouseTracking(false);
 
         // Reset rocket position and trajectory
         //rocketPosition.Set(100.0f, 100.0f);
         //updateRocketTrajectory();
     }
 }
-void MainWindow:: launchRocket()
-{
-    if (rocketBody)
-    {
-        // Apply impulse to the rocket body based on the velocity
-        // Adjust the multiplier as needed
-        b2Vec2 impulse = 100.0f * rocketVelocity;
+
+// In your launchRocket function, add a call to updateRocketTrajectory
+void MainWindow::launchRocket(float desiredHeight) {
+    if (rocketBody) {
+        // Calculate initial velocity based on the desired height
+//        rocketVelocity = calculateRocketVelocityForHeight(desiredHeight);
+
+        // Apply impulse to the rocket body based on the new velocity
+        b2Vec2 impulse =  rocketVelocity;
+        rocketBody->SetTransform(rocketPosition, 0); // Set the new position
+        rocketBody->SetLinearVelocity(rocketVelocity); // Set the new velocity
         rocketBody->ApplyLinearImpulse(impulse, rocketBody->GetWorldCenter(), true);
+        qDebug() << "Rocket Initial Velocity: (" << rocketVelocity.x << ", " << rocketVelocity.y << ")";
+        qDebug() << "Applied Impulse: (" << impulse.x << ", " << impulse.y << ")";
+
+        // Update the rocket trajectory after launching
+        updateRocketTrajectory();
     }
 }
 
-void MainWindow::updateRocketTrajectory()
-{
-    if (rocketBody)
-    {
+// Function to calculate the rocket's initial velocity for a desired height
+b2Vec2 MainWindow::calculateRocketVelocityForHeight(float desiredHeight) {
+    if (desiredHeight <= 0)
+        return b2Vec2_zero; // Rocket shouldn't go down
+
+    // Gravity is given per second, but we want time step values here
+    float t = 1 / 60.0f;
+    b2Vec2 stepGravity = t * t * world->GetGravity(); // m/s/s
+
+    // Quadratic equation setup (ax² + bx + c = 0)
+    float a = 0.5f / stepGravity.y;
+    float b = 0.5f;
+    float c = desiredHeight;
+
+    // Check both possible solutions
+    float quadraticSolution1 = (-b - b2Sqrt(b * b - 4 * a * c)) / (2 * a);
+    float quadraticSolution2 = (-b + b2Sqrt(b * b - 4 * a * c)) / (2 * a);
+
+    // Use the one which is positive
+    float v = quadraticSolution1;
+    if (v < 0)
+        v = quadraticSolution2;
+
+    // Convert answer back to seconds
+    v *= 60.0f;
+
+    return b2Vec2(v, 0.0f); // Initial velocity in the x-direction (y-direction is 0)
+}
+
+
+void MainWindow::updateRocketTrajectory() {
+    if (rocketBody) {
         // Get the mouse position and adjust the rocket position accordingly
         //
 
         // Update trajectory points based on the new rocket position and velocity
-        for (int i = 0; i < trajectoryPointsCount; ++i)
-        {
-        b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
+        for (int i = 0; i < trajectoryPointsCount; ++i) {
+            b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
             // Store the trajectory points in a container or draw them directly
             // (e.g., store in a QVector<b2Vec2> and draw in the paintEvent function)
         }
     }
 }
 
-void MainWindow::createRocket(float x, float y)
-{
+void MainWindow::createRocket(float x, float y) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(x, y);
@@ -197,6 +228,10 @@ void MainWindow::createRocket(float x, float y)
     fixtureDef.friction = 0.3f;
 
     rocketBody->CreateFixture(&fixtureDef);
+
+    // Set the rocket's initial position and velocity
+    rocketPosition = rocketBody->GetPosition();
+    rocketVelocity.Set(300.0f, 0.0f); // Set initial rocket velocity (adjust values as needed)
 }
 
 void MainWindow::createTarget(float x, float y) {
@@ -235,45 +270,12 @@ void MainWindow::createThrowableObject(float x, float y) {
     throwableObject->CreateFixture(&fixtureDef);
 }
 
-//void MainWindow::mousePressEvent(QMouseEvent *event) {
-//    if (event->button() == Qt::LeftButton) {
-//        b2Vec2 mousePos(event->pos().x(), event->pos().y());
-//
-//        b2AABB aabb;
-//        b2Vec2 d(0.001f, 0.001f);
-//        aabb.lowerBound = mousePos - d;
-//        aabb.upperBound = mousePos + d;
-//
-//        // Query the world to find the clicked object
-//        QueryCallback callback(mousePos);
-//        world->QueryAABB(&callback, aabb);
-//
-//        if (callback.m_fixture) {
-//            b2Body *clickedBody = callback.m_fixture->GetBody();
-//
-//            if (clickedBody == throwableObject) {
-//                b2MouseJointDef jointDef;
-//                jointDef.bodyA = groundBody; // Assume we have a ground body
-//                jointDef.bodyB = throwableObject;
-//                jointDef.target = mousePos;
-//                jointDef.maxForce = 1000.0f * throwableObject->GetMass();
-//
-//                mouseJoint = (b2MouseJoint *) world->CreateJoint(&jointDef);
-//                throwableObject->SetAwake(true);
-//
-//                // Save the initial mouse position for dragging
-//                dragStart = mousePos;
-//            }
-//        }
-//    }
-//}
-
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (mouseJoint) {
         // Adjust the rocket's position and velocity based on the mouse position
-        setMouseTracking(true);
+//        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
-        rocketPosition.Set(qBound(100.f,mousePos.x,100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
+        rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
         rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 100.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
@@ -283,20 +285,5 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         updateRocketTrajectory();
     }
 }
-
-/*
-void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton && mouseJoint) {
-        world->DestroyJoint(mouseJoint);
-        mouseJoint = nullptr;
-
-        // Calculate the impulse based on the drag distance
-        b2Vec2 dragEnd(event->pos().x(), event->pos().y());
-        b2Vec2 impulse = 10.0f * (dragEnd - dragStart); // Adjust the multiplier as needed
-
-        throwableObject->ApplyLinearImpulse(impulse, throwableObject->GetWorldCenter(), true);
-    }
-}
-*/
 
 
