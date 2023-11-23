@@ -136,6 +136,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
+
     if (event->key() == Qt::Key_Space) {
         createDynamicBox(100, 100);
 
@@ -213,25 +214,64 @@ void MainWindow::updateRocketTrajectory() {
 }
 
 void MainWindow::createRocket(float x, float y) {
+
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(x, y);
+    float velocity =70;
+    bodyDef.angle =-0.3;
 
     rocketBody = world->CreateBody(&bodyDef);
 
-    b2PolygonShape dynamicBox;
+    /*b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
 
+    /*
+    Adding rotation to the box
+    */
+
+    //creating a shape for the rocket bodt
+    b2PolygonShape polygonshape;
+    b2Vec2 vertices[4];
+    vertices[0].Set( -1.4f,    0);
+    vertices[1].Set(     0, -0.1f);
+    vertices[2].Set(  0.6f,   0);
+    vertices[3].Set(     0,  0.1f);
+    polygonshape.Set(vertices, 4);
+//    b2Fixture* fixture = rocketBody->CreateFixture(&polygonshape, 0.5f);
+
     b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
+    fixtureDef.shape = &polygonshape;
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
 
-    rocketBody->CreateFixture(&fixtureDef);
-
+    b2Body* Body = world->CreateBody(&bodyDef);
     // Set the rocket's initial position and velocity
     rocketPosition = rocketBody->GetPosition();
     rocketVelocity.Set(300.0f, 0.0f); // Set initial rocket velocity (adjust values as needed)
+
+    b2PolygonShape leftLeg;
+    leftLeg.SetAsBox(0.3f, 6.0f, b2Vec2(-5.0f, 50.0f), 1.0f);
+    b2PolygonShape rightLeg;
+    rightLeg.SetAsBox(0.3f, 6.0f, b2Vec2(8.0f, 50.0f), -1.0f);
+
+    b2RevoluteJointDef jd;
+    jd.bodyA = Body;
+    b2MassData massdata;
+
+
+    Body->CreateFixture(&fixtureDef);
+    Body->CreateFixture(&leftLeg, 10);
+    Body->CreateFixture(&rightLeg, 10);
+    b2Fixture* fixture = Body->GetFixtureList()->GetNext()->GetNext();
+
+    Body->GetMassData(&massdata);
+
+    massdata.center = b2Vec2(1.5, 40.0f);
+
+    Body->SetLinearVelocity(b2Vec2(sinf(0.3) * velocity, cosf(0.3) * velocity));
+
+
 }
 
 void MainWindow::createTarget(float x, float y) {
@@ -276,7 +316,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 //        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
         rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 100.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 90.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
         qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
