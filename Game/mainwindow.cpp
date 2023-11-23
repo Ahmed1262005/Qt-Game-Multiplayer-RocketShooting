@@ -250,24 +250,16 @@ void MainWindow::createRocket(float x, float y) {
     rocketPosition = rocketBody->GetPosition();
     rocketVelocity.Set(300.0f, 0.0f); // Set initial rocket velocity (adjust values as needed)
 
-    b2PolygonShape leftLeg;
-    leftLeg.SetAsBox(0.3f, 6.0f, b2Vec2(-5.0f, 50.0f), 1.0f);
-    b2PolygonShape rightLeg;
-    rightLeg.SetAsBox(0.3f, 6.0f, b2Vec2(8.0f, 50.0f), -1.0f);
-
     b2RevoluteJointDef jd;
     jd.bodyA = Body;
     b2MassData massdata;
 
 
     Body->CreateFixture(&fixtureDef);
-    Body->CreateFixture(&leftLeg, 10);
-    Body->CreateFixture(&rightLeg, 10);
-    b2Fixture* fixture = Body->GetFixtureList()->GetNext()->GetNext();
 
     Body->GetMassData(&massdata);
 
-    massdata.center = b2Vec2(1.5, 40.0f);
+    massdata.center = b2Vec2(1.0, 40.0f);
 
     Body->SetLinearVelocity(b2Vec2(sinf(0.3) * velocity, cosf(0.3) * velocity));
 
