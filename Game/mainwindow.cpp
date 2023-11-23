@@ -1,11 +1,10 @@
 #include "mainwindow.h"
-#include <QPalette>
 #include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
     setFixedSize(800, 600);
-    showBackground();
+
     initializeBox2D();
 
     timer = new QTimer(this);
@@ -75,7 +74,7 @@ void MainWindow::initializeBox2D() {
     // Move the ground down
     createGround();
     createRocket(100.0f, 100.0f); // Set initial rocket position
-    rocketVelocity.Set(300.0f, 50.0f); // Set initial rocket velocity
+    rocketVelocity.Set(300.0f, 0.0f); // Set initial rocket velocity
 
     // Initialize rocket-related variables
     rocketPosition.Set(100.f, 100.f);
@@ -140,6 +139,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     // Draw the rocket
     if (rocketBody) {
+
         b2Vec2 rocketPosition = rocketBody->GetPosition();
         // Adjust the rendering to consider the vertical inversion
         painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
@@ -174,8 +174,10 @@ void MainWindow::launchRocket(float desiredHeight) {
         rocketBody->SetAwake(true);
         rocketBody->SetGravityScale(1);
         rocketBody->SetAngularVelocity(0);
+        b2Vec2 Velocity = calculateRocketVelocityForHeight(desiredHeight);
 
         rocketBody->ApplyLinearImpulse(impulse, rocketBody->GetWorldCenter(), true);
+        rocketBody->SetLinearVelocity( rocketBody->GetWorldVector( b2Vec2(rocketVelocity) ) );
 
         qDebug() << "Rocket Initial Velocity: (" << rocketVelocity.x << ", " << rocketVelocity.y << ")";
         qDebug() << "Applied Impulse: (" << impulse.x << ", " << impulse.y << ")";
