@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(16); // Update every 16 milliseconds
 
     // Initialize other variables
-//    drawPredictedCollision = false;
+    drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
 
 }
@@ -23,6 +23,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::drawTrajectory(QPainter &painter) {
     painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
+    if (drawPredictedCollision) {
 
     TrajectoryRayCastClosestCallback raycastCallback;
     b2Vec2 lastTP = rocketPosition;
@@ -37,19 +38,27 @@ void MainWindow::drawTrajectory(QPainter &painter) {
             // Perform a raycast check between successive points
             world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
             if (raycastCallback.m_hit) {
+                // Draw the predicted collision point only if drawPredictedCollision is true
+                QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+                painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+                painter.drawPoint(collisionPoint);
+
                 predictedCollisionPoint = raycastCallback.m_point;
-                drawPredictedCollision = true;
                 break;  // Exit the loop if a collision is detected
             }
         }
 
         lastTP = trajectoryPosition;
     }
-    // Draw the predicted collision point
-    QPointF collisionPoint(lastTP.x, height() - lastTP.y);
-    painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
-    painter.drawPoint(collisionPoint);
 
+
+    // Draw the predicted collision point outside the loop
+    if (drawPredictedCollision) {
+        QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+        painter.drawPoint(collisionPoint);
+    }
+    }
 }
 
 
@@ -115,7 +124,13 @@ void MainWindow::createDynamicBox(float x, float y) {
 
 void MainWindow::updateWorld() {
     world->Step(1.0f / 60.0f, 6, 2);
-
+    if (rocketBody) {
+        b2Vec2 velocity = rocketBody->GetLinearVelocity();
+        if (qAbs(velocity.x) < 0.1 && qAbs(velocity.y) < 0.1 && !drawPredictedCollision) {
+            drawPredictedCollision = true;
+            createRocket(100, 100);
+        }
+    }
     update(); // Schedule a repaint
 }
 
@@ -139,6 +154,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     // Draw the rocket
     if (rocketBody) {
+        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
 
         b2Vec2 rocketPosition = rocketBody->GetPosition();
         // Adjust the rendering to consider the vertical inversion
@@ -170,6 +186,7 @@ void MainWindow::launchRocket(float desiredHeight) {
 
         // Apply impulse to the rocket body based on the new velocity
         b2Vec2 impulse = rocketVelocity;
+
 //        rocketBody->SetAngularVelocity(rocketVelocity);
         rocketBody->SetAwake(true);
         rocketBody->SetGravityScale(1);
@@ -183,6 +200,7 @@ void MainWindow::launchRocket(float desiredHeight) {
         qDebug() << "Applied Impulse: (" << impulse.x << ", " << impulse.y << ")";
 
         // Update the rocket trajectory after launching
+        drawPredictedCollision = false;  // Set drawPredictedCollision to false before updating trajectory
         updateRocketTrajectory();
     }
 }
@@ -244,7 +262,7 @@ void MainWindow::createRocket(float x, float y) {
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 4.0f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 100.3f;
 
     rocketBody->CreateFixture(&fixtureDef);
 
@@ -295,7 +313,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 //        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
         rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 100.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 100.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
         qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
