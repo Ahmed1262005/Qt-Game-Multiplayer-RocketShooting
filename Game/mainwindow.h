@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QKeyEvent>
+#include <QPalette>
 #include <Box2D/Box2D.h>
 
 
@@ -16,6 +17,8 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void showBackground();
+
     ~MainWindow();
 
 protected:
@@ -26,7 +29,7 @@ protected:
     //void mouseReleaseEvent(QMouseEvent*);
 
 private slots:
-            void updateWorld();
+        void updateWorld();
 
 private:
     void drawTrajectory(QPainter &painter);
