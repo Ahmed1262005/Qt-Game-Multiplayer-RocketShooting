@@ -1,7 +1,7 @@
 #include "rocket.h"
 
-Rocket::Rocket(RocketType type, b2World* world, const b2Vec2& position)
-        : QObject(nullptr), world(world), rocketType(type), currentFrameIndex(0)
+Rocket::Rocket(RocketType type, b2World* World, const b2Vec2& position)
+        : GameItem(World),rocketType(type), currentFrameIndex(0)
 {
     createRocketBody(position);
     loadExplosionFrames();
@@ -13,7 +13,7 @@ Rocket::Rocket(RocketType type, b2World* world, const b2Vec2& position)
 
 Rocket::~Rocket()
 {
-    world->DestroyBody(rocketBody);
+    world->DestroyBody(gBody);
 }
 
 void Rocket::createRocketBody(const b2Vec2& position)
@@ -22,7 +22,7 @@ void Rocket::createRocketBody(const b2Vec2& position)
     bodyDef.type = b2_dynamicBody;
     bodyDef.position = position;
 
-    rocketBody = world->CreateBody(&bodyDef);
+    gBody = world->CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Adjust the size based on your requirements
@@ -32,12 +32,12 @@ void Rocket::createRocketBody(const b2Vec2& position)
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
 
-    rocketBody->CreateFixture(&fixtureDef);
+    gBody->CreateFixture(&fixtureDef);
 }
 
 void Rocket::launch(const b2Vec2& velocity)
 {
-    rocketBody->ApplyLinearImpulse(rocketBody->GetMass() * velocity, rocketBody->GetWorldCenter(), true);
+    gBody->ApplyLinearImpulse(gBody->GetMass() * velocity, gBody->GetWorldCenter(), true);
     animationTimer->start(100); // Adjust the timer interval based on your animation frames
 }
 
@@ -75,32 +75,32 @@ void Rocket::loadExplosionFrames()
 
 void Rocket::setPosition(const b2Vec2& position)
 {
-    rocketBody->SetTransform(position, rocketBody->GetAngle());
+    gBody->SetTransform(position, gBody->GetAngle());
 }
 
 b2Vec2 Rocket::getPosition() const
 {
-    return rocketBody->GetPosition();
+    return gBody->GetPosition();
 }
 
 void Rocket::setVelocity(const b2Vec2& velocity)
 {
-    rocketBody->SetLinearVelocity(velocity);
+    gBody->SetLinearVelocity(velocity);
 }
 
 b2Vec2 Rocket::getVelocity() const
 {
-    return rocketBody->GetLinearVelocity();
+    return gBody->GetLinearVelocity();
 }
 
 void Rocket::setAngularVelocity(float angularVelocity)
 {
-    rocketBody->SetAngularVelocity(angularVelocity);
+    gBody->SetAngularVelocity(angularVelocity);
 }
 
 float Rocket::getAngularVelocity() const
 {
-    return rocketBody->GetAngularVelocity();
+    return gBody->GetAngularVelocity();
 }
 
 void Rocket::explode()

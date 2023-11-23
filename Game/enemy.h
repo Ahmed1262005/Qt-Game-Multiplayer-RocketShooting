@@ -4,9 +4,10 @@
 #include <QObject>
 #include <QPixmap>
 #include <QTimer>
+#include "gameitem.h"
 #include <Box2D/Box2D.h>
 
-class Enemy : public QObject
+class Enemy : public GameItem
 {
 Q_OBJECT
 public:
@@ -15,7 +16,6 @@ public:
         ArmoredEnemy
         // Add more enemy types as needed
     };
-    Enemy(EnemyType type, int health): enemyType(type),health(health){};
 
     Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* parent);
     ~Enemy();
@@ -42,8 +42,7 @@ signals:
     void enemyDestroyed(); // Signal emitted when the enemy is destroyed
 
 private:
-    b2World* world;
-    b2Body* enemyBody;
+    QObject object;
     EnemyType enemyType;
     int health;
     int baseDamage;

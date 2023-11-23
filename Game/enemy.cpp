@@ -3,7 +3,7 @@
 #include <QDebug>
 
 Enemy::Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* parent)
-        : QObject(parent), world(world), enemyType(type), health(100), baseDamage(10)
+        : object(parent), GameItem(world), enemyType(type), health(100), baseDamage(10)
 {
     createEnemyBody(position);
     loadEnemyImage();
@@ -15,7 +15,7 @@ Enemy::Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* pa
 
 Enemy::~Enemy()
 {
-    world->DestroyBody(enemyBody);
+    world->DestroyBody(gBody);
 }
 
 void Enemy::createEnemyBody(const b2Vec2& position)
@@ -24,7 +24,7 @@ void Enemy::createEnemyBody(const b2Vec2& position)
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(position.x, position.y);
 
-    enemyBody = world->CreateBody(&bodyDef);
+    gBody = world->CreateBody(&bodyDef);
 
     b2CircleShape enemyShape;
     enemyShape.m_radius = 1.0f; // Adjust the radius as needed
@@ -34,8 +34,8 @@ void Enemy::createEnemyBody(const b2Vec2& position)
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.3f;
 
-    enemyBody->CreateFixture(&fixtureDef);
-    enemyBody->SetUserData(this); // Set user data to access the enemy in collision callbacks
+    gBody->CreateFixture(&fixtureDef);
+    gBody->SetUserData(this); // Set user data to access the enemy in collision callbacks
 }
 
 void Enemy::loadEnemyImage()
@@ -63,12 +63,12 @@ void Enemy::loadEnemyImage()
 
 void Enemy::setPosition(const b2Vec2& position)
 {
-    enemyBody->SetTransform(position, enemyBody->GetAngle());
+    gBody->SetTransform(position, gBody->GetAngle());
 }
 
 b2Vec2 Enemy::getPosition() const
 {
-    return enemyBody->GetPosition();
+    return gBody->GetPosition();
 }
 
 void Enemy::setHealth(int h)
@@ -97,22 +97,22 @@ int Enemy::getBaseDamage() const
 
 void Enemy::setVelocity(const b2Vec2& velocity)
 {
-    enemyBody->SetLinearVelocity(velocity);
+    gBody->SetLinearVelocity(velocity);
 }
 
 b2Vec2 Enemy::getVelocity() const
 {
-    return enemyBody->GetLinearVelocity();
+    return gBody->GetLinearVelocity();
 }
 
 void Enemy::setAngularVelocity(float angularVelocity)
 {
-    enemyBody->SetAngularVelocity(angularVelocity);
+    gBody->SetAngularVelocity(angularVelocity);
 }
 
 float Enemy::getAngularVelocity() const
 {
-    return enemyBody->GetAngularVelocity();
+    return gBody->GetAngularVelocity();
 }
 
 void Enemy::update()

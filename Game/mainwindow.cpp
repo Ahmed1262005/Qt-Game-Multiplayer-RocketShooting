@@ -1,10 +1,11 @@
 #include "mainwindow.h"
+#include <QPalette>
 #include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
     setFixedSize(800, 600);
-
+    showBackground();
     initializeBox2D();
 
     timer = new QTimer(this);
@@ -302,4 +303,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-
+void MainWindow:: showBackground()
+{
+    QPixmap background(":/Resources/Images/VH_Enterrement.webp");
+    background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette pal;
+    pal.setBrush(QPalette::Window, background);
+    this->setPalette(pal);
+}

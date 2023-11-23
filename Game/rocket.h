@@ -7,9 +7,10 @@
 #include <QTimer>
 #include <QPainter>
 #include <QVector2D>
+#include "gameitem.h"
 #include <Box2D/Box2D.h>
 
-class Rocket : public QObject
+class Rocket : public GameItem
 {
 Q_OBJECT
 
@@ -21,7 +22,7 @@ public:
         // Add more rocket types as needed
     };
 
-    Rocket(RocketType type, b2World* world, const b2Vec2& position);
+    Rocket(RocketType type, b2World* World, const b2Vec2& position);
     //Rocket(RocketType type, b2World* world, const b2Vec2& position);
     ~Rocket();
 
@@ -46,8 +47,6 @@ private slots:
     void updateAnimation();
 
 private:
-    b2World* world;
-    b2Body* rocketBody;
     RocketType rocketType;
     QTimer* animationTimer;
     QVector<QPixmap> explosionFrames;
