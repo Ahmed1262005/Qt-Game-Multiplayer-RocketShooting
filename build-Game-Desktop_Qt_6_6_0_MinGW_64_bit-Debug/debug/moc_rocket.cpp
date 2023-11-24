@@ -98,7 +98,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRocketENDCLASS[] = {
 };
 
 Q_CONSTINIT const QMetaObject Rocket::staticMetaObject = { {
-    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
+    QMetaObject::SuperData::link<GameItem::staticMetaObject>(),
     qt_meta_stringdata_CLASSRocketENDCLASS.offsetsAndSizes,
     qt_meta_data_CLASSRocketENDCLASS,
     qt_static_metacall,
@@ -147,12 +147,12 @@ void *Rocket::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_CLASSRocketENDCLASS.stringdata0))
         return static_cast<void*>(this);
-    return QObject::qt_metacast(_clname);
+    return GameItem::qt_metacast(_clname);
 }
 
 int Rocket::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QObject::qt_metacall(_c, _id, _a);
+    _id = GameItem::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

@@ -22,7 +22,7 @@ public:
         // Add more rocket types as needed
     };
 
-    Rocket(RocketType type, b2World* World, const b2Vec2& position);
+    Rocket(RocketType type, b2World* World, const b2Vec2& position, MainWindow* W);
     //Rocket(RocketType type, b2World* world, const b2Vec2& position);
     ~Rocket();
 
