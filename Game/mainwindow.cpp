@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include <QPainter>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -7,22 +9,23 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(800, 600);
 
     initializeBox2D();
-    //showBackground();
+    showBackground();
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
-    Towers.push_back(new Obstacles(400.0f,-10.0f,50.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
-    Towers.push_back(new Obstacles(550.0f,-10.0f,50.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
-    evilGuy=new Obstacles(475.0f,-10.0f,70.0f,70.0f,timer,QPixmap(":/Resources/Images/EvilGuy.png"),world);
+    Towers.push_back(new Obstacles(600.0f,-10.0f,200.0f,500.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
+    Towers.push_back(new Obstacles(950.0f,-10.0f,200.0f,500.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
+    evilGuy = new Obstacles(775.0f,-10.0f,100.0f,100.0f,timer,QPixmap("://Resources/Images/EvilGuy.png"),world);
 
-    evilGuy->get_body()->SetUserData((void*)"EvilGuy");
+
+
+
 
     // Initialize other variables
     drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
-    world->SetContactListener(this);
 
 }
 void MainWindow::drawLauncher(QPainter &painter, const b2Vec2 &position, float angle)
@@ -133,7 +136,7 @@ void MainWindow::createGround() {
     groundBody = world->CreateBody(&groundBodyDef);
 
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(800.0f, 199.0f);
+    groundBox.SetAsBox(8000.0f, 199.0f);
 
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
@@ -187,14 +190,14 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                  painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
             }
 
-    }
-    b2Vec2 tower1Position = Towers[1]->get_body()->GetPosition();
-    b2Vec2 tower2Position = Towers[0]->get_body()->GetPosition();
-    b2Vec2 evilGuyPosition = evilGuy->get_body()->GetPosition();
+        b2Vec2 tower1Position = Towers[1]->get_body()->GetPosition();
+        b2Vec2 tower2Position = Towers[0]->get_body()->GetPosition();
+        b2Vec2 evilGuyPosition = evilGuy->get_body()->GetPosition();
 
-    painter.drawPixmap(tower1Position.x-Towers[1]->get_pixmap().width()/2 , height() - tower1Position.y - Towers[1]->get_pixmap().height()/2, Towers[1]->get_pixmap());
-    painter.drawPixmap(tower2Position.x-Towers[0]->get_pixmap().width()/2 , height() - tower2Position.y - Towers[0]->get_pixmap().height()/2, Towers[0]->get_pixmap());
-    painter.drawPixmap(evilGuyPosition.x-evilGuy->get_pixmap().width()/2 , height() - evilGuyPosition.y - evilGuy->get_pixmap().height()/2, evilGuy->get_pixmap());
+        painter.drawPixmap(tower1Position.x-Towers[1]->get_pixmap().width()/2 , height() - tower1Position.y - Towers[1]->get_pixmap().height()/2, Towers[1]->get_pixmap());
+        painter.drawPixmap(tower2Position.x-Towers[0]->get_pixmap().width()/2 , height() - tower2Position.y - Towers[0]->get_pixmap().height()/2, Towers[0]->get_pixmap());
+        painter.drawPixmap(evilGuyPosition.x-evilGuy->get_pixmap().width()/2 , height() - evilGuyPosition.y - evilGuy->get_pixmap().height()/2, evilGuy->get_pixmap());
+    }
 
     // Draw the rocket trajectory
     drawTrajectory(painter);
@@ -306,7 +309,6 @@ void MainWindow::createRocket(float x, float y) {
     bodyDef.position.Set(x, y);
 
     rocketBody = world->CreateBody(&bodyDef);
-
     // Use an image for the rocket
     QPixmap rocketixmap(":/Resources/Images/AdvancedRocketWithoutFire.png");
     rocketPixmap = rocketixmap.scaled(30, 60); // Adjust the size as needed
@@ -324,7 +326,6 @@ void MainWindow::createRocket(float x, float y) {
     // Set the rocket's initial position and velocity
     rocketPosition = rocketBody->GetPosition();
     rocketVelocity.Set(0.0f, 0.0f); // Set initial rocket velocity (adjust values as needed)
-    rocketBody->SetUserData((void*)"Rocket");
 }
 
 void MainWindow::createTarget(float x, float y) {
@@ -366,10 +367,10 @@ void MainWindow::createThrowableObject(float x, float y) {
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (mouseJoint) {
         // Adjust the rocket's position and velocity based on the mouse position
-      //setMouseTracking(true);
+//        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
         rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 100.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 110.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
         qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
@@ -381,49 +382,23 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 void MainWindow:: showBackground()
 {
-    QPixmap background(":/Resources/Images/Level1.webp");
-    background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPixmap background("://Resources/Images/Level1.webp");
+    background =background.scaled(1920,1080, Qt::IgnoreAspectRatio);
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
+
+    QMediaPlayer* MusicPlayer = new QMediaPlayer;
+
+    QAudioOutput* Speaker = new QAudioOutput;
+
+    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
+
+    MusicPlayer->setAudioOutput(Speaker);
+
+    Speaker->setVolume(30);
+
+    MusicPlayer->setLoops(-1);
+
+    MusicPlayer->play();
 }
-
-void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
-{//SetUserData and GetUserData are in body class:
-//we set a name to a body
-
-    qDebug() << "Collision detected!";
-
-    b2Fixture* EvilGuyF = contactPoint->GetFixtureA();
-    b2Fixture* RocketF = contactPoint->GetFixtureB();
-
-    b2Body* EvilGuy = EvilGuyF->GetBody();
-    b2Body* Rocket = RocketF->GetBody();
-
-    bool isRocketEvilGuyCollision =
-        ((EvilGuy->GetUserData() == (void*)"Rocket" && Rocket->GetUserData() == (void*)"EvilGuy") ||
-         (EvilGuy->GetUserData() == (void*)"EvilGuy" && Rocket->GetUserData() == (void*)"Rocket"));
-
-
-    // Check if either fixture is associated with the EvilGuy
-//    bool EvilGuy = (EvilGuyF->GetBody()->GetUserData() == (void*)"EvilGuy");
-//    bool Rocket = (RocketF->GetBody()->GetUserData() == (void*)"Rocket");
-
-    // Check if the contact involves EvilGuy
-    if (isRocketEvilGuyCollision)
-    {return ;}
-
-    b2Body* evilGuyBody = (EvilGuy->GetUserData() == (void*)"EvilGuy") ? EvilGuy : Rocket;
-    if (evilGuyBody) {
-
-        contactPoint->SetEnabled(false);
-
-        b2World* world = evilGuyBody->GetWorld();
-        qDebug() << "inside!";
-
-        qDebug() << "EvilGuy removed from the world!";
-    }
-
-
-}
-
