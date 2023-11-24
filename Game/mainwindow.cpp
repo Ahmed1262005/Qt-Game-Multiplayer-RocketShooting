@@ -1,19 +1,20 @@
 #include "mainwindow.h"
 #include <QPainter>
-#include <obstacles.h>
+
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
     setFixedSize(800, 600);
 
     initializeBox2D();
+    showBackground();
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
+    Tower1 = new Obstacles(700.0f,0.0f,200.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world);
 
-    Obstacles* Tower1 = new Obstacles(500,-25,200,200,timer,QPixmap(":/Resources/Images/tower.png").scaled(200,200),world,this);
 
 
 
@@ -44,12 +45,11 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::drawTrajectory(QPainter &painter) {
-<<<<<<< HEAD
+
     painter.setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
-=======
+
     painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
     if (drawPredictedCollision) {
->>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
     TrajectoryRayCastClosestCallback raycastCallback;
     b2Vec2 lastTP = rocketPosition;
@@ -185,7 +185,9 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                  painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
             }
 
+        b2Vec2 towerposition = Tower1->get_body()->GetPosition();
 
+            painter.drawPixmap(towerposition.x-Tower1->get_pixmap().width()/2 , height() - towerposition.y - Tower1->get_pixmap().height()/2, Tower1->get_pixmap());
 
     }
 
@@ -203,11 +205,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     }
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -376,8 +374,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 void MainWindow:: showBackground()
 {
-    QPixmap background(":/Resources/Images/VH_Enterrement.webp");
-    background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPixmap background("://Resources/Images/Level1.webp");
+    background =background.scaled(1920,1080, Qt::IgnoreAspectRatio);
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
