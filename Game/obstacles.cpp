@@ -1,10 +1,12 @@
 #include "obstacles.h"
 #include <QGraphicsItem>
 #include <Box2D/Box2D.h>
+#include <QPainter>
 
-Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world) : GameItem(world)
+
+Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world,MainWindow* W) : GameItem(world, W)
 {
-    g_pixmap.setPixmap(pixmap);
+    g_pixmap.setPixmap(pixmap.scaled(width,height));
     g_pixmap.setTransformOriginPoint(g_pixmap.boundingRect().width() / 2,g_pixmap.boundingRect().height() / 2);
     g_size = QSize(width, height);
 
@@ -27,5 +29,7 @@ Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer,
     gBody->CreateFixture(&fixturedef);
 
     connect(timer, SIGNAL(timeout()), this,SLOT(paint()));
+
+
 
 }

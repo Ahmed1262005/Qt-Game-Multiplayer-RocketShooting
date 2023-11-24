@@ -1,9 +1,10 @@
 #include "enemy.h"
 #include <QPixmap>
 #include <QDebug>
+#include "mainwindow.h"
 
-Enemy::Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* parent)
-        : object(parent), GameItem(world), enemyType(type), health(100), baseDamage(10)
+Enemy::Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* parent, MainWindow* W)
+        : object(parent), GameItem(world, W ), enemyType(type), health(100), baseDamage(10)
 {
     createEnemyBody(position);
     loadEnemyImage();

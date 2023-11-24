@@ -20,13 +20,16 @@ public:
     void showBackground();
 
     ~MainWindow();
-
-protected:
+    QTimer *timer;
+    b2World *world;
     void paintEvent(QPaintEvent *event);
+protected:
+
     void keyPressEvent(QKeyEvent *event);
     //void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     //void mouseReleaseEvent(QMouseEvent*);
+
 
 private slots:
         void updateWorld();
@@ -80,11 +83,14 @@ private:
 
     b2Vec2 dragStart;
 
+<<<<<<< HEAD
+=======
     QTimer *timer;
     b2World *world;
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
     void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
 };
 

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QPainter>
+#include <obstacles.h>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
@@ -11,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
+
+    Obstacles* Tower1 = new Obstacles(500,-25,200,200,timer,QPixmap(":/Resources/Images/tower.png").scaled(200,200),world,this);
+
+
 
     // Initialize other variables
     drawPredictedCollision = true;
@@ -39,8 +44,12 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::drawTrajectory(QPainter &painter) {
+<<<<<<< HEAD
+    painter.setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
+=======
     painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
     if (drawPredictedCollision) {
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
     TrajectoryRayCastClosestCallback raycastCallback;
     b2Vec2 lastTP = rocketPosition;
@@ -170,8 +179,14 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     // Example: Draw dynamic boxes
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
         b2Vec2 position = body->GetPosition();
-        // Adjust the rendering to consider the vertical inversion
-        painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
+        if(body->GetFixtureList()->GetDensity() == 1.0f)
+            {
+                // Adjust the rendering to consider the vertical inversion
+                 painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
+            }
+
+
+
     }
 
     // Draw the rocket trajectory
@@ -188,6 +203,11 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     }
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {

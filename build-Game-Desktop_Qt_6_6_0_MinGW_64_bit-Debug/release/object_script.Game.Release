@@ -1,0 +1,12 @@
+release/enemy.o
+release/level.o
+release/main.o
+release/mainwindow.o
+release/rocket.o
+release/gameitem.o
+release/obstacles.o
+release/qrc_resources.o
+release/moc_enemy.o
+release/moc_mainwindow.o
+release/moc_rocket.o
+release/moc_gameitem.o

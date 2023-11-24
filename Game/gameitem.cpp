@@ -1,8 +1,12 @@
 #include "gameitem.h"
+#include "mainwindow.h"
+#include "obstacles.h"
 
 #include <iostream>
 
-GameItem::GameItem(b2World *world) : gBody(NULL),world(world){
+GameItem::GameItem(b2World *world, MainWindow* W) : gBody(NULL),world(world)
+{
+    window = W;
 }
 
 GameItem::~GameItem(){
@@ -17,12 +21,22 @@ void GameItem::setGlobalSize(QSizeF worldsize, QSizeF windowsize){
     g_windowsize = windowsize;
 }
 
-void GameItem::paint(){
-    b2Vec2 pos = gBody->GetPosition();
-    QPointF mappedPoint;
-    mappedPoint.setX(((pos.x-g_size.width()/2) * g_windowsize.width())/worldsize.width());
-    mappedPoint.setY((1.0f - (pos.y+g_size.height()/2)/worldsize.height()) * g_windowsize.height());
-    g_pixmap.setPos(mappedPoint);
-    g_pixmap.resetTransform();
-    g_pixmap.setRotation(-(gBody->GetAngle()*180/3.14159));
+void GameItem::paint()
+{
+
+    QPainter painter(window);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    // Draw Box2D objects here
+
+    // Example: Draw dynamic boxes
+    for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
+        b2Vec2 position = body->GetPosition();
+        if(body->GetFixtureList()->GetDensity() == OBSTACLE_DENSITY)
+        {
+            // Adjust the rendering to consider the vertical inversion
+            painter.drawPixmap(200,200,QPixmap(":/Resources/Images/tower.png"));
+        }
+    }
+
 }
