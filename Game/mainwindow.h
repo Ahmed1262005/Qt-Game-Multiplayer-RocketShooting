@@ -2,38 +2,34 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "obstacles.h"
 #include <QMainWindow>
 #include <QTimer>
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPalette>
 #include <Box2D/Box2D.h>
-#include <vector>
+
 
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
     void showBackground();
 
     ~MainWindow();
-    QTimer *timer;
-    b2World *world;
-    void paintEvent(QPaintEvent *event);
-protected:
 
+protected:
+    void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);
     //void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     //void mouseReleaseEvent(QMouseEvent*);
 
-
 private slots:
-        void updateWorld();
+    void updateWorld();
 
 private:
     void drawTrajectory(QPainter &painter);
@@ -72,6 +68,7 @@ private:
     void createGround();
     void launchRocket(float desiredHeight);
     void updateRocketTrajectory();
+    void drawRocket(QPainter &painter, const b2Vec2 &position, const b2Vec2 &velocity);
     void createRocket(float x, float y);
     void createTarget(float x, float y);
     void createDynamicBox(float x, float y);
@@ -84,14 +81,11 @@ private:
 
     b2Vec2 dragStart;
 
-
-
+    QTimer *timer;
+    b2World *world;
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
     void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
-    std::vector<Obstacles*> Towers;
-    Obstacles* evilGuy;
-
 
 };
 
@@ -130,7 +124,7 @@ struct Object
 class World : public QWidget {
 public:
     World()
-        : _timerId(0)
+            : _timerId(0)
     {
         b2Vec2 gravity(0.0f, -10.0f);
         bool doSleep(true);
@@ -199,17 +193,17 @@ public:
         QPainter p(this);
         p.setRenderHint(QPainter::Antialiasing, true);
         p.setTransform(_transform);
-        foreach(const Object& o, _objects) {
-            switch(o.type) {
-            case BallObject:
-                drawEllipse(&p, o);
-                break;
-            case WallObject:
-                drawWall(&p, o);
+                foreach(const Object& o, _objects) {
+                switch(o.type) {
+                    case BallObject:
+                        drawEllipse(&p, o);
+                        break;
+                    case WallObject:
+                        drawWall(&p, o);
+
+                }
 
             }
-
-        }
     }
 
     void drawWall(QPainter *p, const Object& o) {
