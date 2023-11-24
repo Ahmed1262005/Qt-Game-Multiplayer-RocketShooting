@@ -13,9 +13,11 @@ set(CMAKE_PREFIX_PATH "D:\\Qt\\6.5.2\\mingw_64\\")
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Quick REQUIRED)
+find_package(Qt5Multimedia REQUIRED)
 
 add_executable(Game main.cpp MainWindow.cpp MainWindow.h )
 
 target_link_libraries(Game Qt5::Core)
 target_link_libraries(Game Qt5::Widgets)
 target_link_libraries(Game Qt5::Quick)
+target_link_libraries(Game Qt5::Multimedia)

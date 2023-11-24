@@ -9,7 +9,7 @@
 #include <Box2D/Box2D.h>
 #include <QGraphicsScene>
 #include <QTimer>
-#include "mainwindow.h"
+
 
 #define OBSTACLE_DENSITY 10.0f
 #define OBSTACLE_FRICTION 0.2f
@@ -18,8 +18,24 @@
 
 class Obstacles : public GameItem
 {
+private:
+
+    int x;
+
+    int y;
+
 public:
-    Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world, MainWindow*);
+    Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world);
+
+    QPixmap get_pixmap();
+
+    int get_x();
+
+    int get_y();
+
+    QSizeF get_size();
+
+    b2Body* get_body();
 
 };
 
