@@ -7,23 +7,22 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(800, 600);
 
     initializeBox2D();
-    showBackground();
+    //showBackground();
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
-    timer->start(16); // Update every 16 milliseconds
+    timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
     Towers.push_back(new Obstacles(400.0f,-10.0f,50.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
     Towers.push_back(new Obstacles(550.0f,-10.0f,50.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
     evilGuy=new Obstacles(475.0f,-10.0f,70.0f,70.0f,timer,QPixmap(":/Resources/Images/EvilGuy.png"),world);
 
-
-
-
+    evilGuy->get_body()->SetUserData((void*)"EvilGuy");
 
     // Initialize other variables
     drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
+    world->SetContactListener(this);
 
 }
 void MainWindow::drawLauncher(QPainter &painter, const b2Vec2 &position, float angle)
@@ -307,6 +306,7 @@ void MainWindow::createRocket(float x, float y) {
     bodyDef.position.Set(x, y);
 
     rocketBody = world->CreateBody(&bodyDef);
+
     // Use an image for the rocket
     QPixmap rocketixmap(":/Resources/Images/AdvancedRocketWithoutFire.png");
     rocketPixmap = rocketixmap.scaled(30, 60); // Adjust the size as needed
@@ -324,6 +324,7 @@ void MainWindow::createRocket(float x, float y) {
     // Set the rocket's initial position and velocity
     rocketPosition = rocketBody->GetPosition();
     rocketVelocity.Set(0.0f, 0.0f); // Set initial rocket velocity (adjust values as needed)
+    rocketBody->SetUserData((void*)"Rocket");
 }
 
 void MainWindow::createTarget(float x, float y) {
@@ -380,9 +381,49 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 void MainWindow:: showBackground()
 {
-    QPixmap background("://Resources/Images/Level1.webp");
+    QPixmap background(":/Resources/Images/Level1.webp");
     background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
 }
+
+void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
+{//SetUserData and GetUserData are in body class:
+//we set a name to a body
+
+    qDebug() << "Collision detected!";
+
+    b2Fixture* EvilGuyF = contactPoint->GetFixtureA();
+    b2Fixture* RocketF = contactPoint->GetFixtureB();
+
+    b2Body* EvilGuy = EvilGuyF->GetBody();
+    b2Body* Rocket = RocketF->GetBody();
+
+    bool isRocketEvilGuyCollision =
+        ((EvilGuy->GetUserData() == (void*)"Rocket" && Rocket->GetUserData() == (void*)"EvilGuy") ||
+         (EvilGuy->GetUserData() == (void*)"EvilGuy" && Rocket->GetUserData() == (void*)"Rocket"));
+
+
+    // Check if either fixture is associated with the EvilGuy
+//    bool EvilGuy = (EvilGuyF->GetBody()->GetUserData() == (void*)"EvilGuy");
+//    bool Rocket = (RocketF->GetBody()->GetUserData() == (void*)"Rocket");
+
+    // Check if the contact involves EvilGuy
+    if (isRocketEvilGuyCollision)
+    {return ;}
+
+    b2Body* evilGuyBody = (EvilGuy->GetUserData() == (void*)"EvilGuy") ? EvilGuy : Rocket;
+    if (evilGuyBody) {
+
+        contactPoint->SetEnabled(false);
+
+        b2World* world = evilGuyBody->GetWorld();
+        qDebug() << "inside!";
+
+        qDebug() << "EvilGuy removed from the world!";
+    }
+
+
+}
+

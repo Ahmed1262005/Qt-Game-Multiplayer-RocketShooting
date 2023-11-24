@@ -10,10 +10,11 @@
 #include <QPalette>
 #include "enemy.h"
 #include <Box2D/Box2D.h>
+//#include <QMediaPlayer>
 
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public b2ContactListener
 {
     Q_OBJECT
 
@@ -40,8 +41,7 @@ private:
     void drawTrajectory(QPainter &painter);
     b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
     void drawLauncher(QPainter &painter, const b2Vec2 &position, float angle);
-
-
+    //QMediaPlayer *player;
 
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
@@ -92,6 +92,7 @@ private:
     void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
     std::vector<Obstacles*> Towers;
     Obstacles* evilGuy;
+    void BeginContact(b2Contact * contact);
 
 
 };
