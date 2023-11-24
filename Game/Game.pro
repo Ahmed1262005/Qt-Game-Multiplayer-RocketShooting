@@ -12,21 +12,21 @@ QT += multimedia
 
 SOURCES += \
     enemy.cpp \
-    gameitem.cpp \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
-    obstacles.cpp \
-    rocket.cpp
+    rocket.cpp \
+    gameitem.cpp \
+    obstacles.cpp
 
 
 HEADERS += \
     enemy.h \
-    gameitem.h \
     level.h \
     mainwindow.h \
+    rocket.h \
+    gameitem.h \
     obstacles.h \
-    rocket.h
 
 FORMS += \
     mainwindow.ui
