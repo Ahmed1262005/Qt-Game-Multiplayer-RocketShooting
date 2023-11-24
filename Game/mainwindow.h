@@ -34,6 +34,9 @@ private slots:
 private:
     void drawTrajectory(QPainter &painter);
     b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
+    void drawLauncher(QPainter &painter, const b2Vec2 &position, float angle);
+
+
 
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
@@ -79,6 +82,9 @@ private:
 
     QTimer *timer;
     b2World *world;
+    QPixmap launcherPixmap;
+    void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
+
 };
 
 class QueryCallback : public b2QueryCallback

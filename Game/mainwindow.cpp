@@ -10,11 +10,29 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
-
+    launcherPixmap.load("://Resources/Images/Mortar.png"); // Replace with the actual path to your launcher image
+//    launcherPixmap->setPos(3,3);
+//
     // Initialize other variables
     drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
 
+}
+void MainWindow::drawLauncher(QPainter &painter, const b2Vec2 &position, float angle)
+{
+    // Draw rotated launcher pixmap
+    drawRotatedPixmap(painter, launcherPixmap, position, angle);
+}
+
+void MainWindow::drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle)
+{
+    angle += 5;
+    painter.save();
+    painter.translate(position.x, height() - position.y);
+    painter.rotate(-angle * 180 / M_PI);
+    painter.scale(-1, 1);  // Mirror the pixmap horizontally
+    painter.drawPixmap(-pixmap.width()/2-70 , -pixmap.height()/2-70 , pixmap);
+    painter.restore();
 }
 
 MainWindow::~MainWindow() {
@@ -27,13 +45,15 @@ void MainWindow::drawTrajectory(QPainter &painter) {
 
     TrajectoryRayCastClosestCallback raycastCallback;
     b2Vec2 lastTP = rocketPosition;
-
+    b2Vec2 top;
     for (int i = 0; i < trajectoryPointsCount; ++i) {
         b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
         // Adjust the y-coordinate to consider the vertical inversion
         QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
         painter.drawPoint(point);
-
+        if (i == trajectoryPointsCount/2-500) {
+            top = trajectoryPosition;
+        }
         if (i > 0) {
             // Perform a raycast check between successive points
             world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
@@ -42,15 +62,19 @@ void MainWindow::drawTrajectory(QPainter &painter) {
                 QPointF collisionPoint(lastTP.x, height() - lastTP.y);
                 painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
                 painter.drawPoint(collisionPoint);
+                // Calculate the angle of the launcher based on the trajectory
 
                 predictedCollisionPoint = raycastCallback.m_point;
+                // Calculate the angle of the launcher based on the trajectory
+
                 break;  // Exit the loop if a collision is detected
             }
         }
 
         lastTP = trajectoryPosition;
     }
-
+    float angle = atan2(top.y,  top.x);
+    drawLauncher(painter, b2Vec2(100.0f,100.0f), angle);
 
     // Draw the predicted collision point outside the loop
     if (drawPredictedCollision) {
@@ -58,7 +82,9 @@ void MainWindow::drawTrajectory(QPainter &painter) {
         painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
         painter.drawPoint(collisionPoint);
     }
+
     }
+
 }
 
 
