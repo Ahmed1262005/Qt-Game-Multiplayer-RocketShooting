@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    // Initialize other variables
+    // Initialize other variables and stuff
     drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
     timer->singleShot(1000,[this](){world->SetContactListener(this);});
