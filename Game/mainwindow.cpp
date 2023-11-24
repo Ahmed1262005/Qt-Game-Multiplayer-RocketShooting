@@ -178,7 +178,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     drawTrajectory(painter);
 
     // Draw the rocket
-    if (rocketBody && !rocketPixmap.isNull()) {
+    if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
         painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
 
         b2Vec2 rocketPosition = rocketBody->GetPosition();
