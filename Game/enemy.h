@@ -17,7 +17,7 @@ public:
         // Add more enemy types as needed
     };
 
-    Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* parent, MainWindow* W);
+    Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* parent);
     ~Enemy();
 
     void setPosition(const b2Vec2& position);

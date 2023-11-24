@@ -4,11 +4,15 @@
 #include <QPainter>
 
 
-Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world,MainWindow* W) : GameItem(world, W)
+Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world) : GameItem(world)
 {
     g_pixmap.setPixmap(pixmap.scaled(width,height));
     g_pixmap.setTransformOriginPoint(g_pixmap.boundingRect().width() / 2,g_pixmap.boundingRect().height() / 2);
     g_size = QSize(width, height);
+
+    this -> x = x;
+
+    this ->y = y;
 
     b2BodyDef bodydef;
     bodydef.type = b2_dynamicBody;
@@ -32,4 +36,29 @@ Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer,
 
 
 
+}
+
+QPixmap Obstacles::get_pixmap()
+{
+    return g_pixmap.pixmap();
+}
+
+int Obstacles::get_x()
+{
+    return x*25;
+}
+
+int Obstacles::get_y()
+{
+    return (-y)*25;
+}
+
+QSizeF Obstacles::get_size()
+{
+    return g_size;
+}
+
+b2Body* Obstacles::get_body()
+{
+    return gBody;
 }
