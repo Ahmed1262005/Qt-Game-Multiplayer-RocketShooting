@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QPainter>
-#include <QMediaPlayer>
-#include <QAudioOutput>
+//#include <QMediaPlayer>
+//#include <QAudioOutput>
 #include <QString>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -451,7 +451,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 void MainWindow:: showBackground()
 {
-    QPixmap background("://Resources/Images/Level1.webp");
+    QPixmap background("://Resources/Images/Level1.png");
     background =background.scaled(1920,1080, Qt::IgnoreAspectRatio);
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
