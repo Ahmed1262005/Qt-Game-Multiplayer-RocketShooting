@@ -2,6 +2,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "obstacles.h"
 #include <QMainWindow>
 #include <QTimer>
 #include <QPainter>
@@ -37,6 +38,9 @@ private slots:
 private:
     void drawTrajectory(QPainter &painter);
     b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
+    void drawLauncher(QPainter &painter, const b2Vec2 &position, float angle);
+
+
 
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
@@ -79,6 +83,13 @@ private:
 
 
     b2Vec2 dragStart;
+
+
+
+    QPixmap launcherPixmap;
+    QPixmap rocketPixmap;
+    void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
+    Obstacles* Tower1;
 
 
 };

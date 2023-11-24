@@ -1,7 +1,7 @@
 #include "rocket.h"
 
-Rocket::Rocket(RocketType type, b2World* World, const b2Vec2& position, MainWindow* W)
-        : GameItem(World, W),rocketType(type), currentFrameIndex(0)
+Rocket::Rocket(RocketType type, b2World* World, const b2Vec2& position)
+        : GameItem(World),rocketType(type), currentFrameIndex(0)
 {
     createRocketBody(position);
     loadExplosionFrames();
