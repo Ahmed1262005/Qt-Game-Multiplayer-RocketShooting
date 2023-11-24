@@ -9,7 +9,7 @@
 #include <QKeyEvent>
 #include <QPalette>
 #include <Box2D/Box2D.h>
-
+#include <vector>
 
 
 class MainWindow : public QMainWindow
@@ -89,7 +89,8 @@ private:
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
     void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
-    Obstacles* Tower1;
+    std::vector<Obstacles*> Towers;
+    Obstacles* evilGuy;
 
 
 };
