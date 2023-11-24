@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include <QPainter>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -11,9 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
-    timer->start(16); // Update every 16 milliseconds
+    timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
-    Tower1 = new Obstacles(700.0f,0.0f,200.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world);
+    Towers.push_back(new Obstacles(600.0f,-10.0f,200.0f,500.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
+    Towers.push_back(new Obstacles(950.0f,-10.0f,200.0f,500.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
+    evilGuy = new Obstacles(775.0f,-10.0f,100.0f,100.0f,timer,QPixmap("://Resources/Images/EvilGuy.png"),world);
+
 
 
 
@@ -131,7 +136,7 @@ void MainWindow::createGround() {
     groundBody = world->CreateBody(&groundBodyDef);
 
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(800.0f, 199.0f);
+    groundBox.SetAsBox(8000.0f, 199.0f);
 
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
@@ -185,10 +190,13 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                  painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
             }
 
-        b2Vec2 towerposition = Tower1->get_body()->GetPosition();
+        b2Vec2 tower1Position = Towers[1]->get_body()->GetPosition();
+        b2Vec2 tower2Position = Towers[0]->get_body()->GetPosition();
+        b2Vec2 evilGuyPosition = evilGuy->get_body()->GetPosition();
 
-            painter.drawPixmap(towerposition.x-Tower1->get_pixmap().width()/2 , height() - towerposition.y - Tower1->get_pixmap().height()/2, Tower1->get_pixmap());
-
+        painter.drawPixmap(tower1Position.x-Towers[1]->get_pixmap().width()/2 , height() - tower1Position.y - Towers[1]->get_pixmap().height()/2, Towers[1]->get_pixmap());
+        painter.drawPixmap(tower2Position.x-Towers[0]->get_pixmap().width()/2 , height() - tower2Position.y - Towers[0]->get_pixmap().height()/2, Towers[0]->get_pixmap());
+        painter.drawPixmap(evilGuyPosition.x-evilGuy->get_pixmap().width()/2 , height() - evilGuyPosition.y - evilGuy->get_pixmap().height()/2, evilGuy->get_pixmap());
     }
 
     // Draw the rocket trajectory
@@ -362,7 +370,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 //        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
         rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 100.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 110.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
         qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
@@ -379,4 +387,18 @@ void MainWindow:: showBackground()
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
+
+    QMediaPlayer* MusicPlayer = new QMediaPlayer;
+
+    QAudioOutput* Speaker = new QAudioOutput;
+
+    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
+
+    MusicPlayer->setAudioOutput(Speaker);
+
+    Speaker->setVolume(30);
+
+    MusicPlayer->setLoops(-1);
+
+    MusicPlayer->play();
 }
