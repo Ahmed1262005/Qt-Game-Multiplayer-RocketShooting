@@ -15,6 +15,9 @@
         <file>Resources/Images/Level1.webp</file>
         <file>Resources/Images/EvilGuy.png</file>
         <file>Resources/Audio/Leyndell, Royal Capital.mp3</file>
+        <file>Resources/Images/Level3.png</file>
+        <file>Resources/Images/victory.jpg</file>
+        <file>Resources/Images/RoundShot.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

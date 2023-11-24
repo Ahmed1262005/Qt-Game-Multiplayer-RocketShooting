@@ -12,7 +12,7 @@
 #include <vector>
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow , public b2ContactListener
 {
     Q_OBJECT
 
@@ -91,7 +91,10 @@ private:
     void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
     std::vector<Obstacles*> Towers;
     Obstacles* evilGuy;
+    void BeginContact(b2Contact * contact);
 
+    int counter = 4;
+    bool win = false;
 
 };
 
