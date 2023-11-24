@@ -10,9 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
-    launcherPixmap.load("://Resources/Images/Mortar.png"); // Replace with the actual path to your launcher image
-//    launcherPixmap->setPos(3,3);
-//
+    launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
+
     // Initialize other variables
     drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
@@ -26,12 +25,12 @@ void MainWindow::drawLauncher(QPainter &painter, const b2Vec2 &position, float a
 
 void MainWindow::drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle)
 {
-    angle += 5;
+    angle -= 13.39;
     painter.save();
     painter.translate(position.x, height() - position.y);
     painter.rotate(-angle * 180 / M_PI);
-    painter.scale(-1, 1);  // Mirror the pixmap horizontally
-    painter.drawPixmap(-pixmap.width()/2-70 , -pixmap.height()/2-70 , pixmap);
+    painter.scale(1, 1);  // Mirror the pixmap horizontally
+    painter.drawPixmap(-pixmap.width()/2 , -pixmap.height()/2 , pixmap);
     painter.restore();
 }
 
@@ -179,13 +178,16 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     drawTrajectory(painter);
 
     // Draw the rocket
-    if (rocketBody) {
+    if (rocketBody && !rocketPixmap.isNull()) {
         painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
 
         b2Vec2 rocketPosition = rocketBody->GetPosition();
         // Adjust the rendering to consider the vertical inversion
-        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
+//        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
+        painter.drawPixmap(rocketPosition.x - rocketPixmap.width() / 2, height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
+
     }
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -281,6 +283,9 @@ void MainWindow::createRocket(float x, float y) {
     bodyDef.position.Set(x, y);
 
     rocketBody = world->CreateBody(&bodyDef);
+    // Use an image for the rocket
+    QPixmap rocketixmap(":/Resources/Images/AdvancedRocketWithoutFire.png");
+    rocketPixmap = rocketixmap.scaled(30, 60); // Adjust the size as needed
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape

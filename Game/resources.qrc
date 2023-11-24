@@ -11,6 +11,9 @@
         <file>Resources/Images/tower.png</file>
         <file>Resources/Images/tower2.png</file>
         <file>Resources/Images/tower3.png</file>
+        <file>Resources/Images/RocketLauncher.png</file>
+        <file>Resources/Images/RocketLaunchersm.png</file>
+        <file>Resources/Images/RocketLaunchersmfix.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

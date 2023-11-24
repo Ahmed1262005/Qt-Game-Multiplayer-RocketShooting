@@ -83,6 +83,7 @@ private:
     QTimer *timer;
     b2World *world;
     QPixmap launcherPixmap;
+    QPixmap rocketPixmap;
     void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
 
 };
