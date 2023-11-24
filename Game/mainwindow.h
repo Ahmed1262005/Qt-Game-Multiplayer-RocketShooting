@@ -20,13 +20,16 @@ public:
     void showBackground();
 
     ~MainWindow();
-
-protected:
+    QTimer *timer;
+    b2World *world;
     void paintEvent(QPaintEvent *event);
+protected:
+
     void keyPressEvent(QKeyEvent *event);
     //void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     //void mouseReleaseEvent(QMouseEvent*);
+
 
 private slots:
         void updateWorld();
@@ -34,9 +37,6 @@ private slots:
 private:
     void drawTrajectory(QPainter &painter);
     b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
-    void drawLauncher(QPainter &painter, const b2Vec2 &position, float angle);
-
-
 
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
@@ -80,11 +80,6 @@ private:
 
     b2Vec2 dragStart;
 
-    QTimer *timer;
-    b2World *world;
-    QPixmap launcherPixmap;
-    QPixmap rocketPixmap;
-    void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
 
 };
 
