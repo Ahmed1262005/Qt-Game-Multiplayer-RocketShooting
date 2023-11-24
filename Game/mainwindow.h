@@ -20,13 +20,16 @@ public:
     void showBackground();
 
     ~MainWindow();
-
-protected:
+    QTimer *timer;
+    b2World *world;
     void paintEvent(QPaintEvent *event);
+protected:
+
     void keyPressEvent(QKeyEvent *event);
     //void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     //void mouseReleaseEvent(QMouseEvent*);
+
 
 private slots:
         void updateWorld();
@@ -77,8 +80,7 @@ private:
 
     b2Vec2 dragStart;
 
-    QTimer *timer;
-    b2World *world;
+
 };
 
 class QueryCallback : public b2QueryCallback

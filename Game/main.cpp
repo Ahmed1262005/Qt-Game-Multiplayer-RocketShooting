@@ -8,9 +8,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.show();
+    w.showFullScreen();
 
-    QVector<Level> levels;
+   /* QVector<Level> levels;
     int initialRocketCount = 5; // Adjust as needed
 
     // Initialize 20 levels with increasing difficulty using Fibonacci progression
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         fibPrev = fibCurr;
         fibCurr = fibNext;
     }
-
+        */
     // Now, you can use the 'levels' QVector across your game
 
     return a.exec();
