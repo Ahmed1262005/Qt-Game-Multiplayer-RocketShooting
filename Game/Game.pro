@@ -10,20 +10,32 @@ CONFIG += c++17
 
 SOURCES += \
     enemy.cpp \
+    gameitem.cpp \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
+<<<<<<< HEAD
     rocket.cpp  \
     gameitem.cpp \
     obstacles.cpp
+=======
+    obstacles.cpp \
+    rocket.cpp
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
 HEADERS += \
     enemy.h \
+    gameitem.h \
     level.h \
     mainwindow.h \
+<<<<<<< HEAD
     rocket.h    \
     gameitem.h  \
     obstacles.h
+=======
+    obstacles.h \
+    rocket.h
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
 FORMS += \
     mainwindow.ui

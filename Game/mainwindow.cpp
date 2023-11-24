@@ -1,26 +1,42 @@
 #include "mainwindow.h"
-#include <QPalette>
 #include <QPainter>
 #include <obstacles.h>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
     setFixedSize(800, 600);
-    showBackground();
+
     initializeBox2D();
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
+    launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
 
     Obstacles* Tower1 = new Obstacles(500,-25,200,200,timer,QPixmap(":/Resources/Images/tower.png").scaled(200,200),world,this);
 
 
 
     // Initialize other variables
-//    drawPredictedCollision = false;
+    drawPredictedCollision = true;
 //    predictedCollisionPoint.SetZero();
 
+}
+void MainWindow::drawLauncher(QPainter &painter, const b2Vec2 &position, float angle)
+{
+    // Draw rotated launcher pixmap
+    drawRotatedPixmap(painter, launcherPixmap, position, angle);
+}
+
+void MainWindow::drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle)
+{
+    angle -= 13.39;
+    painter.save();
+    painter.translate(position.x, height() - position.y);
+    painter.rotate(-angle * 180 / M_PI);
+    painter.scale(1, 1);  // Mirror the pixmap horizontally
+    painter.drawPixmap(-pixmap.width()/2 , -pixmap.height()/2 , pixmap);
+    painter.restore();
 }
 
 MainWindow::~MainWindow() {
@@ -28,33 +44,54 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::drawTrajectory(QPainter &painter) {
+<<<<<<< HEAD
     painter.setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
+=======
+    painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
+    if (drawPredictedCollision) {
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
     TrajectoryRayCastClosestCallback raycastCallback;
     b2Vec2 lastTP = rocketPosition;
-
+    b2Vec2 top;
     for (int i = 0; i < trajectoryPointsCount; ++i) {
         b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
         // Adjust the y-coordinate to consider the vertical inversion
         QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
         painter.drawPoint(point);
-
+        if (i == trajectoryPointsCount/2-500) {
+            top = trajectoryPosition;
+        }
         if (i > 0) {
             // Perform a raycast check between successive points
             world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
             if (raycastCallback.m_hit) {
+                // Draw the predicted collision point only if drawPredictedCollision is true
+                QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+                painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+                painter.drawPoint(collisionPoint);
+                // Calculate the angle of the launcher based on the trajectory
+
                 predictedCollisionPoint = raycastCallback.m_point;
-                drawPredictedCollision = true;
+                // Calculate the angle of the launcher based on the trajectory
+
                 break;  // Exit the loop if a collision is detected
             }
         }
 
         lastTP = trajectoryPosition;
     }
-    // Draw the predicted collision point
-    QPointF collisionPoint(lastTP.x, height() - lastTP.y);
-    painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
-    painter.drawPoint(collisionPoint);
+    float angle = atan2(top.y,  top.x);
+    drawLauncher(painter, b2Vec2(100.0f,100.0f), angle);
+
+    // Draw the predicted collision point outside the loop
+    if (drawPredictedCollision) {
+        QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+        painter.drawPoint(collisionPoint);
+    }
+
+    }
 
 }
 
@@ -80,7 +117,7 @@ void MainWindow::initializeBox2D() {
     // Move the ground down
     createGround();
     createRocket(100.0f, 100.0f); // Set initial rocket position
-    rocketVelocity.Set(300.0f, 50.0f); // Set initial rocket velocity
+    rocketVelocity.Set(300.0f, 0.0f); // Set initial rocket velocity
 
     // Initialize rocket-related variables
     rocketPosition.Set(100.f, 100.f);
@@ -121,7 +158,13 @@ void MainWindow::createDynamicBox(float x, float y) {
 
 void MainWindow::updateWorld() {
     world->Step(1.0f / 60.0f, 6, 2);
-
+    if (rocketBody) {
+        b2Vec2 velocity = rocketBody->GetLinearVelocity();
+        if (qAbs(velocity.x) < 0.1 && qAbs(velocity.y) < 0.1 && !drawPredictedCollision) {
+            drawPredictedCollision = true;
+            createRocket(100, 100);
+        }
+    }
     update(); // Schedule a repaint
 }
 
@@ -150,14 +193,21 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     drawTrajectory(painter);
 
     // Draw the rocket
-    if (rocketBody) {
+    if (rocketBody && !rocketPixmap.isNull()) {
+        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+
         b2Vec2 rocketPosition = rocketBody->GetPosition();
         // Adjust the rendering to consider the vertical inversion
-        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
+//        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
+        painter.drawPixmap(rocketPosition.x - rocketPixmap.width() / 2, height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
+
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -184,17 +234,21 @@ void MainWindow::launchRocket(float desiredHeight) {
 
         // Apply impulse to the rocket body based on the new velocity
         b2Vec2 impulse = rocketVelocity;
+
 //        rocketBody->SetAngularVelocity(rocketVelocity);
         rocketBody->SetAwake(true);
         rocketBody->SetGravityScale(1);
         rocketBody->SetAngularVelocity(0);
+        b2Vec2 Velocity = calculateRocketVelocityForHeight(desiredHeight);
 
         rocketBody->ApplyLinearImpulse(impulse, rocketBody->GetWorldCenter(), true);
+        rocketBody->SetLinearVelocity( rocketBody->GetWorldVector( b2Vec2(rocketVelocity) ) );
 
         qDebug() << "Rocket Initial Velocity: (" << rocketVelocity.x << ", " << rocketVelocity.y << ")";
         qDebug() << "Applied Impulse: (" << impulse.x << ", " << impulse.y << ")";
 
         // Update the rocket trajectory after launching
+        drawPredictedCollision = false;  // Set drawPredictedCollision to false before updating trajectory
         updateRocketTrajectory();
     }
 }
@@ -249,6 +303,9 @@ void MainWindow::createRocket(float x, float y) {
     bodyDef.position.Set(x, y);
 
     rocketBody = world->CreateBody(&bodyDef);
+    // Use an image for the rocket
+    QPixmap rocketixmap(":/Resources/Images/AdvancedRocketWithoutFire.png");
+    rocketPixmap = rocketixmap.scaled(30, 60); // Adjust the size as needed
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
@@ -256,7 +313,7 @@ void MainWindow::createRocket(float x, float y) {
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 4.0f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 100.3f;
 
     rocketBody->CreateFixture(&fixtureDef);
 
@@ -307,7 +364,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 //        setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
         rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, mousePos.y, 100.0f)); // Adjust as needed
+        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 100.0f)); // Adjust as needed
 
         // You can print the rocket's position for debugging
         qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
