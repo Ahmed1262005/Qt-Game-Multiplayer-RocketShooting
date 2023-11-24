@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include <QPainter>
-#include <obstacles.h>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
@@ -12,10 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
-
-    Obstacles* Tower1 = new Obstacles(500,-25,200,200,timer,QPixmap(":/Resources/Images/tower.png").scaled(200,200),world,this);
-
-
 
     // Initialize other variables
     drawPredictedCollision = true;
@@ -44,52 +39,48 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::drawTrajectory(QPainter &painter) {
-<<<<<<< HEAD
-    painter.setPen(QPen(Qt::yellow, 1, Qt::SolidLine));
-=======
     painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
     if (drawPredictedCollision) {
->>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 
-    TrajectoryRayCastClosestCallback raycastCallback;
-    b2Vec2 lastTP = rocketPosition;
-    b2Vec2 top;
-    for (int i = 0; i < trajectoryPointsCount; ++i) {
-        b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
-        // Adjust the y-coordinate to consider the vertical inversion
-        QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
-        painter.drawPoint(point);
-        if (i == trajectoryPointsCount/2-500) {
-            top = trajectoryPosition;
-        }
-        if (i > 0) {
-            // Perform a raycast check between successive points
-            world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
-            if (raycastCallback.m_hit) {
-                // Draw the predicted collision point only if drawPredictedCollision is true
-                QPointF collisionPoint(lastTP.x, height() - lastTP.y);
-                painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
-                painter.drawPoint(collisionPoint);
-                // Calculate the angle of the launcher based on the trajectory
-
-                predictedCollisionPoint = raycastCallback.m_point;
-                // Calculate the angle of the launcher based on the trajectory
-
-                break;  // Exit the loop if a collision is detected
+        TrajectoryRayCastClosestCallback raycastCallback;
+        b2Vec2 lastTP = rocketPosition;
+        b2Vec2 top;
+        for (int i = 0; i < trajectoryPointsCount; ++i) {
+            b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
+            // Adjust the y-coordinate to consider the vertical inversion
+            QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
+            painter.drawPoint(point);
+            if (i == trajectoryPointsCount/2-500) {
+                top = trajectoryPosition;
             }
+            if (i > 0) {
+                // Perform a raycast check between successive points
+                world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
+                if (raycastCallback.m_hit) {
+                    // Draw the predicted collision point only if drawPredictedCollision is true
+                    QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+                    painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+                    painter.drawPoint(collisionPoint);
+                    // Calculate the angle of the launcher based on the trajectory
+
+                    predictedCollisionPoint = raycastCallback.m_point;
+                    // Calculate the angle of the launcher based on the trajectory
+
+                    break;  // Exit the loop if a collision is detected
+                }
+            }
+
+            lastTP = trajectoryPosition;
         }
+        float angle = atan2(top.y,  top.x);
+        drawLauncher(painter, b2Vec2(100.0f,100.0f), angle);
 
-        lastTP = trajectoryPosition;
-    }
-    float angle = atan2(top.y,  top.x);
-    drawLauncher(painter, b2Vec2(100.0f,100.0f), angle);
-
-    // Draw the predicted collision point outside the loop
-    if (drawPredictedCollision) {
-        QPointF collisionPoint(lastTP.x, height() - lastTP.y);
-        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
-        painter.drawPoint(collisionPoint);
-    }
+        // Draw the predicted collision point outside the loop
+        if (drawPredictedCollision) {
+            QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+            painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+            painter.drawPoint(collisionPoint);
+        }
 
     }
 
@@ -131,7 +122,7 @@ void MainWindow::createGround() {
     groundBody = world->CreateBody(&groundBodyDef);
 
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(800.0f, 199.0f);
+    groundBox.SetAsBox(2048.0f, 199.0f);
 
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
@@ -167,6 +158,23 @@ void MainWindow::updateWorld() {
     }
     update(); // Schedule a repaint
 }
+void MainWindow::drawRocket(QPainter &painter, const b2Vec2 &position, const b2Vec2 &velocity) {
+    // Calculate the angle based on the rocket's velocity
+    // Calculate the angle based on the rocket's velocity, but maintain the initial orientation initially
+    float angle = atan2(velocity.y, velocity.x);
+
+    // Use the initial rocket orientation when the rocket is just launched
+    if (qAbs(velocity.x) < 0.1 && qAbs(velocity.y) < 0.1 ) {
+        angle = 0.0;
+    }
+
+    painter.save();
+    painter.translate(position.x, height() - position.y);
+    painter.rotate(angle * 180 / M_PI);
+    painter.scale(1, 1);  // Mirror the rocket pixmap horizontally
+    painter.drawPixmap(-rocketPixmap.width() / 2, -rocketPixmap.height() / 2, rocketPixmap);
+    painter.restore();
+}
 
 void MainWindow::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
@@ -179,14 +187,8 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     // Example: Draw dynamic boxes
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
         b2Vec2 position = body->GetPosition();
-        if(body->GetFixtureList()->GetDensity() == 1.0f)
-            {
-                // Adjust the rendering to consider the vertical inversion
-                 painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
-            }
-
-
-
+        // Adjust the rendering to consider the vertical inversion
+        painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
     }
 
     // Draw the rocket trajectory
@@ -197,17 +199,19 @@ void MainWindow::paintEvent(QPaintEvent *event) {
         painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
 
         b2Vec2 rocketPosition = rocketBody->GetPosition();
-        // Adjust the rendering to consider the vertical inversion
-//        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
-        painter.drawPixmap(rocketPosition.x - rocketPixmap.width() / 2, height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
-
+        b2Vec2 rocketVelocity = rocketBody->GetLinearVelocity();
+        drawRocket(painter, rocketPosition, rocketVelocity);
     }
+//    if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
+//        painter.setPen(QPen(Qt::red, 5, Qt::SolidLine));
+//
+//        b2Vec2 rocketPosition = rocketBody->GetPosition();
+//        // Adjust the rendering to consider the vertical inversion
+////        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
+//        painter.drawPixmap(rocketPosition.x - rocketPixmap.width() / 2, height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
+//
+//    }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 596ff39a9c0284bcd05885049663f82d5fcb7b51
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -304,8 +308,8 @@ void MainWindow::createRocket(float x, float y) {
 
     rocketBody = world->CreateBody(&bodyDef);
     // Use an image for the rocket
-    QPixmap rocketixmap(":/Resources/Images/AdvancedRocketWithoutFire.png");
-    rocketPixmap = rocketixmap.scaled(30, 60); // Adjust the size as needed
+    QPixmap rocketixmap(":/Resources/Images/RoundShot.png");
+    rocketPixmap = rocketixmap.scaled(50, 50); // Adjust the size as needed
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
@@ -376,9 +380,9 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 
 void MainWindow:: showBackground()
 {
-    QPixmap background(":/Resources/Images/VH_Enterrement.webp");
-    background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
-    QPalette pal;
-    pal.setBrush(QPalette::Window, background);
-    this->setPalette(pal);
+//    QPixmap background(":/Resources/Images/VH_Enterrement.webp");
+//    background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
+//    QPalette pal;
+//    pal.setBrush(QPalette::Window, background);
+//    this->setPalette(pal);
 }

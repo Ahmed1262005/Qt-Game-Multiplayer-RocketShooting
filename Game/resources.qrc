@@ -1,19 +1,18 @@
 <RCC>
     <qresource prefix="/">
-        <file>Resources/Images/buildings.png</file>
-        <file>Resources/Images/valiant-hearts-heroBanner.jpg</file>
         <file>Resources/Audio/Rocket_Launching_and_Hitting_a_Target_Sound.mp3</file>
         <file>Resources/Images/AdvancedRocketWithFire (1).png</file>
         <file>Resources/Images/AdvancedRocketWithoutFire.png</file>
         <file>Resources/Images/Explosion_Animation.gif</file>
         <file>Resources/Images/Mortar.png</file>
-        <file>Resources/Images/VH_Enterrement.webp</file>
         <file>Resources/Images/tower.png</file>
         <file>Resources/Images/tower2.png</file>
         <file>Resources/Images/tower3.png</file>
         <file>Resources/Images/RocketLauncher.png</file>
         <file>Resources/Images/RocketLaunchersm.png</file>
         <file>Resources/Images/RocketLaunchersmfix.png</file>
+        <file>Resources/Images/RoundShot.webp</file>
+        <file>Resources/Images/RoundShot.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>
