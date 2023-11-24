@@ -13,6 +13,7 @@
         <file>Resources/Images/RocketLaunchersmfix.png</file>
         <file>Resources/Images/tower3(2).png</file>
         <file>Resources/Images/Level1.webp</file>
+        <file>Resources/Images/EvilGuy.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

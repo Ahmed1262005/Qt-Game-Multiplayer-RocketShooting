@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.showFullScreen();
+    w.show();
 
    /* QVector<Level> levels;
     int initialRocketCount = 5; // Adjust as needed

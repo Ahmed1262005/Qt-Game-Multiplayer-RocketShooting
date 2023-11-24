@@ -13,7 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(16); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Replace with the actual path to your launcher image
-    Tower1 = new Obstacles(700.0f,0.0f,200.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world);
+    Towers.push_back(new Obstacles(400.0f,-10.0f,50.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
+    Towers.push_back(new Obstacles(550.0f,-10.0f,50.0f,200.0f,timer,QPixmap("://Resources/Images/tower3(2).png"),world));
+    evilGuy=new Obstacles(475.0f,-10.0f,70.0f,70.0f,timer,QPixmap(":/Resources/Images/EvilGuy.png"),world);
+
 
 
 
@@ -185,11 +188,14 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                  painter.drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
             }
 
-        b2Vec2 towerposition = Tower1->get_body()->GetPosition();
-
-            painter.drawPixmap(towerposition.x-Tower1->get_pixmap().width()/2 , height() - towerposition.y - Tower1->get_pixmap().height()/2, Tower1->get_pixmap());
-
     }
+    b2Vec2 tower1Position = Towers[1]->get_body()->GetPosition();
+    b2Vec2 tower2Position = Towers[0]->get_body()->GetPosition();
+    b2Vec2 evilGuyPosition = evilGuy->get_body()->GetPosition();
+
+    painter.drawPixmap(tower1Position.x-Towers[1]->get_pixmap().width()/2 , height() - tower1Position.y - Towers[1]->get_pixmap().height()/2, Towers[1]->get_pixmap());
+    painter.drawPixmap(tower2Position.x-Towers[0]->get_pixmap().width()/2 , height() - tower2Position.y - Towers[0]->get_pixmap().height()/2, Towers[0]->get_pixmap());
+    painter.drawPixmap(evilGuyPosition.x-evilGuy->get_pixmap().width()/2 , height() - evilGuyPosition.y - evilGuy->get_pixmap().height()/2, evilGuy->get_pixmap());
 
     // Draw the rocket trajectory
     drawTrajectory(painter);
@@ -359,7 +365,7 @@ void MainWindow::createThrowableObject(float x, float y) {
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (mouseJoint) {
         // Adjust the rocket's position and velocity based on the mouse position
-//        setMouseTracking(true);
+      //setMouseTracking(true);
         b2Vec2 mousePos(event->pos().x(), event->pos().y());
         rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
         rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 100.0f)); // Adjust as needed
@@ -375,7 +381,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 void MainWindow:: showBackground()
 {
     QPixmap background("://Resources/Images/Level1.webp");
-    background =background.scaled(1920,1080, Qt::IgnoreAspectRatio);
+    background =background.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
