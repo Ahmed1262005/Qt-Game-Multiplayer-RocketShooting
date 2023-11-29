@@ -8,6 +8,9 @@ Level::Level(int levelNumber, int difficulty, int initialRocketCount)
           remainingRockets(initialRocketCount), maxRocketCount(initialRocketCount * 2),
           enemyHealth(50), gamePaused(false) {
     initializeLevel();
+
+    window = new MainWindow;
+
 }
 
 void Level::initializeLevel() {
@@ -78,4 +81,10 @@ void Level::resumeGame() {
 void Level::increaseDifficulty() {
     difficulty++;
 //    createInitialEnemies();
+}
+
+void Level::AddTower(qreal x, qreal y, qreal width, qreal height, QPixmap pixmap, b2World world, int towertype)
+{
+    if(towertype)
+
 }

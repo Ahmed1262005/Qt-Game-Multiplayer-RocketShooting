@@ -1,4 +1,4 @@
-#ifndef OBSTACLES_
+#ifndef OBSTACLES_H
 #define OBSTACLES_H
 #include <QGraphicsPixmapItem>
 #include <QPainter>
@@ -25,7 +25,7 @@ private:
     int y;
 
 public:
-    Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world);
+    Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world);
 
     QPixmap get_pixmap();
 

@@ -4,6 +4,8 @@
 #include "rocket.h"
 #include "enemy.h"
 #include <vector>
+#include <mainwindow.h>
+#include "obstacles.h"
 
 class Level
 {
@@ -49,6 +51,12 @@ private:
     void updateScore(int points);
     void checkWinCondition();
     void checkLoseCondition();
+    void drawObstacles(QPainter*);
+    void AddTower(qreal, qreal, qreal, qreal, QPixmap, b2World, int);
+    void AddEnemy(qreal, qreal, qreal, qreal, QPixmap, b2World, int);
+    MainWindow* window;
+    QVector<Obstacles*> Towers;
+    QVector<Obstacles*> Enemies;
 };
 
 #endif // LEVEL_H

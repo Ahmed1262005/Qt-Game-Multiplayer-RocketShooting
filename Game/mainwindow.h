@@ -23,7 +23,7 @@ public:
     ~MainWindow();
     QTimer *timer;
     b2World *world;
-    void paintEvent(QPaintEvent *event);
+   virtual void paintEvent(QPaintEvent *event);
 protected:
 
     void keyPressEvent(QKeyEvent *event);
@@ -36,9 +36,9 @@ private slots:
         void updateWorld();
 
 private:
-    void drawTrajectory(QPainter &painter);
+    void drawTrajectory(QPainter* painter);
     b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
-    void drawLauncher(QPainter &painter, const b2Vec2 &position, float angle);
+    void drawLauncher(QPainter* painter, const b2Vec2 &position, float angle);
 
 
 
@@ -80,7 +80,7 @@ private:
     b2Body* throwableObject;
     b2MouseJoint* mouseJoint;
     b2Body* rocketBody;
-
+    QPainter* renderer;
 
     b2Vec2 dragStart;
 
@@ -88,7 +88,7 @@ private:
 
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
-    void drawRotatedPixmap(QPainter &painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
+    void drawRotatedPixmap(QPainter* painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
     std::vector<Obstacles*> Towers;
     Obstacles* evilGuy;
     void BeginContact(b2Contact * contact);

@@ -4,7 +4,7 @@
 #include <QPainter>
 
 
-Obstacles::Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world) : GameItem(world)
+Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world) : GameItem(world)
 {
     g_pixmap.setPixmap(pixmap.scaled(width,height));
     g_pixmap.setTransformOriginPoint(g_pixmap.boundingRect().width() / 2,g_pixmap.boundingRect().height() / 2);
