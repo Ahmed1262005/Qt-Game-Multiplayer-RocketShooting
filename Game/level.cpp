@@ -85,6 +85,6 @@ void Level::increaseDifficulty() {
 
 void Level::AddTower(qreal x, qreal y, qreal width, qreal height, QPixmap pixmap, b2World world, int towertype)
 {
-    if(towertype)
+
 
 }

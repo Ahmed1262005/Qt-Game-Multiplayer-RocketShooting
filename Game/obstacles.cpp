@@ -32,7 +32,7 @@ Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap
     gBody->SetAngularDamping(3);
     gBody->CreateFixture(&fixturedef);
 
-    connect(timer, SIGNAL(timeout()), this,SLOT(paint()));
+
 
 
 

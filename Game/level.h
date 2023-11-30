@@ -26,6 +26,10 @@ public:
         // Add more enemy types as needed
     };
 
+    enum towerType {
+
+    };
+
     // Functions for user actions during gameplay
     void launchRocket(RocketType rocketType);
     void pauseGame();
