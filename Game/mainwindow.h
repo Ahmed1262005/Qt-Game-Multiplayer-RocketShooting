@@ -23,7 +23,8 @@ public:
     ~MainWindow();
     QTimer *timer;
     b2World *world;
-   virtual void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event);
+    QPainter* get_renderer() const;
 protected:
 
     void keyPressEvent(QKeyEvent *event);

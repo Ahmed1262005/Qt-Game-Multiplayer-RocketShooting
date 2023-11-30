@@ -3,12 +3,16 @@
 #include <QApplication>
 #include <QVector>
 #include <cmath>
+#include "startmenu.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.showFullScreen();
+    //MainWindow w;
+    //w.showFullScreen();
+
+    StartMenu s;
+    s.showFullScreen();
 
    /* QVector<Level> levels;
     int initialRocketCount = 5; // Adjust as needed

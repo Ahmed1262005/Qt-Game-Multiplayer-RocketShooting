@@ -11,6 +11,7 @@
 #include <QTimer>
 
 
+
 #define OBSTACLE_DENSITY 10.0f
 #define OBSTACLE_FRICTION 0.2f
 #define OBSTACLE_RESTITUTION 0.5f

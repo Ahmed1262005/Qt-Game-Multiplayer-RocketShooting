@@ -20,8 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png");
    // Replace with the actual path to your launcher image
-
-
+    renderer = new QPainter(this);
 
     // Initialize other variables and stuff
     drawPredictedCollision = true;
@@ -503,4 +502,9 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
     }
 
 
+}
+
+QPainter* MainWindow::get_renderer() const
+{
+    return renderer;
 }

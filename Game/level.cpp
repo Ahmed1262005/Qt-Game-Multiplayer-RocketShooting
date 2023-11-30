@@ -2,14 +2,15 @@
 #include "rocket.h"
 #include "enemy.h"
 #include <iostream>
+#include <QTimer>
 
-Level::Level(int levelNumber, int difficulty, int initialRocketCount)
-        : levelNumber(levelNumber), difficulty(difficulty), score(0),
-          remainingRockets(initialRocketCount), maxRocketCount(initialRocketCount * 2),
-          enemyHealth(50), gamePaused(false) {
+Level::Level()
+{
     initializeLevel();
 
     window = new MainWindow;
+
+    connect(window->timer,&QTimer::timeout,this, &Level::drawObstacles);
 
 }
 
@@ -55,9 +56,9 @@ int Level::getRemainingRockets() const {
     return remainingRockets;
 }
 
-int Level::getRemainingEnemies() const {
-    return static_cast<int>(enemies.size());
-}
+//int Level::getRemainingEnemies() const {
+    //return static_cast<int>(enemies.size());
+//}
 
 int Level::getCurrentDifficulty() const {
     return difficulty;
@@ -83,8 +84,49 @@ void Level::increaseDifficulty() {
 //    createInitialEnemies();
 }
 
-void Level::AddTower(qreal x, qreal y, qreal width, qreal height, QPixmap pixmap, b2World world, int towertype)
+void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype)
+{
+    switch (towertype) {
+    case 1 :
+
+        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower1.png"), window->world));
+
+        break;
+
+    case 2 :
+
+        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world));
+
+        break;
+
+
+    case 3 :
+
+    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower3.png"), window->world));
+
+    break;
+
+    case 4 :
+
+    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower4.png"), window->world));
+
+    break;
+
+    }
+
+}
+
+void Level::drawObstacles()
 {
 
+    QPainter* painter = window->get_renderer();
+
+    painter->end();
+
+    painter->setRenderHint(QPainter::Antialiasing, true);
+
+     towerPosition = Towers[0]->get_body()->GetPosition();
+
+    painter->drawPixmap(towerPosition.x-Towers[0]->get_pixmap().width()/2 , window->height() - towerPosition.y - Towers[0]->get_pixmap().height()/2, Towers[0]->get_pixmap());
 
 }
