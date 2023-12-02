@@ -10,6 +10,8 @@ Level::Level()
 
     window = new MainWindow;
 
+    window->setTowers(Towers);
+
     connect(window->timer,&QTimer::timeout,this, &Level::drawObstacles);
 
 }
@@ -114,19 +116,17 @@ void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype)
 
     }
 
+    window->setTowers(Towers);
+
 }
 
 void Level::drawObstacles()
 {
 
-    QPainter* painter = window->get_renderer();
+    //QPaintEvent* a = new QPaintEvent(QRect(0,0,1,1));
 
-    painter->end();
+    //window->paintEvent(a , Towers);
 
-    painter->setRenderHint(QPainter::Antialiasing, true);
-
-     towerPosition = Towers[0]->get_body()->GetPosition();
-
-    painter->drawPixmap(towerPosition.x-Towers[0]->get_pixmap().width()/2 , window->height() - towerPosition.y - Towers[0]->get_pixmap().height()/2, Towers[0]->get_pixmap());
+    window->update();
 
 }

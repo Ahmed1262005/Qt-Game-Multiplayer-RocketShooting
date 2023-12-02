@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png");
    // Replace with the actual path to your launcher image
-    renderer = new QPainter(this);
 
     // Initialize other variables and stuff
     drawPredictedCollision = true;
@@ -125,7 +124,7 @@ void MainWindow::initializeBox2D() {
 
     // Initialize rocket-related variables
     rocketPosition.Set(100.f, 100.f);
-    trajectoryPointsCount = 1200; // Adjust the count as needed
+    trajectoryPointsCount = 2000; // Adjust the count as needed
 }
 
 void MainWindow::createGround() {
@@ -220,7 +219,7 @@ void MainWindow::updateWorld() {
 void MainWindow::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
 
-    renderer= new QPainter(this);
+   QPainter* renderer= new QPainter(this);
     renderer->setRenderHint(QPainter::Antialiasing, true);
 
     // Draw Box2D objects here
@@ -249,7 +248,14 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     }
 
+    for(auto i = towers.begin(); i != towers.end(); i++){
 
+        towerPosition = (*i)->get_body()->GetPosition();
+
+        renderer->drawPixmap(towerPosition.x-(*i)->get_pixmap().width()/2 , height() - towerPosition.y - (*i)->get_pixmap().height()/2, (*i)->get_pixmap());
+    }
+
+    renderer->end();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -504,7 +510,7 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
 
 }
 
-QPainter* MainWindow::get_renderer() const
+void MainWindow::setTowers(QVector<Obstacles*>& Towers)
 {
-    return renderer;
+    towers = Towers;
 }
