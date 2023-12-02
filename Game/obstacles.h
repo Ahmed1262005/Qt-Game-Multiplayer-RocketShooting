@@ -1,4 +1,4 @@
-#ifndef OBSTACLES_
+#ifndef OBSTACLES_H
 #define OBSTACLES_H
 #include <QGraphicsPixmapItem>
 #include <QPainter>
@@ -9,6 +9,7 @@
 #include <Box2D/Box2D.h>
 #include <QGraphicsScene>
 #include <QTimer>
+
 
 
 #define OBSTACLE_DENSITY 10.0f
@@ -25,7 +26,7 @@ private:
     int y;
 
 public:
-    Obstacles(float x, float y, float width, float height, QTimer *timer, QPixmap pixmap, b2World *world);
+    Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world);
 
     QPixmap get_pixmap();
 
