@@ -33,8 +33,8 @@ public:
     void pauseGame();
     void resumeGame();
     void increaseDifficulty();
-    void AddTower(qreal, qreal, qreal, qreal,int);
-    void AddEnemy(qreal, qreal, qreal, qreal,int);
+    void AddTower(qreal, qreal, qreal, qreal, int);
+    void AddEnemy(qreal, qreal, qreal, qreal, EnemyType);
     void drawObstacles();
     MainWindow* window;
 

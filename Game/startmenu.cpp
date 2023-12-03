@@ -8,8 +8,10 @@ StartMenu::StartMenu(QWidget *parent) :
     ui(new Ui::StartMenu)
 {
     ui->setupUi(this);
-
-
+    QPixmap background(":/Resources/Images/StartMenuBackground.png");
+    //int w = ui->labelBackground->width();
+    //int h = ui->labelBackground->height();
+    ui-> labelBackground -> setPixmap(background.scaled(1920, 1080));
 }
 
 StartMenu::~StartMenu()
@@ -24,6 +26,10 @@ void StartMenu::on_pushButtonlevel1_clicked()
     Level* lvl1 = new Level;
 
     lvl1->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
+
+    lvl1->AddTower(1300.0f,-10.0f,200.0f,500.0f,1);
+
+    lvl1->AddEnemy(1100.f, -10.f,100.f,100.f,BasicEnemy);
 
     lvl1->drawObstacles();
 

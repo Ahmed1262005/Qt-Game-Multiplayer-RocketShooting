@@ -20,11 +20,7 @@ void GameItem::setGlobalSize(QSizeF worldsize, QSizeF windowsize){
     worldsize = worldsize;
     g_windowsize = windowsize;
 }
-
 void GameItem::paint()
 {
-
-
-
 
 }

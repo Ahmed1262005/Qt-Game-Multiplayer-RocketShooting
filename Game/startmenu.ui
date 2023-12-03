@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>347</height>
+    <width>1308</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -143,6 +143,39 @@
     <string>Level 10</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelBackground">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>-1</y>
+     <width>1920</width>
+     <height>1131</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1920</width>
+     <height>1080</height>
+    </size>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Background</string>
+   </property>
+  </widget>
+  <zorder>labelBackground</zorder>
+  <zorder>pushButtonlevel1</zorder>
+  <zorder>pushButtonlevel2</zorder>
+  <zorder>pushButtonlevel3</zorder>
+  <zorder>pushButtonlevel4</zorder>
+  <zorder>pushButtonlevel5</zorder>
+  <zorder>pushButtonlevel6</zorder>
+  <zorder>pushButtonlevel7</zorder>
+  <zorder>pushButtonlevel8</zorder>
+  <zorder>pushButtonlevel9</zorder>
+  <zorder>pushButtonlevel10</zorder>
  </widget>
  <resources/>
  <connections/>

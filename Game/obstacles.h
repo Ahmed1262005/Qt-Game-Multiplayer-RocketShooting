@@ -16,7 +16,11 @@
 #define OBSTACLE_FRICTION 0.2f
 #define OBSTACLE_RESTITUTION 0.5f
 
-
+enum EnemyType {
+    BasicEnemy,
+    ArmoredEnemy
+    // Add more enemy types as needed
+};
 class Obstacles : public GameItem
 {
 private:
@@ -25,10 +29,22 @@ private:
 
     int y;
 
+    int health;
+signals:
+    //void enemyDestroyed(); // Signal emitted when the enemy is destroyed
+
 public:
     Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world);
 
+
+
     QPixmap get_pixmap();
+
+    void applyDamage(int damage);
+
+    void setHealth(int health);
+
+    int getHealth() const;
 
     int get_x();
 

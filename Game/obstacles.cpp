@@ -31,7 +31,7 @@ Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap
     fixturedef.restitution = OBSTACLE_RESTITUTION;
     gBody->SetAngularDamping(3);
     gBody->CreateFixture(&fixturedef);
-
+    //gBody->SetUserData((void*)"EvilGuy");
 
 
 
@@ -62,3 +62,22 @@ b2Body* Obstacles::get_body()
 {
     return gBody;
 }
+void Obstacles::applyDamage(int damage)
+{
+    // Apply damage to the enemy
+    setHealth(health - damage);
+}
+void Obstacles::setHealth(int h)
+{
+    health = h;
+    if (health <= 0) {
+        // Enemy destroyed
+       // emit enemyDestroyed();
+    }
+}
+
+int Obstacles::getHealth() const
+{
+    return health;
+}
+
