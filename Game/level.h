@@ -4,11 +4,13 @@
 #include "rocket.h"
 #include "enemy.h"
 #include <vector>
+#include <mainwindow.h>
+#include "obstacles.h"
 
-class Level
+class Level : public QObject
 {
 public:
-    Level(int levelNumber, int difficulty, int initialRocketCount);
+    Level();
 
     void initializeLevel(); // Initialize the level with enemies, rockets, etc.
     void update(); // Update the level (e.g., check for win/lose conditions)
@@ -24,11 +26,17 @@ public:
         // Add more enemy types as needed
     };
 
+
+
     // Functions for user actions during gameplay
     void launchRocket(RocketType rocketType);
     void pauseGame();
     void resumeGame();
     void increaseDifficulty();
+    void AddTower(qreal, qreal, qreal, qreal, int);
+    void AddEnemy(qreal, qreal, qreal, qreal, EnemyType);
+    void drawObstacles();
+    MainWindow* window;
 
 private:
     int levelNumber;
@@ -36,9 +44,9 @@ private:
     int score;
     int remainingRockets;
     int maxRocketCount;
+    b2Vec2 towerPosition;
 
     QVector<Rocket> rockets;
-    QVector<Rocket> enemies;
 
     int enemyHealth; // Health/damage threshold for enemies in this level
     bool gamePaused;
@@ -49,6 +57,10 @@ private:
     void updateScore(int points);
     void checkWinCondition();
     void checkLoseCondition();
+
+
+    QVector<Obstacles*> Towers;
+    QVector<Obstacles*> Enemies;
 };
 
 #endif // LEVEL_H

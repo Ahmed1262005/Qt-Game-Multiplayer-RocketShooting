@@ -16,7 +16,8 @@ SOURCES += \
     mainwindow.cpp \
     rocket.cpp \
     gameitem.cpp \
-    obstacles.cpp
+    obstacles.cpp \
+    startmenu.cpp
 
 
 HEADERS += \
@@ -26,9 +27,11 @@ HEADERS += \
     rocket.h \
     gameitem.h \
     obstacles.h \
+    startmenu.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    startmenu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -11,7 +11,7 @@ Enemy::Enemy(EnemyType type, b2World* world, const b2Vec2& position, QObject* pa
 
     updateTimer = new QTimer(this);
     connect(updateTimer, &QTimer::timeout, this, &Enemy::onTimerTimeout);
-    updateTimer->start(16); // Update every 16 milliseconds
+    updateTimer->start(3); // Update every 16 milliseconds
 }
 
 Enemy::~Enemy()
@@ -48,7 +48,7 @@ void Enemy::loadEnemyImage()
 
     switch (enemyType) {
         case BasicEnemy:
-            imagePath = ":/images/basic_enemy.png";
+            imagePath =":/Resources/Images/EvilGuy.png";
             break;
             // Add cases for other enemy types
 
