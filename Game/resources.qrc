@@ -32,6 +32,7 @@
         <file>Resources/Images/tower7.png</file>
         <file>Resources/Images/tower8.png</file>
         <file>Resources/Images/tower9.png</file>
+        <file>Resources/Images/StartMenuBackground.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

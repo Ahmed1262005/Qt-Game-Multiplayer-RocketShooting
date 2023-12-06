@@ -10,6 +10,7 @@
 #include <midmenu.h>
 
 
+
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent) {
     setFixedSize(800, 600);
@@ -22,9 +23,17 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png");
    // Replace with the actual path to your launcher image
-
+    //evilGuy = new Obstacles(775.0f,-10.0f,100.0f,100.0f,timer,QPixmap("://Resources/Images/EvilGuy.png"),world);
+    //evilGuy->get_body()->SetUserData((void*)"EvilGuy");
     // Initialize other variables and stuff
     drawPredictedCollision = true;
+    /*
+    for(auto i = enemies.begin(); i != enemies.end(); i++){
+        enemyCounter++;
+        (*i)->get_body()->SetUserData((void*)"EvilGuy");
+
+    }
+*/
 //    predictedCollisionPoint.SetZero();
     timer->singleShot(1000,[this](){world->SetContactListener(this);});
 
@@ -141,7 +150,7 @@ void MainWindow::createGround() {
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
 
-
+// delete this useless function
 void MainWindow::createDynamicBox(float x, float y) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -210,7 +219,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
             {
                 // Adjust the rendering to consider the vertical inversion
             renderer->drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
-            } 
+            }
     }
 
     // Draw the rocket trajectory
@@ -228,13 +237,21 @@ void MainWindow::paintEvent(QPaintEvent *event) {
         renderer->drawPixmap(rocketPosition.x - rocketPixmap.width() / 2, height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
 
     }
-
+    enemyCounter=0;
     for(auto i = towers.begin(); i != towers.end(); i++){
 
         towerPosition = (*i)->get_body()->GetPosition();
 
         renderer->drawPixmap(towerPosition.x-(*i)->get_pixmap().width()/2 , height() - towerPosition.y - (*i)->get_pixmap().height()/2, (*i)->get_pixmap());
     }
+    for(auto i = enemies.begin(); i != enemies.end(); i++){
+        //enemyCounter++;
+        //(*i)->get_body()->SetUserData((void*)"EvilGuy");
+        enemiesPosition = (*i)->get_body()->GetPosition();
+
+        renderer->drawPixmap(enemiesPosition.x-(*i)->get_pixmap().width()/2 , height() - enemiesPosition.y - (*i)->get_pixmap().height()/2, (*i)->get_pixmap());
+    }
+
 
     renderer->end();
 }
@@ -444,15 +461,16 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
         ((EvilGuy->GetUserData() == (void*)"Rocket" && Rocket->GetUserData() == (void*)"EvilGuy") ||
          (EvilGuy->GetUserData() == (void*)"EvilGuy" && Rocket->GetUserData() == (void*)"Rocket"));
 
-
+    qDebug() << (EvilGuy->GetUserData() == (void*)"EvilGuy");
     // Check if either fixture is associated with the EvilGuy
     //    bool EvilGuy = (EvilGuyF->GetBody()->GetUserData() == (void*)"EvilGuy");
     //    bool Rocket = (RocketF->GetBody()->GetUserData() == (void*)"Rocket");
 
     // Check if the contact involves EvilGuy
+
     b2Body* evilGuyBody = (EvilGuy->GetUserData() == (void*)"EvilGuy") ? EvilGuy : Rocket;
     if (isRocketEvilGuyCollision)
-    {
+    {    qDebug() << "Collision detected inside!";
         contactPoint->SetEnabled(false);
 
         b2World* world = evilGuyBody->GetWorld();
@@ -495,8 +513,7 @@ void MainWindow::setTowers(QVector<Obstacles*> Towers)
 {
     towers = Towers;
 }
-
-void MainWindow::get_level(Level* lvl)
+void MainWindow::setEnemies(QVector<Obstacles*>& e)
 {
-    this->lvl = lvl;
+    enemies = e;
 }

@@ -21,6 +21,8 @@ void Rocket::createRocketBody(const b2Vec2& position)
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position = position;
+    bodyDef.angularDamping=-100.f;
+    bodyDef.linearDamping=-100.f;
 
     gBody = world->CreateBody(&bodyDef);
 

@@ -121,6 +121,28 @@ void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype,
 
 }
 
+void Level::AddEnemy(qreal x, qreal y, qreal width, qreal height, EnemyType enemyType)
+{
+    switch (enemyType) {
+    case BasicEnemy :
+
+    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/EvilGuy.png"), window->world));
+    Enemies.back()->get_body()->SetUserData((void*)"EvilGuy");
+
+    break;
+
+    case ArmoredEnemy :
+
+    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world));
+    Enemies.back()->get_body()->SetUserData((void*)"EvilGuy");
+
+    break;
+
+    }
+
+    window->setEnemies(Enemies);
+
+}
 void Level::drawObstacles()
 {
 
