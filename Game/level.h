@@ -4,8 +4,9 @@
 #include "rocket.h"
 #include "enemy.h"
 #include <vector>
-#include <mainwindow.h>
 #include "obstacles.h"
+
+class MainWindow;
 
 class Level : public QObject
 {
@@ -33,10 +34,11 @@ public:
     void pauseGame();
     void resumeGame();
     void increaseDifficulty();
-    void AddTower(qreal, qreal, qreal, qreal,int);
+    void AddTower(qreal, qreal, qreal, qreal,int,qreal,qreal,qreal);
     void AddEnemy(qreal, qreal, qreal, qreal,int);
     void drawObstacles();
     MainWindow* window;
+    QVector<Obstacles*> get_towers();
 
 private:
     int levelNumber;

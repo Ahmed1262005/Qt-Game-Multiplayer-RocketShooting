@@ -2,6 +2,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "level.h"
 #include "obstacles.h"
 #include <QMainWindow>
 #include <QTimer>
@@ -11,6 +12,7 @@
 #include <Box2D/Box2D.h>
 #include <vector>
 
+class Level;
 
 class MainWindow : public QMainWindow , public b2ContactListener
 {
@@ -25,7 +27,8 @@ public:
     b2World *world;
     void paintEvent(QPaintEvent *event);
     QPainter* get_renderer() const;
-    void setTowers(QVector<Obstacles*>&);
+    void setTowers(QVector<Obstacles*>);
+    void get_level(Level*);
 
 protected:
 
@@ -84,9 +87,6 @@ private:
     b2MouseJoint* mouseJoint;
     b2Body* rocketBody;
     b2Vec2 dragStart;
-
-
-
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
     void drawRotatedPixmap(QPainter* painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
@@ -97,6 +97,7 @@ private:
     bool win = false;
     QVector<Obstacles*> towers;
 
+    Level* lvl;
 };
 
 class QueryCallback : public b2QueryCallback

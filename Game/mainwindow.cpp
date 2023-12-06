@@ -6,6 +6,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
+#include "level.h"
+#include <midmenu.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -176,37 +178,14 @@ void MainWindow::updateWorld() {
 
     if(counter==0)
     {
-        hide();
 
-        QGraphicsScene* scene = new QGraphicsScene;
+        MidMenu* midmenu = new MidMenu;
 
-        QGraphicsView* view = new QGraphicsView;
+        midmenu->get_window(this);
 
-        scene->setSceneRect(0, 0, 700, 600);
+        midmenu->get_level(lvl);
 
-        view->setFixedSize(700 , 600);
-
-        view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        view->setScene(scene);
-
-        QGraphicsTextItem* lose = new QGraphicsTextItem;
-
-        lose->setDefaultTextColor(Qt::red);
-
-        lose->setFont(QFont("Helvetica", 32));
-
-        lose->setPlainText("YOU LOSE :(");
-
-        lose->setPos(200,200);
-
-        scene->addItem(lose);
-
-        scene->setBackgroundBrush(QBrush(QPixmap("://Resources/Images/Level3.png")));
-
-        view->show();
+        midmenu->show();
 
         timer->start(500000);
 
@@ -236,6 +215,8 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     // Draw the rocket trajectory
     drawTrajectory(renderer);
+
+    renderer->drawText(100, 100, "Cannon Amunition:"+ QString::number(counter));
 
     // Draw the rocket
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
@@ -510,7 +491,12 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
 
 }
 
-void MainWindow::setTowers(QVector<Obstacles*>& Towers)
+void MainWindow::setTowers(QVector<Obstacles*> Towers)
 {
     towers = Towers;
+}
+
+void MainWindow::get_level(Level* lvl)
+{
+    this->lvl = lvl;
 }

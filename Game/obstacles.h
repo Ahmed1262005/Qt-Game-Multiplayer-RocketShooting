@@ -12,9 +12,9 @@
 
 
 
-#define OBSTACLE_DENSITY 10.0f
-#define OBSTACLE_FRICTION 0.2f
-#define OBSTACLE_RESTITUTION 0.5f
+#define OBSTACLE_DENSITY 0.1f
+#define OBSTACLE_FRICTION 0.1f
+#define OBSTACLE_RESTITUTION 50.0f
 
 
 class Obstacles : public GameItem
@@ -26,7 +26,7 @@ private:
     int y;
 
 public:
-    Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world);
+    Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world, qreal density, qreal friction, qreal restitution);
 
     QPixmap get_pixmap();
 

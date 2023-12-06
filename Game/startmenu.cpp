@@ -2,6 +2,7 @@
 #include "ui_startmenu.h"
 #include "level.h"
 #include "mainwindow.h"
+#include "level.h"
 
 StartMenu::StartMenu(QWidget *parent) :
     QDialog(parent),
@@ -23,9 +24,11 @@ void StartMenu::on_pushButtonlevel1_clicked()
 
     Level* lvl1 = new Level;
 
-    lvl1->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
+    lvl1->AddTower(600.0f,-10.0f,200.0f,500.0f,1,1.0f,1.0f,10.0f);
 
-    lvl1->drawObstacles();
+    lvl1->AddTower(900.0f,-10.f,200.0f,500.0f,2,1.0f,1.0f,10.0f);
+
+    lvl1->window->get_level(lvl1);
 
     lvl1->window->showFullScreen();
 

@@ -3,6 +3,7 @@
 #include "enemy.h"
 #include <iostream>
 #include <QTimer>
+#include "mainwindow.h"
 
 Level::Level()
 {
@@ -86,31 +87,31 @@ void Level::increaseDifficulty() {
 //    createInitialEnemies();
 }
 
-void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype)
+void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype, qreal density, qreal friction, qreal restitution)
 {
     switch (towertype) {
     case 1 :
 
-        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower1.png"), window->world));
+        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower1.png"), window->world, density, friction, restitution));
 
         break;
 
     case 2 :
 
-        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world));
+        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world, density, friction, restitution));
 
         break;
 
 
     case 3 :
 
-    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower3.png"), window->world));
+    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower3.png"), window->world, density, friction, restitution));
 
     break;
 
     case 4 :
 
-    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower4.png"), window->world));
+    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower4.png"), window->world, density, friction, restitution));
 
     break;
 
@@ -129,4 +130,9 @@ void Level::drawObstacles()
 
     window->update();
 
+}
+
+QVector<Obstacles*> Level::get_towers()
+{
+    return Towers;
 }

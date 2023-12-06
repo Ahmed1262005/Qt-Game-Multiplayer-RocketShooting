@@ -2,7 +2,6 @@
 #define STARTMENU_H
 
 #include <QDialog>
-#include "level.h"
 #include <QVector>
 #include <vector>
 
@@ -21,7 +20,7 @@ public:
 
     ~StartMenu();
 
-private slots:
+public slots:
     void on_pushButtonlevel1_clicked();
 
     void on_pushButtonlevel2_clicked();
@@ -45,7 +44,7 @@ private slots:
 private:
     Ui::StartMenu *ui;
 
-    QVector<Level*> levels;
+
 };
 
 #endif // STARTMENU_H
