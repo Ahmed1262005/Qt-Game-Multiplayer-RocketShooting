@@ -192,6 +192,8 @@ void MainWindow::updateWorld() {
 
         midmenu->get_window(this);
 
+        MusicPlayer->stop();
+
         midmenu->get_level(lvl);
 
         midmenu->show();
@@ -359,7 +361,7 @@ void MainWindow::createRocket(float x, float y) {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 4.0f;
+    fixtureDef.density = 3.0f;
     fixtureDef.friction = 100.3f;
 
     rocketBody->CreateFixture(&fixtureDef);
@@ -421,7 +423,30 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         updateRocketTrajectory();
     }
 }
+void MainWindow::setMusicPlayer(bool music)
+{
+    MusicPlayer=new QMediaPlayer;
 
+    Speaker= new QAudioOutput;
+
+    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
+
+    MusicPlayer->setAudioOutput(Speaker);
+
+    Speaker->setVolume(20);
+
+    MusicPlayer->setLoops(-1);
+
+
+    if(music)
+    {
+      MusicPlayer->play();
+    }
+    else
+    {
+     MusicPlayer->stop();
+    }
+}
 void MainWindow:: showBackground()
 {
     QPixmap background("://Resources/Images/Level1.webp");
@@ -430,19 +455,6 @@ void MainWindow:: showBackground()
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
 
-    QMediaPlayer* MusicPlayer = new QMediaPlayer;
-
-    QAudioOutput* Speaker = new QAudioOutput;
-
-    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
-
-    MusicPlayer->setAudioOutput(Speaker);
-
-    Speaker->setVolume(30);
-
-    MusicPlayer->setLoops(-1);
-
-    MusicPlayer->play();
 }
 
 void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?

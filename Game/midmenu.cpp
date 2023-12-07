@@ -8,6 +8,7 @@ MidMenu::MidMenu(QWidget *parent) :
     ui(new Ui::MidMenu)
 {
     ui->setupUi(this);
+    ui->labelBackground->setPixmap(QPixmap(":/Resources/Images/Level3.png"));
 
     setWindowFlags(Qt::Window
                    | Qt::WindowMinimizeButtonHint
@@ -24,6 +25,8 @@ void MidMenu::on_pushButtonexit_clicked()
     main ->hide();
 
     hide();
+
+    main->setMusicPlayer(false);
 
     start = new StartMenu;
 
@@ -42,6 +45,8 @@ void MidMenu::on_pushButtonretry_clicked()
 
     hide();
 
+    main->setMusicPlayer(false);
+
     StartMenu start;
 
     start.on_pushButtonlevel1_clicked();
@@ -51,3 +56,17 @@ void MidMenu::get_level(Level* level)
 {
     this->level = level;
 }
+
+void MidMenu::on_pushButtonNextLevel_clicked()
+{
+    main->hide();
+
+    main->setMusicPlayer(false);
+
+    hide();
+
+    StartMenu start;
+
+    start.on_pushButtonlevel2_clicked();
+}
+

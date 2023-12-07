@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPalette>
+#include <QMediaPlayer>
 #include <Box2D/Box2D.h>
 #include <vector>
 
@@ -27,6 +28,7 @@ public:
     b2World *world;
     void paintEvent(QPaintEvent *event);
     QPainter* get_renderer() const;
+    void setMusicPlayer(bool);
     void setTowers(QVector<Obstacles*>);
     void setEnemies(QVector<Obstacles*>);
 
@@ -48,6 +50,8 @@ private:
     b2Vec2 towerPosition;
     b2Vec2 enemiesPosition;
 
+    QMediaPlayer* MusicPlayer;
+    QAudioOutput* Speaker;
 
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {

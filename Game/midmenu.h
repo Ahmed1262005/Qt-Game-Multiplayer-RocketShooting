@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButtonretry_clicked();
 
+    void on_pushButtonNextLevel_clicked();
+
 private:
     Ui::MidMenu *ui;
 
