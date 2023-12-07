@@ -26,11 +26,9 @@ void StartMenu::on_pushButtonlevel1_clicked()
 
     Level* lvl1 = new Level;
 
-    lvl1->AddTower(600.0f,-10.0f,200.0f,500.0f,1,1.0f,1.0f,10.0f,10.0f,0.2f,0.2f);
+    lvl1->AddTower(1300.0f,-10.0f,200.0f,500.0f,1,1.0f,0.2f,50.0f);
 
-    lvl1->AddTower(1300.0f,-10.0f,200.0f,500.0f,1,10.0f,0.2f,0.2f);
-
-    lvl1->AddEnemy(1100.f, -10.f,100.f,100.f,BasicEnemy);
+    lvl1->AddEnemy(1100.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
 
     lvl1->drawObstacles();
 
@@ -42,7 +40,19 @@ void StartMenu::on_pushButtonlevel1_clicked()
 
 void StartMenu::on_pushButtonlevel2_clicked()
 {
+    hide();
 
+    Level* lvl2 = new Level;
+
+    lvl2->AddTower(600.0f,-10.0f,200.0f,500.0f,1,1.0f,0.2f,50.0f);
+
+    lvl2->AddTower(1300.0f,-10.0f,200.0f,500.0f,1,1.0f,0.2f,50.0f);
+
+    lvl2->AddEnemy(1100.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
+
+    lvl2->drawObstacles();
+
+    lvl2->window->showFullScreen();
 }
 
 

@@ -513,7 +513,7 @@ void MainWindow::setTowers(QVector<Obstacles*> Towers)
 {
     towers = Towers;
 }
-void MainWindow::setEnemies(QVector<Obstacles*>& e)
+void MainWindow::setEnemies(QVector<Obstacles*> e)
 {
     enemies = e;
 }

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QTimer>
 #include "mainwindow.h"
+#include "obstacles.h"
 
 Level::Level()
 {
@@ -121,19 +122,19 @@ void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype,
 
 }
 
-void Level::AddEnemy(qreal x, qreal y, qreal width, qreal height, EnemyType enemyType)
+void Level::AddEnemy(qreal x, qreal y, qreal width, qreal height, int enemyType, qreal density = 10.0f, qreal friction = 0.2f, qreal restitution = 0.2f)
 {
     switch (enemyType) {
-    case BasicEnemy :
+    case 1 :
 
-    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/EvilGuy.png"), window->world));
+    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/EvilGuy.png"), window->world, density, friction, restitution));
     Enemies.back()->get_body()->SetUserData((void*)"EvilGuy");
 
     break;
 
-    case ArmoredEnemy :
+    case 2 :
 
-    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world));
+    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world, density, friction, restitution));
     Enemies.back()->get_body()->SetUserData((void*)"EvilGuy");
 
     break;

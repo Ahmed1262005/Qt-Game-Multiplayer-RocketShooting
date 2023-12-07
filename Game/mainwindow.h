@@ -27,8 +27,8 @@ public:
     b2World *world;
     void paintEvent(QPaintEvent *event);
     QPainter* get_renderer() const;
-    void setTowers(QVector<Obstacles*>&);
-    void setEnemies(QVector<Obstacles*>&);
+    void setTowers(QVector<Obstacles*>);
+    void setEnemies(QVector<Obstacles*>);
 
 protected:
 

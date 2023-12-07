@@ -1,13 +1,17 @@
 #include "midmenu.h"
 #include "ui_midmenu.h"
 #include "mainwindow.h"
-#include "startmenu.h""
+#include "startmenu.h"
 
 MidMenu::MidMenu(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MidMenu)
 {
     ui->setupUi(this);
+
+    setWindowFlags(Qt::Window
+                   | Qt::WindowMinimizeButtonHint
+                   | Qt::WindowMaximizeButtonHint);
 }
 
 MidMenu::~MidMenu()
