@@ -2,12 +2,20 @@
 #include "rocket.h"
 #include "enemy.h"
 #include <iostream>
+#include <QTimer>
+#include "mainwindow.h"
+#include "obstacles.h"
 
-Level::Level(int levelNumber, int difficulty, int initialRocketCount)
-        : levelNumber(levelNumber), difficulty(difficulty), score(0),
-          remainingRockets(initialRocketCount), maxRocketCount(initialRocketCount * 2),
-          enemyHealth(50), gamePaused(false) {
+Level::Level()
+{
     initializeLevel();
+
+    window = new MainWindow;
+
+    window->setTowers(Towers);
+
+    connect(window->timer,&QTimer::timeout,this, &Level::drawObstacles);
+
 }
 
 void Level::initializeLevel() {
@@ -52,9 +60,9 @@ int Level::getRemainingRockets() const {
     return remainingRockets;
 }
 
-int Level::getRemainingEnemies() const {
-    return static_cast<int>(enemies.size());
-}
+//int Level::getRemainingEnemies() const {
+    //return static_cast<int>(enemies.size());
+//}
 
 int Level::getCurrentDifficulty() const {
     return difficulty;
@@ -78,4 +86,76 @@ void Level::resumeGame() {
 void Level::increaseDifficulty() {
     difficulty++;
 //    createInitialEnemies();
+}
+
+void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype, qreal density, qreal friction, qreal restitution)
+{
+    switch (towertype) {
+    case 1 :
+
+        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower1.png"), window->world, density, friction, restitution));
+
+        break;
+
+    case 2 :
+
+        Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world, density, friction, restitution));
+
+        break;
+
+
+    case 3 :
+
+    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower3.png"), window->world, density, friction, restitution));
+
+    break;
+
+    case 4 :
+
+    Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower4.png"), window->world, density, friction, restitution));
+
+    break;
+
+    }
+
+    window->setTowers(Towers);
+
+}
+
+void Level::AddEnemy(qreal x, qreal y, qreal width, qreal height, int enemyType, qreal density = 10.0f, qreal friction = 0.2f, qreal restitution = 0.2f)
+{
+    switch (enemyType) {
+    case 1 :
+
+    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/EvilGuy.png"), window->world, density, friction, restitution));
+    Enemies.back()->get_body()->SetUserData((void*)"EvilGuy");
+
+    break;
+
+    case 2 :
+
+    Enemies.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world, density, friction, restitution));
+    Enemies.back()->get_body()->SetUserData((void*)"EvilGuy");
+
+    break;
+
+    }
+
+    window->setEnemies(Enemies);
+
+}
+void Level::drawObstacles()
+{
+
+    //QPaintEvent* a = new QPaintEvent(QRect(0,0,1,1));
+
+    //window->paintEvent(a , Towers);
+
+    window->update();
+
+}
+
+QVector<Obstacles*> Level::get_towers()
+{
+    return Towers;
 }

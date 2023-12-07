@@ -15,21 +15,27 @@ SOURCES += \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
+    midmenu.cpp \
     rocket.cpp \
     gameitem.cpp \
-    obstacles.cpp
+    obstacles.cpp \
+    startmenu.cpp
 
 
 HEADERS += \
     enemy.h \
     level.h \
     mainwindow.h \
+    midmenu.h \
     rocket.h \
     gameitem.h \
     obstacles.h \
+    startmenu.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    midmenu.ui \
+    startmenu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
