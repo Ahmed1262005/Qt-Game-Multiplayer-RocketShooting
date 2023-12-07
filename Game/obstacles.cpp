@@ -4,7 +4,7 @@
 #include <QPainter>
 
 
-Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world) : GameItem(world)
+Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world, qreal density = 10.0f, qreal friction = 0.2f, qreal restitution = 0.2f) : GameItem(world)
 {
     g_pixmap.setPixmap(pixmap.scaled(width,height));
     g_pixmap.setTransformOriginPoint(g_pixmap.boundingRect().width() / 2,g_pixmap.boundingRect().height() / 2);
@@ -26,9 +26,9 @@ Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap
 
     b2FixtureDef fixturedef;
     fixturedef.shape = &bodyshape;
-    fixturedef.density = OBSTACLE_DENSITY;
-    fixturedef.friction = OBSTACLE_FRICTION;
-    fixturedef.restitution = OBSTACLE_RESTITUTION;
+    fixturedef.density = density;
+    fixturedef.friction = friction;
+    fixturedef.restitution = restitution;
     gBody->SetAngularDamping(3);
     gBody->CreateFixture(&fixturedef);
     //gBody->SetUserData((void*)"EvilGuy");

@@ -6,6 +6,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
+#include "level.h"
+#include <midmenu.h>
 
 
 
@@ -185,37 +187,16 @@ void MainWindow::updateWorld() {
 
     if(counter==0)
     {
-        hide();
 
-        QGraphicsScene* scene = new QGraphicsScene;
+        MidMenu* midmenu = new MidMenu;
 
-        QGraphicsView* view = new QGraphicsView;
+        midmenu->get_window(this);
 
-        scene->setSceneRect(0, 0, 700, 600);
+        MusicPlayer->stop();
 
-        view->setFixedSize(700 , 600);
+        midmenu->get_level(lvl);
 
-        view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        view->setScene(scene);
-
-        QGraphicsTextItem* lose = new QGraphicsTextItem;
-
-        lose->setDefaultTextColor(Qt::red);
-
-        lose->setFont(QFont("Helvetica", 32));
-
-        lose->setPlainText("YOU LOSE :(");
-
-        lose->setPos(200,200);
-
-        scene->addItem(lose);
-
-        scene->setBackgroundBrush(QBrush(QPixmap("://Resources/Images/Level3.png")));
-
-        view->show();
+        midmenu->show();
 
         timer->start(500000);
 
@@ -240,11 +221,13 @@ void MainWindow::paintEvent(QPaintEvent *event) {
             {
                 // Adjust the rendering to consider the vertical inversion
             renderer->drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
-            } 
+            }
     }
 
     // Draw the rocket trajectory
     drawTrajectory(renderer);
+
+    renderer->drawText(100, 100, "Cannon Amunition:"+ QString::number(counter));
 
     // Draw the rocket
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
@@ -378,7 +361,7 @@ void MainWindow::createRocket(float x, float y) {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 4.0f;
+    fixtureDef.density = 3.0f;
     fixtureDef.friction = 100.3f;
 
     rocketBody->CreateFixture(&fixtureDef);
@@ -440,7 +423,30 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         updateRocketTrajectory();
     }
 }
+void MainWindow::setMusicPlayer(bool music)
+{
+    MusicPlayer=new QMediaPlayer;
 
+    Speaker= new QAudioOutput;
+
+    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
+
+    MusicPlayer->setAudioOutput(Speaker);
+
+    Speaker->setVolume(20);
+
+    MusicPlayer->setLoops(-1);
+
+
+    if(music)
+    {
+      MusicPlayer->play();
+    }
+    else
+    {
+     MusicPlayer->stop();
+    }
+}
 void MainWindow:: showBackground()
 {
     QPixmap background("://Resources/Images/Level1.webp");
@@ -449,19 +455,6 @@ void MainWindow:: showBackground()
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
 
-    QMediaPlayer* MusicPlayer = new QMediaPlayer;
-
-    QAudioOutput* Speaker = new QAudioOutput;
-
-    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
-
-    MusicPlayer->setAudioOutput(Speaker);
-
-    Speaker->setVolume(30);
-
-    MusicPlayer->setLoops(-1);
-
-    MusicPlayer->play();
 }
 
 void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
@@ -528,12 +521,11 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
 
 }
 
-void MainWindow::setTowers(QVector<Obstacles*>& Towers)
+void MainWindow::setTowers(QVector<Obstacles*> Towers)
 {
     towers = Towers;
 }
-void MainWindow::setEnemies(QVector<Obstacles*>& e)
+void MainWindow::setEnemies(QVector<Obstacles*> e)
 {
     enemies = e;
 }
-

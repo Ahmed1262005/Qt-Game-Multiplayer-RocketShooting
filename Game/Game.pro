@@ -14,6 +14,7 @@ SOURCES += \
     level.cpp \
     main.cpp \
     mainwindow.cpp \
+    midmenu.cpp \
     rocket.cpp \
     gameitem.cpp \
     obstacles.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     enemy.h \
     level.h \
     mainwindow.h \
+    midmenu.h \
     rocket.h \
     gameitem.h \
     obstacles.h \
@@ -31,6 +33,7 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui \
+    midmenu.ui \
     startmenu.ui
 
 # Default rules for deployment.

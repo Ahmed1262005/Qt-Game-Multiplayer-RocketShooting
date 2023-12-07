@@ -2,15 +2,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "level.h"
 #include "obstacles.h"
 #include <QMainWindow>
 #include <QTimer>
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPalette>
+#include <QMediaPlayer>
 #include <Box2D/Box2D.h>
 #include <vector>
 
+class Level;
 
 class MainWindow : public QMainWindow , public b2ContactListener
 {
@@ -25,8 +28,9 @@ public:
     b2World *world;
     void paintEvent(QPaintEvent *event);
     QPainter* get_renderer() const;
-    void setTowers(QVector<Obstacles*>&);
-    void setEnemies(QVector<Obstacles*>&);
+    void setMusicPlayer(bool);
+    void setTowers(QVector<Obstacles*>);
+    void setEnemies(QVector<Obstacles*>);
 
 protected:
 
@@ -46,6 +50,8 @@ private:
     b2Vec2 towerPosition;
     b2Vec2 enemiesPosition;
 
+    QMediaPlayer* MusicPlayer;
+    QAudioOutput* Speaker;
 
     bool drawPredictedCollision;
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
@@ -86,9 +92,6 @@ private:
     b2MouseJoint* mouseJoint;
     b2Body* rocketBody;
     b2Vec2 dragStart;
-
-
-
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
     void drawRotatedPixmap(QPainter* painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
@@ -100,6 +103,7 @@ private:
     QVector<Obstacles*> towers;
     QVector<Obstacles*> enemies;
 
+    Level* lvl;
 };
 
 class QueryCallback : public b2QueryCallback
