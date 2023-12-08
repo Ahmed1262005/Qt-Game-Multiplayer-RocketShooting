@@ -21,7 +21,6 @@ Level::Level(int difficulty)
 }
 
 void Level::initializeLevel() {
-    std::cout << "Initializing Level " << levelNumber << " with difficulty " << difficulty << std::endl;
 }
 
 void Level::update() {
@@ -98,4 +97,9 @@ void Level::drawObstacles()
 QVector<Obstacles*> Level::get_towers()
 {
     return Towers;
+}
+
+int Level::getWinOffset() const
+{
+     return winOffset;
 }

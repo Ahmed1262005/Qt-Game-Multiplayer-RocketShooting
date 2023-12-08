@@ -49,6 +49,8 @@ private:
 
     MainWindow* main;
 
+    int winoffset;
+
 };
 
 #endif // MIDMENU_H
