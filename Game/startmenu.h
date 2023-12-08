@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QVector>
 #include <vector>
+#include "level.h"
 
 namespace Ui {
 class StartMenu;
@@ -15,9 +16,11 @@ class StartMenu : public QDialog
 
 public:
    explicit StartMenu(QWidget *parent = nullptr);
+    int currentLevel;
 
-
-
+    std::vector<Level*>& getLevels() { return levels; }
+    void generateLevels();
+    Level *getCurrentLevel();
     ~StartMenu();
 
 public slots:
@@ -42,6 +45,8 @@ public slots:
     void on_pushButtonlevel10_clicked();
 
 private:
+    std::vector<Level*> levels;
+
     Ui::StartMenu *ui;
 
 

@@ -17,11 +17,21 @@ class MidMenu : public QDialog
     Q_OBJECT
 
 public:
+
+    void setLevels(std::vector<Level*>& levels) { this->levels = levels; }
+    float score;
+    void setCurrentLevelIndex(int index) { this->currentLevelIndex = index; }
+    Level* getNextLevel();
+
     explicit MidMenu(QWidget *parent = nullptr);
     ~MidMenu();
     void get_window(MainWindow*);
 
     void get_level(Level*);
+    Level* level;
+    int currentLevelIndex;
+
+
 
 private slots:
     void on_pushButtonexit_clicked();
@@ -34,10 +44,10 @@ private:
     Ui::MidMenu *ui;
 
     StartMenu* start;
+    std::vector<Level*> levels;
 
     MainWindow* main;
 
-    Level* level;
 };
 
 #endif // MIDMENU_H

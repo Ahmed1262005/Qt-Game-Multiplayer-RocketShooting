@@ -23,6 +23,12 @@ MidMenu::~MidMenu()
     delete ui;
 }
 
+Level* MidMenu::getNextLevel() {
+    if (currentLevelIndex + 1 < levels.size()) {
+        return levels[++currentLevelIndex];
+    }
+    return nullptr; // or handle this case as you see fit
+}
 void MidMenu::on_pushButtonexit_clicked()
 {
     main ->hide();

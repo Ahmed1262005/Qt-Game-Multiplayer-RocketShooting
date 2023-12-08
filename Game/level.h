@@ -8,19 +8,22 @@
 
 class MainWindow;
 
-class Level : public QObject
-{
+class Level : public QObject {
 public:
-    Level();
+    Level(int difficulty);
 
     void initializeLevel(); // Initialize the level with enemies, rockets, etc.
     void update(); // Update the level (e.g., check for win/lose conditions)
 
     // Getters for various attributes
     int getScore() const;
+
     int getRemainingRockets() const;
+
     int getRemainingEnemies() const;
+
     int getCurrentDifficulty() const;
+
     enum RocketType {
         Qassam1,
         BasicRocket
@@ -28,17 +31,32 @@ public:
     };
 
 
-
     // Functions for user actions during gameplay
     void launchRocket(RocketType rocketType);
+
     void pauseGame();
+
     void resumeGame();
+
+    int getDifficulty() {
+        return difficulty;
+    };
+
+    int getWinOffset() const { return winOffset; }
+
+    int winOffset;
+
     void increaseDifficulty();
-    void AddTower(qreal, qreal, qreal, qreal,int,qreal,qreal,qreal);
-    void AddEnemy(qreal, qreal, qreal, qreal,int,qreal,qreal,qreal);
+
+    void AddTower(qreal, qreal, qreal, qreal, int, qreal a = 10.0f, qreal b = 10.0f, qreal c = 10.0f);
+
+    void AddEnemy(qreal, qreal, qreal, qreal, int, qreal a = 10.0f, qreal b = 10.0f, qreal c = 10.0f);
+
     void drawObstacles();
-    MainWindow* window;
-    QVector<Obstacles*> get_towers();
+
+    MainWindow *window;
+
+    QVector<Obstacles *> get_towers();
 
 private:
     int levelNumber;
@@ -55,14 +73,18 @@ private:
 
     // Helper functions for level initialization, scoring, etc.
     void createInitialRockets();
+
     void createInitialEnemies();
+
     void updateScore(int points);
+
     void checkWinCondition();
+
     void checkLoseCondition();
 
 
-    QVector<Obstacles*> Towers;
-    QVector<Obstacles*> Enemies;
+    QVector<Obstacles *> Towers;
+    QVector<Obstacles *> Enemies;
 };
 
 #endif // LEVEL_H

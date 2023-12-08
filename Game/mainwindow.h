@@ -12,6 +12,7 @@
 #include <QMediaPlayer>
 #include <Box2D/Box2D.h>
 #include <vector>
+//#include <level.h>
 
 class Level;
 
@@ -22,13 +23,23 @@ class MainWindow : public QMainWindow , public b2ContactListener
 public:
     MainWindow(QWidget *parent = nullptr);
     void showBackground();
-
     ~MainWindow();
+
+    int currentLevel;
+    void setCurrentLevel(int index) { currentLevel = index; } // Add this method
+//    void nextLevel() {
+//        if (currentLevel) {
+//            delete currentLevel;
+//        }
+//        currentLevel = new Level(currentLevel->getDifficulty() + 1);
+//    }
     QTimer *timer;
     b2World *world;
     void paintEvent(QPaintEvent *event);
     QPainter* get_renderer() const;
     void setMusicPlayer(bool);
+
+    float calculateScore();
     void setTowers(QVector<Obstacles*>);
     void setEnemies(QVector<Obstacles*>);
 

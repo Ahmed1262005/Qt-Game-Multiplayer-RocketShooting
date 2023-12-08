@@ -2,6 +2,8 @@
 #include <QGraphicsItem>
 #include <Box2D/Box2D.h>
 #include <QPainter>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 
 Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world, qreal density = 10.0f, qreal friction = 0.2f, qreal restitution = 0.2f) : GameItem(world)
@@ -66,6 +68,16 @@ void Obstacles::applyDamage(int damage)
 {
     // Apply damage to the enemy
     setHealth(health - damage);
+    if (health <= 0) {
+        // Obstacle destroyed
+        // Remove the obstacle's body from the Box2D world
+        gBody->GetWorld()->DestroyBody(gBody);
+
+        // Play the "buildfaileffect.mp3" sound effect
+        QMediaPlayer *player = new QMediaPlayer;
+        player->setMedia(QUrl("qrc:/Resources/Audio/buildfaileffect.mp3"));
+        player->play();
+    }
 }
 void Obstacles::setHealth(int h)
 {

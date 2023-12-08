@@ -4,12 +4,21 @@
 #include <QVector>
 #include <cmath>
 #include "startmenu.h"
+#include "websockethandler.h"
+
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     //MainWindow w;
     //w.showFullScreen();
+
+    // Create an instance of WebSocketHandler
+    WebSocketHandler webSocketHandler;
+
+    // Connect to the server
+    webSocketHandler.connectToServer("ws://lothgha.com:8585");  // Replace with your server address
+
 
     StartMenu s;
     s.showFullScreen();

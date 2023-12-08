@@ -2,221 +2,197 @@
 #include "ui_startmenu.h"
 #include "level.h"
 #include "mainwindow.h"
-#include "level.h"
 
 StartMenu::StartMenu(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::StartMenu)
-{
+        QDialog(parent),
+        ui(new Ui::StartMenu) {
     ui->setupUi(this);
     QPixmap background(":/Resources/Images/StartMenuBackground.png");
     //int w = ui->labelBackground->width();
     //int h = ui->labelBackground->height();
-    ui-> labelBackground -> setPixmap(background.scaled(1920, 1080));
+    ui->labelBackground->setPixmap(background.scaled(1920, 1080));
+    generateLevels();
+//    setWindowFlags(Qt::Window
+//                   | Qt::WindowMinimizeButtonHint
+//                   | Qt::WindowMaximizeButtonHint);
 }
-
-StartMenu::~StartMenu()
-{
+void StartMenu::generateLevels() {
+    for (int i = 1; i <= 10; ++i) {
+        Level* level = new Level(i);
+        switch(i) {
+            case 1:
+                // Configuration for level 1
+                level->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
+                level->AddEnemy(1100.f, -10.f,100.f,100.f,BasicEnemy);
+                break;
+            case 2:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 3:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 4:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 5:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 6:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 7:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 8:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 9:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            case 10:
+                // Configuration for level 2
+                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                break;
+            default:
+                // Default configuration for levels without a specific case
+                level->AddTower(600.0f * i,-10.0f * i,200.0f * i,500.0f * i,1);
+                level->AddEnemy(1100.f * i, -10.f * i,100.f * i,100.f * i,BasicEnemy);
+                break;
+        }
+        levels.push_back(level);
+    }
+}
+StartMenu::~StartMenu() {
     delete ui;
 }
 
-void StartMenu::on_pushButtonlevel1_clicked()
-{
+Level *StartMenu::getCurrentLevel() {
+    return levels[currentLevel];
+}
+
+void StartMenu::on_pushButtonlevel1_clicked() {
     hide();
 
-    Level* lvl1 = new Level;
-
-    lvl1->window->setMusicPlayer(true);
-
-    lvl1->AddTower(1300.0f,-10.0f,200.0f,500.0f,1,1.0f,0.2f,50.0f);
-
-    lvl1->AddEnemy(1100.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
+    currentLevel = 0;
+    Level *lvl1 = getCurrentLevel();
 
     lvl1->drawObstacles();
-
+    lvl1->window->setCurrentLevel(currentLevel);
     lvl1->window->showFullScreen();
 
 
 }
 
-
-void StartMenu::on_pushButtonlevel2_clicked()
-{
+void StartMenu::on_pushButtonlevel2_clicked() {
     hide();
 
-    Level* lvl2 = new Level;
+    currentLevel = 1;
+    Level *lvl1 = getCurrentLevel();
 
-    lvl2->AddTower(600.0f,-10.0f,200.0f,500.0f,1,1.0f,0.2f,50.0f);
-
-    lvl2->AddTower(1300.0f,-10.0f,200.0f,500.0f,1,1.0f,0.2f,50.0f);
-
-    lvl2->AddEnemy(1100.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl2->drawObstacles();
-
-    lvl2->window->setMusicPlayer(true);
-
-    lvl2->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
 
-void StartMenu::on_pushButtonlevel3_clicked()
-{
+// Repeat for the other levels
+void StartMenu::on_pushButtonlevel3_clicked() {
     hide();
 
-    Level* lvl3 = new Level;
+    currentLevel = 2;
+    Level *lvl1 = getCurrentLevel();
 
-    lvl3->AddTower(1600.0f,-10.0f,200.0f,400.0f,2,10.0f,10.f,0.2f);
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 
-    lvl3->AddTower(700.0f,-10.0f,200.0f,400.0f,1,10.0f,10.0f,0.2f);
-
-    lvl3->AddTower(1300.0f,-10.0f,200.0f,400.0f,2,10.0f,10.0f,0.2f);
-
-    lvl3->AddEnemy(1400.f, -10.f,100.f,100.f,1, 10.0f,10.0f,0.2f);
-
-    lvl3->drawObstacles();
-
-    lvl3->window->setMusicPlayer(true);
-
-    lvl3->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel4_clicked()
-{
+void StartMenu::on_pushButtonlevel4_clicked() {
     hide();
 
-    Level* lvl4 = new Level;
+    currentLevel = 3;
+    Level *lvl1 = getCurrentLevel();
 
-    lvl4->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl4->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl4->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl4->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl4->drawObstacles();
-
-    lvl4->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel5_clicked()
-{
+void StartMenu::on_pushButtonlevel5_clicked() {
     hide();
+    currentLevel = 4; // Pass the difficulty as a parameter
+    Level *lvl1 = getCurrentLevel();
 
-    Level* lvl5 = new Level;
-
-    lvl5->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl5->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl5->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl5->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl5->drawObstacles();
-
-    lvl5->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel6_clicked()
-{
+void StartMenu::on_pushButtonlevel6_clicked() {
     hide();
+    currentLevel = 5; // Pass the difficulty as a parameter
+    Level *lvl1 = getCurrentLevel();
 
-    Level* lvl6 = new Level;
-
-    lvl6->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl6->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl6->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl6->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl6->drawObstacles();
-
-    lvl6->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel7_clicked()
-{
+void StartMenu::on_pushButtonlevel7_clicked() {
     hide();
+    currentLevel = 6; // Pass the difficulty as a parameter
+    Level *lvl1 = getCurrentLevel();
 
-    Level* lvl7 = new Level;
-
-    lvl7->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl7->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl7->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl7->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl7->drawObstacles();
-
-    lvl7->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel8_clicked()
-{
+void StartMenu::on_pushButtonlevel8_clicked() {
     hide();
+    currentLevel = 7; // Pass the difficulty as a parameter
+    Level *lvl1 = getCurrentLevel();
 
-    Level* lvl8 = new Level;
-
-    lvl8->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl8->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl8->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl8->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl8->drawObstacles();
-
-    lvl8->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel9_clicked()
-{
+void StartMenu::on_pushButtonlevel9_clicked() {
     hide();
+    currentLevel = 8; // Pass the difficulty as a parameter
+    Level *lvl1 = getCurrentLevel();
 
-    Level* lvl9 = new Level;
-
-    lvl9->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl9->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl9->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl9->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl9->drawObstacles();
-
-    lvl9->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
 
-
-void StartMenu::on_pushButtonlevel10_clicked()
-{
+void StartMenu::on_pushButtonlevel10_clicked() {
     hide();
+    currentLevel = 9; // Pass the difficulty as a parameter
+    Level *lvl1 = getCurrentLevel();
 
-    Level* lvl10 = new Level;
-
-    lvl10->AddTower(400.0f,-10.0f,200.0f,400.0f,1,1.0f,0.2f,50.0f);
-
-    lvl10->AddEnemy(850.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl10->AddTower(1300.0f,-10.0f,200.0f,300.0f,1,1.0f,0.2f,50.0f);
-
-    lvl10->AddEnemy(1000.f, -10.f,100.f,100.f,1, 1.0f,0.2f,50.0f);
-
-    lvl10->drawObstacles();
-
-    lvl10->window->showFullScreen();
+    lvl1->drawObstacles();
+    lvl1->window->setCurrentLevel(currentLevel);
+    lvl1->window->showFullScreen();
 }
+

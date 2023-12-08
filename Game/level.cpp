@@ -6,8 +6,14 @@
 #include "mainwindow.h"
 #include "obstacles.h"
 
-Level::Level()
+Level::Level(int difficulty)
 {
+    int numEnemies = difficulty * 10; // Adjust as needed
+    float enemySpeed = difficulty * 1.0f; // Adjust as needed
+    // Add the enemies to the level
+//    for (int i = 0; i < numEnemies; ++i) {
+//        AddEnemy(1100.f, -enemySpeed, 100.f, 100.f, BasicEnemy);
+//    }
     initializeLevel();
 
     window = new MainWindow;
@@ -98,8 +104,16 @@ void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype,
         break;
 
     case 2 :
+    // Check if towertype is within the range 1 to 14
+    if(towertype < 1 || towertype > 14) {
+        std::cout << "Invalid tower type. It should be between 1 and 14." << std::endl;
+        return;
+    }
 
         Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower2.png"), window->world, density, friction, restitution));
+    // Construct the image path based on towertype
+    QString towerTypeString = QString::number(towertype);
+    QString image = ":/Resources/Images/tower" + towerTypeString + ".png";
 
         break;
 
@@ -117,9 +131,9 @@ void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype,
     break;
 
     }
+    Towers.push_back(new Obstacles(x, y, width, height, QPixmap(image), window->world));
 
     window->setTowers(Towers);
-
 }
 
 void Level::AddEnemy(qreal x, qreal y, qreal width, qreal height, int enemyType, qreal density = 10.0f, qreal friction = 0.2f, qreal restitution = 0.2f)

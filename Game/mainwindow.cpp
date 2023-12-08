@@ -7,8 +7,8 @@
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 #include "level.h"
+#include "startmenu.h"
 #include <midmenu.h>
-
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
     timer->start(3); // Update every 16 milliseconds
     launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png");
-   // Replace with the actual path to your launcher image
+    // Replace with the actual path to your launcher image
     //evilGuy = new Obstacles(775.0f,-10.0f,100.0f,100.0f,timer,QPixmap("://Resources/Images/EvilGuy.png"),world);
     //evilGuy->get_body()->SetUserData((void*)"EvilGuy");
     // Initialize other variables and stuff
@@ -35,24 +35,23 @@ MainWindow::MainWindow(QWidget *parent)
     }
 */
 //    predictedCollisionPoint.SetZero();
-    timer->singleShot(1000,[this](){world->SetContactListener(this);});
+    timer->singleShot(1000, [this]() { world->SetContactListener(this); });
 
 
 }
-void MainWindow::drawLauncher(QPainter* renderer, const b2Vec2 &position, float angle)
-{
+
+void MainWindow::drawLauncher(QPainter *renderer, const b2Vec2 &position, float angle) {
     // Draw rotated launcher pixmap
     drawRotatedPixmap(renderer, launcherPixmap, position, angle);
 }
 
-void MainWindow::drawRotatedPixmap(QPainter* renderer, const QPixmap &pixmap, const b2Vec2 &position, float angle)
-{
+void MainWindow::drawRotatedPixmap(QPainter *renderer, const QPixmap &pixmap, const b2Vec2 &position, float angle) {
     angle -= 13.39;
     renderer->save();
     renderer->translate(position.x, height() - position.y);
     renderer->rotate(-angle * 180 / M_PI);
     renderer->scale(1, 1);  // Mirror the pixmap horizontally
-    renderer->drawPixmap(-pixmap.width()/2 , -pixmap.height()/2 , pixmap);
+    renderer->drawPixmap(-pixmap.width() / 2, -pixmap.height() / 2, pixmap);
     renderer->restore();
 }
 
@@ -60,50 +59,50 @@ MainWindow::~MainWindow() {
     delete world;
 }
 
-void MainWindow::drawTrajectory(QPainter* renderer) {
+void MainWindow::drawTrajectory(QPainter *renderer) {
 
     renderer->setPen(QPen(Qt::black, 1, Qt::SolidLine));
     if (drawPredictedCollision) {
 
-    TrajectoryRayCastClosestCallback raycastCallback;
-    b2Vec2 lastTP = rocketPosition;
-    b2Vec2 top;
-    for (int i = 0; i < trajectoryPointsCount; ++i) {
-        b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
-        // Adjust the y-coordinate to consider the vertical inversion
-        QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
-        renderer->drawPoint(point);
-        if (i == trajectoryPointsCount/2-500) {
-            top = trajectoryPosition;
-        }
-        if (i > 0) {
-            // Perform a raycast check between successive points
-            world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
-            if (raycastCallback.m_hit) {
-                // Draw the predicted collision point only if drawPredictedCollision is true
-                QPointF collisionPoint(lastTP.x, height() - lastTP.y);
-                renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
-                renderer->drawPoint(collisionPoint);
-                // Calculate the angle of the launcher based on the trajectory
-
-                predictedCollisionPoint = raycastCallback.m_point;
-                // Calculate the angle of the launcher based on the trajectory
-
-                break;  // Exit the loop if a collision is detected
+        TrajectoryRayCastClosestCallback raycastCallback;
+        b2Vec2 lastTP = rocketPosition;
+        b2Vec2 top;
+        for (int i = 0; i < trajectoryPointsCount; ++i) {
+            b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
+            // Adjust the y-coordinate to consider the vertical inversion
+            QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
+            renderer->drawPoint(point);
+            if (i == trajectoryPointsCount / 2 - 700) {
+                top = trajectoryPosition;
             }
+            if (i > 0) {
+                // Perform a raycast check between successive points
+                world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
+                if (raycastCallback.m_hit) {
+                    // Draw the predicted collision point only if drawPredictedCollision is true
+                    QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+                    renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
+                    renderer->drawPoint(collisionPoint);
+                    // Calculate the angle of the launcher based on the trajectory
+
+                    predictedCollisionPoint = raycastCallback.m_point;
+                    // Calculate the angle of the launcher based on the trajectory
+
+                    break;  // Exit the loop if a collision is detected
+                }
+            }
+
+            lastTP = trajectoryPosition;
         }
+        float angle = atan2(top.y, top.x);
+        drawLauncher(renderer, b2Vec2(100.0f, 100.0f), angle);
 
-        lastTP = trajectoryPosition;
-    }
-    float angle = atan2(top.y,  top.x);
-    drawLauncher(renderer, b2Vec2(100.0f,100.0f), angle);
-
-    // Draw the predicted collision point outside the loop
-    if (drawPredictedCollision) {
-        QPointF collisionPoint(lastTP.x, height() - lastTP.y);
-        renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
-        renderer->drawPoint(collisionPoint);
-    }
+        // Draw the predicted collision point outside the loop
+        if (drawPredictedCollision) {
+            QPointF collisionPoint(lastTP.x, height() - lastTP.y);
+            renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
+            renderer->drawPoint(collisionPoint);
+        }
 
     }
 
@@ -169,6 +168,15 @@ void MainWindow::createDynamicBox(float x, float y) {
 
     body->CreateFixture(&fixtureDef);
 }
+float MainWindow::calculateScore() {
+    float totalRockets = (float)lvl->getWinOffset() + (float)lvl->getDifficulty(); // total rockets is win offset plus remaining rockets
+    float rocketsUsed = totalRockets - (float)counter; // rockets used is total rockets minus remaining rockets
+    float score = ((totalRockets - rocketsUsed + (float)lvl->getWinOffset()) ) / totalRockets * 100;
+    if (score > 100) {
+        score = 100; // Ensure score doesn't exceed 100
+    }
+    return score;
+}
 
 void MainWindow::updateWorld() {
 
@@ -185,16 +193,28 @@ void MainWindow::updateWorld() {
 
     }
 
-    if(counter==0)
-    {
+    if (counter == 0) {
 
-        MidMenu* midmenu = new MidMenu;
+        MidMenu *midmenu = new MidMenu;
+        StartMenu *start = new StartMenu;
+        std::vector<Level *> levels = start->getLevels();
+        midmenu->setLevels(levels);
 
         midmenu->get_window(this);
 
         MusicPlayer->stop();
+        midmenu->level = levels[currentLevel];
+        midmenu->currentLevelIndex = currentLevel;
 
-        midmenu->get_level(lvl);
+        float totalRockets = (float)lvl->getWinOffset() + (float)lvl->getDifficulty(); // total rockets is win offset plus remaining rockets
+        float rocketsUsed = totalRockets - (float)counter; // rockets used is total rockets minus remaining rockets
+        float score = ((totalRockets - rocketsUsed + (float)lvl->getWinOffset()) ) / totalRockets;
+        if (score > 100) {
+            score = 100; // Ensure score doesn't exceed 100
+        }
+        midmenu->score= score;
+
+        midmenu->get_level(midmenu->getNextLevel());
 
         midmenu->show();
 
@@ -209,7 +229,7 @@ void MainWindow::updateWorld() {
 void MainWindow::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
 
-   QPainter* renderer= new QPainter(this);
+    QPainter *renderer = new QPainter(this);
     renderer->setRenderHint(QPainter::Antialiasing, true);
 
     // Draw Box2D objects here
@@ -217,17 +237,16 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     // Example: Draw dynamic boxes
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
         b2Vec2 position = body->GetPosition();
-        if(body->GetFixtureList()->GetDensity() == 1.0f)
-            {
-                // Adjust the rendering to consider the vertical inversion
+        if (body->GetFixtureList()->GetDensity() == 1.0f) {
+            // Adjust the rendering to consider the vertical inversion
             renderer->drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
-            }
+        }
     }
 
     // Draw the rocket trajectory
     drawTrajectory(renderer);
 
-    renderer->drawText(100, 100, "Cannon Amunition:"+ QString::number(counter));
+    renderer->drawText(100, 100, "Cannon Amunition:" + QString::number(counter));
 
     // Draw the rocket
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
@@ -236,22 +255,32 @@ void MainWindow::paintEvent(QPaintEvent *event) {
         b2Vec2 rocketPosition = rocketBody->GetPosition();
         // Adjust the rendering to consider the vertical inversion
 //        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
-        renderer->drawPixmap(rocketPosition.x - rocketPixmap.width() / 2, height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
+        renderer->drawPixmap(rocketPosition.x - rocketPixmap.width() / 2,
+                             height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
 
     }
-    enemyCounter=0;
-    for(auto i = towers.begin(); i != towers.end(); i++){
+    enemyCounter = 0;
+
+    for (auto i = towers.begin(); i != towers.end(); i++) {
+        if ((*i)->getHealth() < 20) { // If health is below 20
+            QPixmap crackPixmap("://Resources/Images/crack.png"); // Load the crack image
+            // Draw the crack image on top of the obstacle
+            renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
+                                 height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
+        }
 
         towerPosition = (*i)->get_body()->GetPosition();
 
-        renderer->drawPixmap(towerPosition.x-(*i)->get_pixmap().width()/2 , height() - towerPosition.y - (*i)->get_pixmap().height()/2, (*i)->get_pixmap());
+        renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
+                             height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
     }
-    for(auto i = enemies.begin(); i != enemies.end(); i++){
+    for (auto i = enemies.begin(); i != enemies.end(); i++) {
         //enemyCounter++;
         //(*i)->get_body()->SetUserData((void*)"EvilGuy");
         enemiesPosition = (*i)->get_body()->GetPosition();
 
-        renderer->drawPixmap(enemiesPosition.x-(*i)->get_pixmap().width()/2 , height() - enemiesPosition.y - (*i)->get_pixmap().height()/2, (*i)->get_pixmap());
+        renderer->drawPixmap(enemiesPosition.x - (*i)->get_pixmap().width() / 2,
+                             height() - enemiesPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
     }
 
 
@@ -259,7 +288,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Space) {
+    if (event->key() == Qt::Key_Space && drawPredictedCollision) {
 //        createDynamicBox(100, 100);
 
         // Launch the rocket
@@ -290,7 +319,7 @@ void MainWindow::launchRocket(float desiredHeight) {
         b2Vec2 Velocity = calculateRocketVelocityForHeight(desiredHeight);
 
         rocketBody->ApplyLinearImpulse(impulse, rocketBody->GetWorldCenter(), true);
-        rocketBody->SetLinearVelocity( rocketBody->GetWorldVector( b2Vec2(rocketVelocity) ) );
+        rocketBody->SetLinearVelocity(rocketBody->GetWorldVector(b2Vec2(rocketVelocity)));
 
         qDebug() << "Rocket Initial Velocity: (" << rocketVelocity.x << ", " << rocketVelocity.y << ")";
         qDebug() << "Applied Impulse: (" << impulse.x << ", " << impulse.y << ")";
@@ -369,7 +398,7 @@ void MainWindow::createRocket(float x, float y) {
     // Set the rocket's initial position and velocity
     rocketPosition = rocketBody->GetPosition();
     rocketVelocity.Set(0.0f, 0.0f); // Set initial rocket velocity (adjust values as needed)
-    rocketBody->SetUserData((void*)"Rocket");
+    rocketBody->SetUserData((void *) "Rocket");
 }
 
 void MainWindow::createTarget(float x, float y) {
@@ -409,25 +438,23 @@ void MainWindow::createThrowableObject(float x, float y) {
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-    if (mouseJoint) {
-        // Adjust the rocket's position and velocity based on the mouse position
+    // Adjust the rocket's position and velocity based on the mouse position
 //        setMouseTracking(true);
-        b2Vec2 mousePos(event->pos().x(), event->pos().y());
-        rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-        rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 110.0f)); // Adjust as needed
+    b2Vec2 mousePos(event->pos().x(), event->pos().y());
+    rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
+    rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 110.0f)); // Adjust as needed
 
-        // You can print the rocket's position for debugging
-        qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
+    // You can print the rocket's position for debugging
+    qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
 
-        // Redraw the trajectory based on the updated rocket position and velocity
-        updateRocketTrajectory();
-    }
+    // Redraw the trajectory based on the updated rocket position and velocity
+    updateRocketTrajectory();
 }
-void MainWindow::setMusicPlayer(bool music)
-{
-    MusicPlayer=new QMediaPlayer;
 
-    Speaker= new QAudioOutput;
+void MainWindow::setMusicPlayer(bool music) {
+    MusicPlayer = new QMediaPlayer;
+
+    Speaker = new QAudioOutput;
 
     MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
 
@@ -438,66 +465,65 @@ void MainWindow::setMusicPlayer(bool music)
     MusicPlayer->setLoops(-1);
 
 
-    if(music)
-    {
-      MusicPlayer->play();
-    }
-    else
-    {
-     MusicPlayer->stop();
+    if (music) {
+        MusicPlayer->play();
+    } else {
+        MusicPlayer->stop();
     }
 }
-void MainWindow:: showBackground()
-{
+
+void MainWindow::showBackground() {
     QPixmap background("://Resources/Images/Level1.webp");
-    background =background.scaled(1920,1080, Qt::IgnoreAspectRatio);
+    background = background.scaled(1920, 1080, Qt::IgnoreAspectRatio);
     QPalette pal;
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
 
 }
 
-void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
+void MainWindow::BeginContact(
+        b2Contact *contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
 {//SetUserData and GetUserData are in body class:
     //we set a name to a body
 
-    qDebug() << "Collision detected!";
+    b2Fixture *EvilGuyF = contactPoint->GetFixtureA();
+    b2Fixture *RocketF = contactPoint->GetFixtureB();
 
-    b2Fixture* EvilGuyF = contactPoint->GetFixtureA();
-    b2Fixture* RocketF = contactPoint->GetFixtureB();
+    b2Body *EvilGuy = EvilGuyF->GetBody();
+    b2Body *Rocket = RocketF->GetBody();
+    if (EvilGuy->GetUserData() && Rocket->GetUserData()) {
 
-    b2Body* EvilGuy = EvilGuyF->GetBody();
-    b2Body* Rocket = RocketF->GetBody();
-
+        qDebug() << "Collision detected!";
+    }
     bool isRocketEvilGuyCollision =
-        ((EvilGuy->GetUserData() == (void*)"Rocket" && Rocket->GetUserData() == (void*)"EvilGuy") ||
-         (EvilGuy->GetUserData() == (void*)"EvilGuy" && Rocket->GetUserData() == (void*)"Rocket"));
+            ((EvilGuy->GetUserData() == (void *) "Rocket" && Rocket->GetUserData() == (void *) "EvilGuy") ||
+             (EvilGuy->GetUserData() == (void *) "EvilGuy" && Rocket->GetUserData() == (void *) "Rocket"));
 
-    qDebug() << (EvilGuy->GetUserData() == (void*)"EvilGuy");
+    qDebug() << (EvilGuy->GetUserData() == (void *) "EvilGuy");
     // Check if either fixture is associated with the EvilGuy
     //    bool EvilGuy = (EvilGuyF->GetBody()->GetUserData() == (void*)"EvilGuy");
     //    bool Rocket = (RocketF->GetBody()->GetUserData() == (void*)"Rocket");
 
     // Check if the contact involves EvilGuy
 
-    b2Body* evilGuyBody = (EvilGuy->GetUserData() == (void*)"EvilGuy") ? EvilGuy : Rocket;
-    if (isRocketEvilGuyCollision)
-    {    qDebug() << "Collision detected inside!";
+    b2Body *evilGuyBody = (EvilGuy->GetUserData() == (void *) "EvilGuy") ? EvilGuy : Rocket;
+    if (isRocketEvilGuyCollision) {
+        qDebug() << "Collision detected inside!";
         contactPoint->SetEnabled(false);
 
-        b2World* world = evilGuyBody->GetWorld();
+        b2World *world = evilGuyBody->GetWorld();
 
         timer->start(500000);
 
         hide();
 
-        QGraphicsScene* scene = new QGraphicsScene;
+        QGraphicsScene *scene = new QGraphicsScene;
 
-        QGraphicsView* view = new QGraphicsView;
+        QGraphicsView *view = new QGraphicsView;
 
         scene->setSceneRect(0, 0, 700, 600);
 
-        view->setFixedSize(700 , 600);
+        view->setFixedSize(700, 600);
 
         view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -505,10 +531,36 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
 
         view->setScene(scene);
 
-        scene->setBackgroundBrush(QBrush(QPixmap("://Resources/Images/victory.jpg").scaled(700,600)));
+        scene->setBackgroundBrush(QBrush(QPixmap("://Resources/Images/victory.jpg").scaled(700, 600)));
 
         view->show();
 
+    }
+    b2Fixture *fixtureA = contactPoint->GetFixtureA();
+    b2Fixture *fixtureB = contactPoint->GetFixtureB();
+
+    // Check if either fixture is associated with a tower
+    bool isTowerA = (fixtureA->GetBody()->GetUserData() == (void*)"Tower");
+    bool isTowerB = (fixtureB->GetBody()->GetUserData() == (void*)"Tower");
+
+    // Check if the contact involves a tower
+    if (isTowerA || isTowerB) {
+        // Get the tower body
+        b2Body *towerBody = isTowerA ? fixtureA->GetBody() : fixtureB->GetBody();
+
+        // Find the corresponding tower object in the towers vector
+        for (auto it = towers.begin(); it != towers.end(); ++it) {
+            if ((*it)->get_body() == towerBody) {
+                // Decrease the health of the tower
+                (*it)->applyDamage(80); // Adjust the damage value as needed
+
+                if ((*it)->getHealth() <= 0) {
+                    // If the tower's health is zero or less, remove it from the towers vector
+                    towers.erase(it);
+                }
+
+                break;
+            }
         }
 
 
@@ -521,11 +573,10 @@ void MainWindow:: BeginContact(b2Contact * contactPoint) //cp will tell you whic
 
 }
 
-void MainWindow::setTowers(QVector<Obstacles*> Towers)
-{
+void MainWindow::setTowers(QVector<Obstacles *> Towers) {
     towers = Towers;
 }
-void MainWindow::setEnemies(QVector<Obstacles*> e)
-{
+
+void MainWindow::setEnemies(QVector<Obstacles *> e) {
     enemies = e;
 }

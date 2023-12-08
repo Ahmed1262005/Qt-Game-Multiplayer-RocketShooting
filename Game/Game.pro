@@ -1,5 +1,4 @@
-QT       += core gui
-
+QT       += core gui websockets multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -15,8 +14,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     midmenu.cpp \
+    multiplayermainwindow.cpp \
     rocket.cpp \
     gameitem.cpp \
+    messageprocesshandler.cpp \
+    websockethandler.cpp \
     obstacles.cpp \
     startmenu.cpp
 
@@ -26,14 +28,18 @@ HEADERS += \
     level.h \
     mainwindow.h \
     midmenu.h \
+    multiplayermainwindow.h \
     rocket.h \
     gameitem.h \
+    messageprocesshandler.h \
+    websockethandler.h \
     obstacles.h \
     startmenu.h
 
 FORMS += \
     mainwindow.ui \
     midmenu.ui \
+    multiplayermainwindow.ui \
     startmenu.ui
 
 # Default rules for deployment.
