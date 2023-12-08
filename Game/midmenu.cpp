@@ -9,6 +9,9 @@ MidMenu::MidMenu(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->labelBackground->setPixmap(QPixmap(":/Resources/Images/Level3.png"));
+    ui->labelBlackStars->setPixmap(QPixmap(":/Resources/Images/blackStars.png"));
+    ui->labelColoredStars->setPixmap(QPixmap(":/Resources/Images/coloredStars.png"));
+
 
     setWindowFlags(Qt::Window
                    | Qt::WindowMinimizeButtonHint

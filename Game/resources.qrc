@@ -18,6 +18,10 @@
         <file>Resources/Images/Level3.png</file>
         <file>Resources/Images/victory.jpg</file>
         <file>Resources/Images/RoundShot.png</file>
+        <file>Resources/Images/blackStars.png</file>
+        <file>Resources/Images/coloredStars.png</file>
+        <file>Resources/Images/lobbyBackground2jpg.jpg</file>
+        <file>Resources/Images/wallpaper lobby.jpg</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>
