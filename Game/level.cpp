@@ -21,7 +21,6 @@ Level::Level(int difficulty)
 }
 
 void Level::initializeLevel() {
-    std::cout << "Initializing Level " << levelNumber << " with difficulty " << difficulty << std::endl;
 }
 
 void Level::update() {

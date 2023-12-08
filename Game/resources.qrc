@@ -21,6 +21,12 @@
         <file>Resources/Images/coloredStars.png</file>
         <file>Resources/Images/lobbyBackground2jpg.jpg</file>
         <file>Resources/Images/wallpaper lobby.jpg</file>
+        <file>Resources/Audio/Main_Menu_Song(COD Mobile Season 9) .mp3</file>
+        <file>Resources/Images/crack.png</file>
+        <file>Resources/Images/Level1.png</file>
+        <file>Resources/Images/Level2.jpg</file>
+        <file>Resources/Images/StartMenuBackground.png</file>
+        <file>Resources/Images/tower1.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

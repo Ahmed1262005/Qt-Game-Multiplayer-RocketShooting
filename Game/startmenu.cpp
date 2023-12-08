@@ -22,7 +22,7 @@ void StartMenu::generateLevels() {
         switch (i) {
             case 1:
                 // Configuration for level 1
-                level->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
+                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1100.f, -10.f,100.f,100.f,BasicEnemy);
                 break;
             case 2:
