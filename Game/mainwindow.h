@@ -62,7 +62,7 @@ protected:
 public slots:
         void updateWorld();
 
-private:
+protected:
     void drawTrajectory(QPainter* painter);
     b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
     void drawLauncher(QPainter* painter, const b2Vec2 &position, float angle);

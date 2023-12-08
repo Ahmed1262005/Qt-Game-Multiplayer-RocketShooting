@@ -12,7 +12,7 @@ MidMenu::MidMenu(QWidget *parent) :
     ui->labelBlackStars->setPixmap(QPixmap(":/Resources/Images/blackStars.png"));
     ui->labelColoredStars->setPixmap(QPixmap(":/Resources/Images/coloredStars.png"));
 
-
+    showScore();
     setWindowFlags(Qt::Window
                    | Qt::WindowMinimizeButtonHint
                    | Qt::WindowMaximizeButtonHint);
@@ -41,6 +41,29 @@ void MidMenu::on_pushButtonexit_clicked()
 
     start->showFullScreen();
 
+}
+void MidMenu::showScore() {
+    if (score == 0) {
+        ui->labelYouLose->setText("You Lose");
+        ui->pushButtonNextLevel->setVisible(false);
+    } else {
+        ui->labelYouLose->setText("You Win");
+//        ui->pushButtonretry->setVisible(false);
+
+        // Set the width of the stars image to the score
+
+
+        // Calculate the width of the stars image based on the score
+        int totalWidth = ui->labelBlackStars->width();
+        int starsWidth = static_cast<int>(score / 100.0 * totalWidth); // Adjust this calculation as needed
+
+        // Clip the colored stars image
+        QPixmap coloredStarsPixmap(":/Resources/Images/coloredStars.png");
+        QPixmap clippedPixmap = coloredStarsPixmap.copy(0, 0, starsWidth, coloredStarsPixmap.height());
+
+        // Set the clipped image to the label
+        ui->labelColoredStars->setPixmap(clippedPixmap);
+    }
 }
 
 void MidMenu::get_window(MainWindow* main)
