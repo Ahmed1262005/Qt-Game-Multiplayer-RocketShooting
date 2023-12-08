@@ -48,9 +48,12 @@ public:
 
     void increaseDifficulty();
 
-    void AddTower(qreal, qreal, qreal, qreal, int, qreal a = 10.0f, qreal b = 10.0f, qreal c = 10.0f);
+    void
+    AddTower(qreal, qreal, qreal, qreal, int, qreal density = 10.0f, qreal friction = 0.2f, qreal restitution = 0.2f);
 
-    void AddEnemy(qreal, qreal, qreal, qreal, int, qreal a = 10.0f, qreal b = 10.0f, qreal c = 10.0f);
+    void
+    AddEnemy(qreal x, qreal y, qreal width, qreal height, int enemyType, qreal density = 10.0f, qreal friction = 0.2f,
+             qreal restitution = 0.2f);
 
     void drawObstacles();
 

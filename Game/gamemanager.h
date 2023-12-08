@@ -4,15 +4,18 @@
 #include <QObject>
 #include <QMap>
 #include "messageprocesshandler.h"
+#include <Box2D/Box2D.h>
+
 
 class GameManager : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
     Q_PROPERTY(QString roomLobbyCode READ roomLobbyCode WRITE setRoomLobbyCode NOTIFY roomLobbyCodeChanged)
     Q_PROPERTY(QStringList clientsInLobby READ clientsInLobby WRITE setClientsInLobby NOTIFY clientsInLobbyChanged)
 
 public:
     explicit GameManager(QObject *parent = nullptr);
+
     ~GameManager();
     QString roomLobbyCode();
     QStringList clientsInLobby();
@@ -22,6 +25,8 @@ public:
     Q_INVOKABLE void createGameRequest();
     Q_INVOKABLE void joinLobbyRequest( QString lobbyID );
     Q_INVOKABLE void sendMessageToLobby( QString message );
+    Q_INVOKABLE void sendRocketLaunchMessage(const b2Vec2 &position, const b2Vec2 &direction); // Add this method
+
 
 public slots:
     void setRoomLobbyCode( QString lobbyCode );
@@ -33,6 +38,7 @@ public slots:
     void lobbyJoined( QString lobbyID, QStringList clients );
 
 signals:
+    void rocketLaunchMessageReceived(const b2Vec2 &position, const b2Vec2 &direction); // Add this signal
     void roomLobbyCodeChanged();
     void clientsInLobbyChanged();
     void newMessageReadyToSend( QString message );

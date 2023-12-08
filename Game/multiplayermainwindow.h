@@ -19,7 +19,11 @@ public:
     void createMultiplayerGame();
     void joinMultiplayerGame(QString gameID);
     void sendMultiplayerMessage(QString message);
+    void launchOpponentRocket(const b2Vec2 &position, const b2Vec2 &direction); // Add this method
 
+
+protected:
+    void updateWorld() ; // Override the updateWorld
 private:
     GameManager *gameManager; // Add a GameManager instance for handling multiplayer game logic
 };

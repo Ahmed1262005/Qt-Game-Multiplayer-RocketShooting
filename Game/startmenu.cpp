@@ -19,7 +19,7 @@ StartMenu::StartMenu(QWidget *parent) :
 void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {
         Level* level = new Level(i);
-        switch(i) {
+        switch (i) {
             case 1:
                 // Configuration for level 1
                 level->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
@@ -27,22 +27,22 @@ void StartMenu::generateLevels() {
                 break;
             case 2:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddTower(700.0f,-20.0f,302.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 3:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddTower(700.0f,-20.0f,330.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 4:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddTower(700.0f,-20.0f,340.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 5:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddTower(700.0f,-20.0f,310.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 6:
@@ -52,23 +52,23 @@ void StartMenu::generateLevels() {
                 break;
             case 7:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddTower(700.0f,-20.0f,320.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 8:
                 // Configuration for level 2
                 level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddEnemy(1200.f, -20.f,203.f,200.f,ArmoredEnemy);
                 break;
             case 9:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
+                level->AddTower(700.0f,-20.0f,354.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 10:
                 // Configuration for level 2
                 level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddEnemy(1200.f, -20.f,220.f,200.f,ArmoredEnemy);
                 break;
             default:
                 // Default configuration for levels without a specific case

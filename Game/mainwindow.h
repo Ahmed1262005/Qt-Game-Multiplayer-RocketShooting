@@ -21,6 +21,14 @@ class MainWindow : public QMainWindow , public b2ContactListener
     Q_OBJECT
 
 public:
+    void createRocket(float x, float y);
+    b2Body *groundBody;
+    b2Body* throwableObject;
+    b2MouseJoint* mouseJoint;
+    b2Body* rocketBody;
+    b2Vec2 dragStart;
+    QPixmap launcherPixmap;
+    QPixmap rocketPixmap;
     MainWindow(QWidget *parent = nullptr);
     void showBackground();
     ~MainWindow();
@@ -51,7 +59,7 @@ protected:
     //void mouseReleaseEvent(QMouseEvent*);
 
 
-private slots:
+public slots:
         void updateWorld();
 
 private:
@@ -94,17 +102,10 @@ private:
     void createGround();
     void launchRocket(float desiredHeight);
     void updateRocketTrajectory();
-    void createRocket(float x, float y);
     void createTarget(float x, float y);
     void createDynamicBox(float x, float y);
     void createThrowableObject(float x, float y);
-    b2Body *groundBody;
-    b2Body* throwableObject;
-    b2MouseJoint* mouseJoint;
-    b2Body* rocketBody;
-    b2Vec2 dragStart;
-    QPixmap launcherPixmap;
-    QPixmap rocketPixmap;
+
     void drawRotatedPixmap(QPainter* painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
     Obstacles* evilGuy;
     void BeginContact(b2Contact * contact);

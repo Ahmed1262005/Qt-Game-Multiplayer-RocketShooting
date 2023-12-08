@@ -1,7 +1,8 @@
 #include "gamemanager.h"
 #include <QFile>
 #include <QDir>
-
+#include <Box2D/Box2D.h>
+#include <QJsonDocument>
 #include <QDebug>
 
 GameManager::GameManager(QObject *parent)
@@ -46,6 +47,16 @@ void GameManager::createGameRequest()
         emit newMessageReadyToSend( "type:createGame;payLoad:0;sender:" + m_clientID );
     }
 }
+void GameManager::sendRocketLaunchMessage(const b2Vec2 &position, const b2Vec2 &direction)
+{
+    // Convert the position and direction to a string format
+    QString message = QString("type:rocketLaunch;position:%1,%2;direction:%3,%4")
+            .arg(position.x).arg(position.y).arg(direction.x).arg(direction.y);
+
+    // Send the message to the server
+    emit newMessageReadyToSend(message);
+}
+
 
 void GameManager::joinLobbyRequest(QString lobbyID)
 {

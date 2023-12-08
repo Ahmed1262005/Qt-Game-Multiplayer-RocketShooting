@@ -19,6 +19,7 @@ SOURCES += \
     gameitem.cpp \
     messageprocesshandler.cpp \
     websockethandler.cpp \
+    gamemanager.cpp \
     obstacles.cpp \
     startmenu.cpp
 
@@ -33,6 +34,7 @@ HEADERS += \
     gameitem.h \
     messageprocesshandler.h \
     websockethandler.h \
+    gamemanager.h \
     obstacles.h \
     startmenu.h
 

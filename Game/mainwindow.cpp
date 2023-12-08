@@ -481,6 +481,14 @@ void MainWindow::showBackground() {
 
 }
 
+void MainWindow::setTowers(QVector<Obstacles *> Towers) {
+    towers = Towers;
+}
+
+void MainWindow::setEnemies(QVector<Obstacles *> e) {
+    enemies = e;
+}
+
 void MainWindow::BeginContact(
         b2Contact *contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
 {//SetUserData and GetUserData are in body class:
@@ -572,11 +580,4 @@ void MainWindow::BeginContact(
 
 
 }
-
-void MainWindow::setTowers(QVector<Obstacles *> Towers) {
-    towers = Towers;
-}
-
-void MainWindow::setEnemies(QVector<Obstacles *> e) {
-    enemies = e;
 }
