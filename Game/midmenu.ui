@@ -125,6 +125,25 @@
     <string>ColoredStars</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelYouWin">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>30</y>
+     <width>271</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>24</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#55ff00;&quot;&gt;You Win&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
   <zorder>labelBackground</zorder>
   <zorder>pushButtonretry</zorder>
   <zorder>pushButtonexit</zorder>
@@ -132,6 +151,7 @@
   <zorder>labelYouLose</zorder>
   <zorder>labelBlackStars</zorder>
   <zorder>labelColoredStars</zorder>
+  <zorder>labelYouWin</zorder>
  </widget>
  <resources/>
  <connections/>

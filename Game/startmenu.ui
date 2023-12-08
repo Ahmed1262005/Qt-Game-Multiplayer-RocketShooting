@@ -16,11 +16,17 @@
   <widget class="QPushButton" name="pushButtonlevel1">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>60</y>
-     <width>80</width>
-     <height>24</height>
+     <x>760</x>
+     <y>440</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 1</string>
@@ -29,11 +35,17 @@
   <widget class="QPushButton" name="pushButtonlevel2">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>60</y>
-     <width>80</width>
-     <height>24</height>
+     <x>890</x>
+     <y>440</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 2</string>
@@ -42,11 +54,17 @@
   <widget class="QPushButton" name="pushButtonlevel3">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>100</y>
-     <width>80</width>
-     <height>24</height>
+     <x>760</x>
+     <y>500</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 3</string>
@@ -55,11 +73,17 @@
   <widget class="QPushButton" name="pushButtonlevel4">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>100</y>
-     <width>80</width>
-     <height>24</height>
+     <x>890</x>
+     <y>500</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 4</string>
@@ -68,11 +92,17 @@
   <widget class="QPushButton" name="pushButtonlevel5">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>140</y>
-     <width>80</width>
-     <height>24</height>
+     <x>760</x>
+     <y>560</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 5</string>
@@ -81,11 +111,17 @@
   <widget class="QPushButton" name="pushButtonlevel6">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>140</y>
-     <width>80</width>
-     <height>24</height>
+     <x>890</x>
+     <y>560</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 6</string>
@@ -94,11 +130,17 @@
   <widget class="QPushButton" name="pushButtonlevel7">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>180</y>
-     <width>80</width>
-     <height>24</height>
+     <x>760</x>
+     <y>620</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 7</string>
@@ -107,11 +149,17 @@
   <widget class="QPushButton" name="pushButtonlevel8">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>180</y>
-     <width>80</width>
-     <height>24</height>
+     <x>890</x>
+     <y>620</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 8</string>
@@ -120,11 +168,17 @@
   <widget class="QPushButton" name="pushButtonlevel9">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>220</y>
-     <width>80</width>
-     <height>24</height>
+     <x>760</x>
+     <y>680</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 9</string>
@@ -133,11 +187,17 @@
   <widget class="QPushButton" name="pushButtonlevel10">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>220</y>
-     <width>80</width>
-     <height>24</height>
+     <x>890</x>
+     <y>680</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>Level 10</string>
@@ -147,9 +207,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>-1</y>
+     <y>0</y>
      <width>1920</width>
-     <height>1131</height>
+     <height>1080</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -165,6 +225,46 @@
     <string>Background</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonQuit">
+   <property name="geometry">
+    <rect>
+     <x>1720</x>
+     <y>980</y>
+     <width>200</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quit Game&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Quit Game</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelTitle">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>651</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Comic Sans MS</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:72pt; font-weight:700; font-style:italic; color:#ffaa00;&quot;&gt;Cosmic Chaos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
   <zorder>labelBackground</zorder>
   <zorder>pushButtonlevel1</zorder>
   <zorder>pushButtonlevel2</zorder>
@@ -176,6 +276,8 @@
   <zorder>pushButtonlevel8</zorder>
   <zorder>pushButtonlevel9</zorder>
   <zorder>pushButtonlevel10</zorder>
+  <zorder>pushButtonQuit</zorder>
+  <zorder>labelTitle</zorder>
  </widget>
  <resources/>
  <connections/>
