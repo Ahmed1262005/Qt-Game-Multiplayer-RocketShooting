@@ -9,13 +9,25 @@ MidMenu::MidMenu(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->labelBackground->setPixmap(QPixmap(":/Resources/Images/Level3.png"));
-    ui->labelBlackStars->setPixmap(QPixmap(":/Resources/Images/blackStars.png"));
-    ui->labelColoredStars->setPixmap(QPixmap(":/Resources/Images/coloredStars.png"));
-
 
     setWindowFlags(Qt::Window
                    | Qt::WindowMinimizeButtonHint
                    | Qt::WindowMaximizeButtonHint);
+
+    ui->labelBlackStars->setPixmap(QPixmap(":/Resources/Images/blackStars.png").scaled(300,100));
+    ui->labelColoredStars->setPixmap(QPixmap(":/Resources/Images/coloredStars.png").scaled(300,100));
+
+    winoffset =1;
+
+    if(winoffset == 0)
+    {
+        ui->labelColoredStars->setMargin(-200);
+    }
+    else if(winoffset == 1)
+    {
+        ui->labelColoredStars->setMargin(-100);
+    }
+
 }
 
 MidMenu::~MidMenu()

@@ -42,7 +42,7 @@ public:
         return difficulty;
     };
 
-    int getWinOffset() const { return winOffset; }
+    int getWinOffset() const;
 
     int winOffset;
 

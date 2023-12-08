@@ -98,3 +98,8 @@ QVector<Obstacles*> Level::get_towers()
 {
     return Towers;
 }
+
+int Level::getWinOffset() const
+{
+     return winOffset;
+}

@@ -93,6 +93,7 @@ void StartMenu::on_pushButtonlevel1_clicked() {
     currentLevel = 0;
     Level *lvl1 = getCurrentLevel();
 
+
     lvl1->drawObstacles();
     lvl1->window->setCurrentLevel(currentLevel);
     lvl1->window->showFullScreen();

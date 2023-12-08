@@ -193,7 +193,7 @@ void MainWindow::updateWorld() {
 
     }
 
-    if (counter == 0) {
+    if (counter == 2) {
 
         MidMenu *midmenu = new MidMenu;
         StartMenu *start = new StartMenu;
@@ -202,17 +202,19 @@ void MainWindow::updateWorld() {
 
         midmenu->get_window(this);
 
-        MusicPlayer->stop();
+        //MusicPlayer->stop();
         midmenu->level = levels[currentLevel];
         midmenu->currentLevelIndex = currentLevel;
 
-        float totalRockets = (float)lvl->getWinOffset() + (float)lvl->getDifficulty(); // total rockets is win offset plus remaining rockets
+        float totalRockets = (float)midmenu->level->getWinOffset() + (float)midmenu->level->getDifficulty(); // total rockets is win offset plus remaining rockets
         float rocketsUsed = totalRockets - (float)counter; // rockets used is total rockets minus remaining rockets
-        float score = ((totalRockets - rocketsUsed + (float)lvl->getWinOffset()) ) / totalRockets;
+        float score = ((totalRockets - rocketsUsed + (float)midmenu->level->getWinOffset()) ) / totalRockets;
         if (score > 100) {
             score = 100; // Ensure score doesn't exceed 100
         }
         midmenu->score= score;
+
+        lvl = midmenu->level;
 
         midmenu->get_level(midmenu->getNextLevel());
 
