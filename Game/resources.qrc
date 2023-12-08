@@ -11,28 +11,17 @@
         <file>Resources/Images/RocketLauncher.png</file>
         <file>Resources/Images/RocketLaunchersm.png</file>
         <file>Resources/Images/RocketLaunchersmfix.png</file>
+        <file>Resources/Images/tower3(2).png</file>
         <file>Resources/Images/Level1.webp</file>
         <file>Resources/Images/EvilGuy.png</file>
         <file>Resources/Audio/Leyndell, Royal Capital.mp3</file>
         <file>Resources/Images/Level3.png</file>
         <file>Resources/Images/victory.jpg</file>
         <file>Resources/Images/RoundShot.png</file>
-        <file>Resources/Audio/Main_Menu_Song(COD Mobile Season 9) .mp3</file>
-        <file>Resources/Images/crack.png</file>
-        <file>Resources/Images/Level2.jpg</file>
-        <file>Resources/Images/tower1.png</file>
-        <file>Resources/Images/tower10.png</file>
-        <file>Resources/Images/tower11.png</file>
-        <file>Resources/Images/tower12.png</file>
-        <file>Resources/Images/tower13.png</file>
-        <file>Resources/Images/tower14.png</file>
-        <file>Resources/Images/tower4.png</file>
-        <file>Resources/Images/tower5.png</file>
-        <file>Resources/Images/tower6.png</file>
-        <file>Resources/Images/tower7.png</file>
-        <file>Resources/Images/tower8.png</file>
-        <file>Resources/Images/tower9.png</file>
-        <file>Resources/Images/StartMenuBackground.png</file>
+        <file>Resources/Images/blackStars.png</file>
+        <file>Resources/Images/coloredStars.png</file>
+        <file>Resources/Images/lobbyBackground2jpg.jpg</file>
+        <file>Resources/Images/wallpaper lobby.jpg</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

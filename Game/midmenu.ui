@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
-    <height>650</height>
+    <width>732</width>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="pushButtonretry">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>260</y>
-     <width>211</width>
-     <height>81</height>
+     <x>280</x>
+     <y>360</y>
+     <width>171</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -34,10 +34,10 @@
   <widget class="QPushButton" name="pushButtonexit">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>140</y>
-     <width>211</width>
-     <height>81</height>
+     <x>80</x>
+     <y>360</y>
+     <width>171</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -52,10 +52,10 @@
   <widget class="QPushButton" name="pushButtonNextLevel">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>380</y>
-     <width>211</width>
-     <height>81</height>
+     <x>470</x>
+     <y>360</y>
+     <width>171</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -70,9 +70,9 @@
   <widget class="QLabel" name="labelYouLose">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>50</y>
-     <width>201</width>
+     <x>240</x>
+     <y>30</y>
+     <width>271</width>
      <height>71</height>
     </rect>
    </property>
@@ -91,12 +91,38 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>750</width>
-     <height>650</height>
+     <width>741</width>
+     <height>481</height>
     </rect>
    </property>
    <property name="text">
     <string>background</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>190</y>
+     <width>331</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStars">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>190</y>
+     <width>331</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
    </property>
   </widget>
   <zorder>labelBackground</zorder>
@@ -104,6 +130,8 @@
   <zorder>pushButtonexit</zorder>
   <zorder>pushButtonNextLevel</zorder>
   <zorder>labelYouLose</zorder>
+  <zorder>labelBlackStars</zorder>
+  <zorder>labelColoredStars</zorder>
  </widget>
  <resources/>
  <connections/>
