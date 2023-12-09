@@ -17,6 +17,7 @@ class MidMenu : public QDialog
     Q_OBJECT
 
 public:
+    void showScore(); // Add this method
 
     void setLevels(std::vector<Level*>& levels) { this->levels = levels; }
     float score;

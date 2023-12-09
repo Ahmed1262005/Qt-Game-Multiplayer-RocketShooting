@@ -7,7 +7,7 @@
 
 
 Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap, b2World *world, qreal density = 10.0f,
-                     qreal friction = 0.2f, qreal restitution = 0.2f) : GameItem(world) {
+                     qreal friction = 0.2f, qreal restitution = 0.2f) : GameItem(world), health(100) {
     g_pixmap.setPixmap(pixmap.scaled(width, height));
     g_pixmap.setTransformOriginPoint(g_pixmap.boundingRect().width() / 2, g_pixmap.boundingRect().height() / 2);
     g_size = QSize(width, height);
@@ -33,7 +33,7 @@ Obstacles::Obstacles(float x, float y, float width, float height, QPixmap pixmap
     fixturedef.restitution = restitution;
     gBody->SetAngularDamping(3);
     gBody->CreateFixture(&fixturedef);
-    //gBody->SetUserData((void*)"EvilGuy");
+    gBody->SetUserData((void*)"Tower");
 
 
 
@@ -66,7 +66,7 @@ void Obstacles::applyDamage(int damage) {
     if (health <= 0) {
         // Obstacle destroyed
         // Remove the obstacle's body from the Box2D world
-        gBody->GetWorld()->DestroyBody(gBody);
+//        gBody->GetWorld()->DestroyBody(gBody);
         QMediaPlayer* MusicPlayer = new QMediaPlayer;
 
         QAudioOutput* Speaker = new QAudioOutput;

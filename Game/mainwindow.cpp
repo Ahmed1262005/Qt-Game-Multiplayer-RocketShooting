@@ -72,7 +72,7 @@ void MainWindow::drawTrajectory(QPainter *renderer) {
             // Adjust the y-coordinate to consider the vertical inversion
             QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
             renderer->drawPoint(point);
-            if (i == trajectoryPointsCount / 2 - 700) {
+            if (i == trajectoryPointsCount / 2 - 900) {
                 top = trajectoryPosition;
             }
             if (i > 0) {
@@ -147,6 +147,8 @@ void MainWindow::createGround() {
     groundBox.SetAsBox(8000.0f, 199.0f);
 
     groundBody->CreateFixture(&groundBox, 0.0f);
+    groundBody->SetUserData((void *) "Ground");
+
 }
 
 // delete this useless function
@@ -168,10 +170,12 @@ void MainWindow::createDynamicBox(float x, float y) {
 
     body->CreateFixture(&fixtureDef);
 }
+
 float MainWindow::calculateScore() {
-    float totalRockets = (float)lvl->getWinOffset() + (float)lvl->getDifficulty(); // total rockets is win offset plus remaining rockets
-    float rocketsUsed = totalRockets - (float)counter; // rockets used is total rockets minus remaining rockets
-    float score = ((totalRockets - rocketsUsed + (float)lvl->getWinOffset()) ) / totalRockets * 100;
+    float totalRockets = (float) lvl->getWinOffset() +
+                         (float) lvl->getDifficulty(); // total rockets is win offset plus remaining rockets
+    float rocketsUsed = totalRockets - (float) counter; // rockets used is total rockets minus remaining rockets
+    float score = ((totalRockets - rocketsUsed + (float) lvl->getWinOffset())) / totalRockets * 100;
     if (score > 100) {
         score = 100; // Ensure score doesn't exceed 100
     }
@@ -193,7 +197,7 @@ void MainWindow::updateWorld() {
 
     }
 
-    if (counter == 2) {
+    if (counter == 6) {
 
         MidMenu *midmenu = new MidMenu;
         StartMenu *start = new StartMenu;
@@ -206,13 +210,14 @@ void MainWindow::updateWorld() {
         midmenu->level = levels[currentLevel];
         midmenu->currentLevelIndex = currentLevel;
 
-        float totalRockets = (float)midmenu->level->getWinOffset() + (float)midmenu->level->getDifficulty(); // total rockets is win offset plus remaining rockets
-        float rocketsUsed = totalRockets - (float)counter; // rockets used is total rockets minus remaining rockets
-        float score = ((totalRockets - rocketsUsed + (float)midmenu->level->getWinOffset()) ) / totalRockets;
+        float totalRockets = (float) midmenu->level->getWinOffset() +
+                             (float) midmenu->level->getDifficulty(); // total rockets is win offset plus remaining rockets
+        float rocketsUsed = totalRockets - (float) counter; // rockets used is total rockets minus remaining rockets
+        float score = ((totalRockets - rocketsUsed + (float) midmenu->level->getWinOffset())) / totalRockets;
         if (score > 100) {
             score = 100; // Ensure score doesn't exceed 100
         }
-        midmenu->score= score;
+        midmenu->score = score;
 
         lvl = midmenu->level;
 
@@ -238,6 +243,15 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     // Example: Draw dynamic boxes
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
+//        if (body->GetUserData() == (void *) "TO_DELETE") {
+//            world->DestroyBody(body);
+//            // Remove the corresponding tower from the towers vector
+//
+//        }
+        if (body->GetUserData() == (void*)"TO_DELETE") {
+            world->DestroyBody(body);
+            continue;
+        }
         b2Vec2 position = body->GetPosition();
         if (body->GetFixtureList()->GetDensity() == 1.0f) {
             // Adjust the rendering to consider the vertical inversion
@@ -264,25 +278,29 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     enemyCounter = 0;
 
     for (auto i = towers.begin(); i != towers.end(); i++) {
-        if ((*i)->getHealth() < 20) { // If health is below 20
-            QPixmap crackPixmap("://Resources/Images/crack.png"); // Load the crack image
-            // Draw the crack image on top of the obstacle
-            renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
-                                 height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
-        }
 
-        towerPosition = (*i)->get_body()->GetPosition();
 
-        renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
-                             height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
-    }
+        if ((*i)->getHealth() > 0){
+            if ((*i)->getHealth() <= 20) { // If health is below 20
+                QPixmap crackPixmap("://Resources/Images/crack.png"); // Load the crack image
+                // Draw the crack image on top of the obstacle
+                renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
+                                     height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
+            }
+            towerPosition = (*i)->get_body()->GetPosition();
+
+            renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
+                                 height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
+        }    }
     for (auto i = enemies.begin(); i != enemies.end(); i++) {
-        //enemyCounter++;
-        //(*i)->get_body()->SetUserData((void*)"EvilGuy");
-        enemiesPosition = (*i)->get_body()->GetPosition();
+        if ((*i)->getHealth() > 0){
+            //enemyCounter++;
+            //(*i)->get_body()->SetUserData((void*)"EvilGuy");
+            enemiesPosition = (*i)->get_body()->GetPosition();
 
-        renderer->drawPixmap(enemiesPosition.x - (*i)->get_pixmap().width() / 2,
-                             height() - enemiesPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
+            renderer->drawPixmap(enemiesPosition.x - (*i)->get_pixmap().width() / 2,
+                                 height() - enemiesPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
+        }
     }
 
 
@@ -491,95 +509,167 @@ void MainWindow::setEnemies(QVector<Obstacles *> e) {
     enemies = e;
 }
 
-void MainWindow::BeginContact(
-        b2Contact *contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
-{//SetUserData and GetUserData are in body class:
-    //we set a name to a body
-
-    b2Fixture *EvilGuyF = contactPoint->GetFixtureA();
-    b2Fixture *RocketF = contactPoint->GetFixtureB();
-
-    b2Body *EvilGuy = EvilGuyF->GetBody();
-    b2Body *Rocket = RocketF->GetBody();
-    if (EvilGuy->GetUserData() && Rocket->GetUserData()) {
-
-        qDebug() << "Collision detected!";
-    }
-    bool isRocketEvilGuyCollision =
-            ((EvilGuy->GetUserData() == (void *) "Rocket" && Rocket->GetUserData() == (void *) "EvilGuy") ||
-             (EvilGuy->GetUserData() == (void *) "EvilGuy" && Rocket->GetUserData() == (void *) "Rocket"));
-
-    qDebug() << (EvilGuy->GetUserData() == (void *) "EvilGuy");
-    // Check if either fixture is associated with the EvilGuy
-    //    bool EvilGuy = (EvilGuyF->GetBody()->GetUserData() == (void*)"EvilGuy");
-    //    bool Rocket = (RocketF->GetBody()->GetUserData() == (void*)"Rocket");
-
-    // Check if the contact involves EvilGuy
-
-    b2Body *evilGuyBody = (EvilGuy->GetUserData() == (void *) "EvilGuy") ? EvilGuy : Rocket;
-    if (isRocketEvilGuyCollision) {
-        qDebug() << "Collision detected inside!";
-        contactPoint->SetEnabled(false);
-
-        b2World *world = evilGuyBody->GetWorld();
-
-        timer->start(500000);
-
-        hide();
-
-        QGraphicsScene *scene = new QGraphicsScene;
-
-        QGraphicsView *view = new QGraphicsView;
-
-        scene->setSceneRect(0, 0, 700, 600);
-
-        view->setFixedSize(700, 600);
-
-        view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        view->setScene(scene);
-
-        scene->setBackgroundBrush(QBrush(QPixmap("://Resources/Images/victory.jpg").scaled(700, 600)));
-
-        view->show();
-
-    }
+void MainWindow::BeginContact(b2Contact *contactPoint) {
     b2Fixture *fixtureA = contactPoint->GetFixtureA();
     b2Fixture *fixtureB = contactPoint->GetFixtureB();
 
-    // Check if either fixture is associated with a tower
-    bool isTowerA = (fixtureA->GetBody()->GetUserData() == (void*)"Tower");
-    bool isTowerB = (fixtureB->GetBody()->GetUserData() == (void*)"Tower");
+    b2Body *bodyA = fixtureA->GetBody();
+    b2Body *bodyB = fixtureB->GetBody();
 
-    // Check if the contact involves a tower
-    if (isTowerA || isTowerB) {
-        // Get the tower body
-        b2Body *towerBody = isTowerA ? fixtureA->GetBody() : fixtureB->GetBody();
+    // Cast the user data back to char* and print it
+    char *userDataA = static_cast<char *>(bodyA->GetUserData());
+    char *userDataB = static_cast<char *>(bodyB->GetUserData());
 
-        // Find the corresponding tower object in the towers vector
+    qDebug() << "Collision detected! " << userDataA << " : " << userDataB;
+
+    // Check if the collision is between a rocket and a tower
+// Check if the collision is between a rocket and a tower
+    if ((strcmp(userDataA, "Rocket") == 0 && strcmp(userDataB, "Tower") == 0) ||
+        (strcmp(userDataA, "Tower") == 0 && strcmp(userDataB, "Rocket") == 0)) {
+        // Handle the collision between the rocket and the tower
+        // ...
+
+        b2Body *towerBody = (strcmp(userDataA, "Tower") == 0) ? bodyA : bodyB;
         for (auto it = towers.begin(); it != towers.end(); ++it) {
             if ((*it)->get_body() == towerBody) {
-                // Decrease the health of the tower
-                (*it)->applyDamage(80); // Adjust the damage value as needed
+                qDebug() << "Collision inside! " << (*it)->getHealth() << " : " << userDataB;
 
-                if ((*it)->getHealth() <= 0) {
-                    // If the tower's health is zero or less, remove it from the towers vector
-                    towers.erase(it);
-                }
-
-                break;
+                (*it)->applyDamage(80);
+                qDebug() << "Collision damage! " << (*it)->getHealth() << " : " << userDataB;
             }
+            if ((*it)->getHealth() <= 0) {
+                towerBody->SetUserData((void *) "TO_DELETE");
+
+//                towers.erase(it);
+                continue;
+            }
+
         }
 
-
-    if (evilGuyBody) {
-
-        return;
-
+        // Remove towers with health less than or equal to zero
     }
+    // Check if the collision is between a rocket and an evil guy
+    if ((strcmp(userDataA, "Rocket") == 0 && strcmp(userDataB, "EvilGuy") == 0) ||
+        (strcmp(userDataA, "EvilGuy") == 0 && strcmp(userDataB, "Rocket") == 0)) {
+        // Handle the collision between the rocket and the evil guy
+        // ...
+        b2Body *evilGuyBody = (strcmp(userDataA, "EvilGuy") == 0) ? bodyA : bodyB;
+        if (evilGuyBody) {
+            contactPoint->SetEnabled(false);
+            // ... other logic related to evil guy collision
+        }
+        for (auto it = enemies.begin(); it != enemies.end(); ++it) {
+            if ((*it)->get_body() == evilGuyBody) {
+                qDebug() << "Collision inside! " << (*it)->getHealth() << " : " << userDataB;
 
+                (*it)->applyDamage(80);
+                qDebug() << "Collision damage! " << (*it)->getHealth() << " : " << userDataB;
 
+            }
+                if ((*it)->getHealth() <= 0) {
+                    // Mark the enemy for deletion
+                    evilGuyBody->SetUserData((void*)"TO_DELETE");
+//                    enemies.erase(it);
+                    continue;
+                }
+        }
+        enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+                                     [](const Obstacles *enemy) { return enemy->getHealth() <= 0; }),
+                      enemies.end());
+    }
 }
-}
+
+//void MainWindow::BeginContact(
+//        b2Contact *contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
+//{//SetUserData and GetUserData are in body class:
+//    //we set a name to a body
+//
+//    b2Fixture *EvilGuyF = contactPoint->GetFixtureA();
+//    b2Fixture *RocketF = contactPoint->GetFixtureB();
+//
+//    b2Body *EvilGuy = EvilGuyF->GetBody();
+//    b2Body *Rocket = RocketF->GetBody();
+//    if (EvilGuy->GetUserData() && Rocket->GetUserData()) {
+//
+//        qDebug() << "Collision detected! " << static_cast<char *>(EvilGuy->GetUserData()) << " : "
+//                 << static_cast<char *>(Rocket->GetUserData()) << " : " << (void *) "Rocket" << " : "
+//                 << (void *) "EvilGuy";
+//    }
+//    bool isRocketEvilGuyCollision =
+//            ((EvilGuy->GetUserData() == (void *) "Rocket" && Rocket->GetUserData() == (void *) "EvilGuy") ||
+//             (EvilGuy->GetUserData() == (void *) "EvilGuy" && Rocket->GetUserData() == (void *) "Rocket"));
+//
+//    qDebug() << (EvilGuy->GetUserData() == (void *) "EvilGuy");
+//    // Check if either fixture is associated with the EvilGuy
+//    //    bool EvilGuy = (EvilGuyF->GetBody()->GetUserData() == (void*)"EvilGuy");
+//    //    bool Rocket = (RocketF->GetBody()->GetUserData() == (void*)"Rocket");
+//
+//    // Check if the contact involves EvilGuy
+//
+//    b2Body *evilGuyBody = (EvilGuy->GetUserData() == (void *) "EvilGuy") ? EvilGuy : Rocket;
+//    if (isRocketEvilGuyCollision) {
+//        qDebug() << "Collision detected inside!";
+//        contactPoint->SetEnabled(false);
+//
+//        b2World *world = evilGuyBody->GetWorld();
+//
+//        timer->start(500000);
+//
+//        hide();
+//
+//        QGraphicsScene *scene = new QGraphicsScene;
+//
+//        QGraphicsView *view = new QGraphicsView;
+//
+//        scene->setSceneRect(0, 0, 700, 600);
+//
+//        view->setFixedSize(700, 600);
+//
+//        view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//
+//        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//
+//        view->setScene(scene);
+//
+//        scene->setBackgroundBrush(QBrush(QPixmap("://Resources/Images/victory.jpg").scaled(700, 600)));
+//
+//        view->show();
+//
+//    }
+//    b2Fixture *fixtureA = contactPoint->GetFixtureA();
+//    b2Fixture *fixtureB = contactPoint->GetFixtureB();
+//
+//    // Check if either fixture is associated with a tower
+//    bool isTowerA = (fixtureA->GetBody()->GetUserData() == (void *) "Tower");
+//    bool isTowerB = (fixtureB->GetBody()->GetUserData() == (void *) "Tower");
+//
+//    // Check if the contact involves a tower
+//    if (isTowerA || isTowerB) {
+//        // Get the tower body
+//        b2Body *towerBody = isTowerA ? fixtureA->GetBody() : fixtureB->GetBody();
+//
+//        // Find the corresponding tower object in the towers vector
+//        for (auto it = towers.begin(); it != towers.end(); ++it) {
+//            if ((*it)->get_body() == towerBody) {
+//                // Decrease the health of the tower
+//                (*it)->applyDamage(80); // Adjust the damage value as needed
+//
+//                if ((*it)->getHealth() <= 0) {
+//                    // If the tower's health is zero or less, remove it from the towers vector
+//                    towers.erase(it);
+//                }
+//
+//                break;
+//            }
+//        }
+//
+//
+//        if (evilGuyBody) {
+//
+//            return;
+//
+//        }
+//
+//
+//    }
+//}

@@ -36,16 +36,16 @@ void StartMenu::generateLevels() {
             case 1:
                 // Configuration for level 1
                 level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
-                level->AddEnemy(1100.f, -10.f,100.f,100.f,BasicEnemy);
+                level->AddEnemy(1100.f, -10.f,100.f,100.f,ArmoredEnemy);
                 break;
             case 2:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,302.0f,600.0f,2);
+                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 3:
                 // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,330.0f,600.0f,2);
+                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 4:
