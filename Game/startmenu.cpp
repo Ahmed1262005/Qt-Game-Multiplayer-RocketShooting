@@ -23,27 +23,7 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labellock_10->setPixmap(lock.scaled(ui->labellock_10->width(), ui->labellock_10->height()));
     ui->labelBackground->setPixmap(background.scaled(1920, 1080));
 
-    // Instantiate a QMediaPlayer for music playback
-    MusicPlayer = new QMediaPlayer;
-
-    // Instantiate a QAudioOutput for sound output
-    Speaker = new QAudioOutput;
-
-    // Set the source URL for the music (adjust the path as needed)
-    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Main_Menu_Song(COD Mobile Season 9) .mp3"));
-
-    // Set the audio output for the music player
-    MusicPlayer->setAudioOutput(Speaker);
-
-    // Set the volume level for the music (adjust as needed)
-    Speaker->setVolume(20);
-
-    // Set the music to loop indefinitely (-1 means infinite loops)
-    MusicPlayer->setLoops(-1);
-
-    //Play the music
-    MusicPlayer->play();
-
+    setMusicPlayer(true);
     ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
     generateLevels();
 }
@@ -296,7 +276,34 @@ void StartMenu::on_pushButtonlevel10_clicked() {
     lvl10->window->showFullScreen();
     }
 }
+void StartMenu::setMusicPlayer(bool music) {
+    // Instantiate a QMediaPlayer for music playback
+    MusicPlayer = new QMediaPlayer;
 
+    // Instantiate a QAudioOutput for sound output
+    Speaker = new QAudioOutput;
+
+    // Set the source URL for the music (adjust the path as needed)
+    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Main_Menu_Song(COD Mobile Season 9) .mp3"));
+
+    // Set the audio output for the music player
+    MusicPlayer->setAudioOutput(Speaker);
+
+    // Set the volume level for the music (adjust as needed)
+    Speaker->setVolume(20);
+
+    // Set the music to loop indefinitely (-1 means infinite loops)
+    MusicPlayer->setLoops(-1);
+
+    // Check the 'music' flag to determine whether to play or stop the music
+    if (music) {
+    // If 'music' is true, play the music
+    MusicPlayer->play();
+    } else {
+    // If 'music' is false, stop the music playback
+    MusicPlayer->stop();
+    }
+}
 
 void StartMenu::on_pushButtonQuit_clicked()
 {

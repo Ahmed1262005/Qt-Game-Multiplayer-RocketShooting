@@ -22,6 +22,7 @@ public:
     std::vector<Level*>& getLevels() { return levels; }
     void generateLevels();
     Level *getCurrentLevel();
+    void setMusicPlayer(bool);
     ~StartMenu();
 
 public slots:
