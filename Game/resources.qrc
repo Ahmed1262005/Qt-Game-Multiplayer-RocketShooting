@@ -29,6 +29,9 @@
         <file>Resources/Images/tower1.png</file>
         <file>Resources/Images/Title.png</file>
         <file>Resources/Images/lock.png</file>
+        <file>Resources/Audio/ROBLOX Oof Sound Effect.mp3</file>
+        <file>Resources/Images/blood.png</file>
+        <file>Resources/Audio/TowerBreak.mp3</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

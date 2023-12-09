@@ -5,7 +5,8 @@
 #include <QVector>
 #include <vector>
 #include "level.h"
-
+class QMediaPlayer;
+class QAudioOutput;
 namespace Ui {
 class StartMenu;
 }
@@ -51,6 +52,12 @@ private:
     std::vector<Level*> levels;
 
     Ui::StartMenu *ui;
+
+    QMediaPlayer* MusicPlayer;
+
+    QAudioOutput* Speaker;
+
+
 
 
 };

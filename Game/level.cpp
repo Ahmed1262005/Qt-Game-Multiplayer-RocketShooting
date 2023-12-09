@@ -36,19 +36,6 @@ int Level::getScore() const {
 int Level::getRemainingRockets() const {
     return remainingRockets;
 }
-
-int Level::getCurrentDifficulty() const {
-    return difficulty;
-}
-
-void Level::pauseGame() {
-    gamePaused = true;
-}
-
-void Level::resumeGame() {
-    gamePaused = false;
-}
-
 void Level::increaseDifficulty() {
     difficulty++;
 }
@@ -112,4 +99,16 @@ void Level::set_unlocked(bool unlock)
 bool Level::get_unlocked()
 {
      return unlocked;
+}
+
+Level::~Level()
+{
+     for(int i=0;i<Towers.size();i++)
+     {
+        delete Towers[i];
+     }
+     for(int i=0;i<Enemies.size();i++)
+     {
+        delete Enemies[i];
+     }
 }

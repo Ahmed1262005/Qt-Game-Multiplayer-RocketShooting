@@ -1,8 +1,7 @@
-// mainwindow.h
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "level.h"
 #include "obstacles.h"
 #include <QMainWindow>
 #include <QTimer>
@@ -12,67 +11,69 @@
 #include <QMediaPlayer>
 #include <Box2D/Box2D.h>
 #include <vector>
-//#include <level.h>
 
-class Level;
+class Level; // Forward declaration of class Level
 
-class MainWindow : public QMainWindow , public b2ContactListener
-{
+class MainWindow : public QMainWindow, public b2ContactListener {
     Q_OBJECT
 
 public:
-    void createRocket(float x, float y);
+    // Functions and variables related to creating and managing the game world
+    void createRocket(float x, float y); // Creates a rocket at given coordinates
+    // Variables for managing physics bodies and interactions
     b2Body *groundBody;
-    b2Body* throwableObject;
     b2MouseJoint* mouseJoint;
     b2Body* rocketBody;
     b2Vec2 dragStart;
+    // Pixmaps for launcher and rocket graphics
     QPixmap launcherPixmap;
     QPixmap rocketPixmap;
+
+    // Constructor and destructor
     MainWindow(QWidget *parent = nullptr);
-    void showBackground();
     ~MainWindow();
 
-    int currentLevel;
-    void setCurrentLevel(int index) { currentLevel = index; } // Add this method
-//    void nextLevel() {
-//        if (currentLevel) {
-//            delete currentLevel;
-//        }
-//        currentLevel = new Level(currentLevel->getDifficulty() + 1);
-//    }
+    // Current level management
+    int currentLevel; // Index of the current level
+    void setCurrentLevel(int index) { currentLevel = index; }
+
+    // Timer and physics world for updating the game
     QTimer *timer;
     b2World *world;
-    void paintEvent(QPaintEvent *event);
-    QPainter* get_renderer() const;
-    void setMusicPlayer(bool);
 
-    float calculateScore();
-    void setTowers(QVector<Obstacles*>);
-    void setEnemies(QVector<Obstacles*>);
+    // Functions for painting the game's visual elements
+    void paintEvent(QPaintEvent *event); // Paints the game elements
+    QPainter* get_renderer() const; // Retrieves the painter object
+    void setMusicPlayer(bool); // Sets the music player
+
+    // Functions for gameplay and logic
+    float calculateScore(); // Calculates the game score
+    void setTowers(QVector<Obstacles*>); // Sets tower objects
+    void setEnemies(QVector<Obstacles*>); // Sets enemy objects
 
 protected:
-
-    void keyPressEvent(QKeyEvent *event);
-    //void mousePressEvent(QMouseEvent*);
-    void mouseMoveEvent(QMouseEvent*);
-    //void mouseReleaseEvent(QMouseEvent*);
-
+    // Event handlers for keyboard and mouse interaction
+    void keyPressEvent(QKeyEvent *event); // Handles key presses
+    void mouseMoveEvent(QMouseEvent*); // Handles mouse movement
 
 public slots:
-        void updateWorld();
+    void updateWorld(); // Updates the game world
 
 protected:
-    void drawTrajectory(QPainter* painter);
-    b2Vec2 calculateRocketVelocityForHeight(float desiredHeight);
-    void drawLauncher(QPainter* painter, const b2Vec2 &position, float angle);
-    b2Vec2 towerPosition;
-    b2Vec2 enemiesPosition;
+    // Methods for drawing and physics calculations
+    void drawTrajectory(QPainter* painter); // Draws rocket trajectory
+    b2Vec2 calculateRocketVelocityForHeight(float desiredHeight); // Calculates rocket velocity for a desired height
+    void drawLauncher(QPainter* painter, const b2Vec2 &position, float angle); // Draws the launcher
+    b2Vec2 towerPosition; // Position of towers
+    b2Vec2 enemiesPosition; // Position of enemies
 
-    QMediaPlayer* MusicPlayer;
-    QAudioOutput* Speaker;
+    // Audio-related variables
+    QMediaPlayer* MusicPlayer; // Media player for game music
+    QAudioOutput* Speaker; // Output device for audio
 
-    bool drawPredictedCollision;
+    // Variables for trajectory prediction
+    bool drawPredictedCollision; // Flag for drawing predicted collision
+    // Callback class for raycasting
     class TrajectoryRayCastClosestCallback : public b2RayCastCallback {
     public:
         TrajectoryRayCastClosestCallback() : m_hit(false) {}
@@ -87,67 +88,53 @@ protected:
         bool m_hit;
         b2Vec2 m_point;
     };
-    b2Vec2 getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &startingVelocity, float n);
-    b2Vec2 predictedCollisionPoint;
+    b2Vec2 getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &startingVelocity, float n); // Gets trajectory points
+    b2Vec2 predictedCollisionPoint; // Predicted collision point
 
+    // Variables for rocket position and velocity
     b2Vec2 rocketPosition;
     b2Vec2 rocketVelocity;
 
-    QVector2D mousePosition;
-    bool isMousePressed;
+    // Mouse-related variables
+    QVector2D mousePosition; // Current mouse position
+    bool isMousePressed; // Flag indicating if mouse is pressed
 
-    int trajectoryPointsCount;
+    int trajectoryPointsCount; // Count of trajectory points
 
-    void initializeBox2D();
-    void createGround();
-    void launchRocket(float desiredHeight);
-    void updateRocketTrajectory();
-    void createTarget(float x, float y);
-    void createDynamicBox(float x, float y);
-    void createThrowableObject(float x, float y);
+    // Methods for initializing the Box2D world and game elements
+    void showBackground(); //Draws the background of the world
+    void initializeBox2D(); // Initializes Box2D
+    void createGround(); // Creates the ground
+    void launchRocket(float desiredHeight); // Launches the rocket
+    void updateRocketTrajectory(); // Updates rocket trajectory
 
+    // Method for drawing rotated pixmaps
     void drawRotatedPixmap(QPainter* painter, const QPixmap &pixmap, const b2Vec2 &position, float angle);
-    Obstacles* evilGuy;
-    void BeginContact(b2Contact * contact);
-    int enemyCounter;
-    int counter = 4;
-    bool win = false;
-    QVector<Obstacles*> towers;
-    QVector<Obstacles*> enemies;
+    void BeginContact(b2Contact * contact); // Handles contact between bodies
+    int enemyCounter; // Counter for enemies
+    int counter; // General counter
+    QVector<Obstacles*> towers; // Vector of tower objects
+    QVector<Obstacles*> enemies; // Vector of enemy objects
 
-    Level* lvl;
+    Level* lvl; // Pointer to the game level
 };
 
-class QueryCallback : public b2QueryCallback
-{
+// Class for querying fixtures in Box2D
+class QueryCallback : public b2QueryCallback {
 public:
     QueryCallback(const b2Vec2& point) : m_point(point), m_fixture(nullptr) {}
 
-    bool ReportFixture(b2Fixture* fixture) override
-    {
+    bool ReportFixture(b2Fixture* fixture) override {
         b2Body* body = fixture->GetBody();
-        if (body->GetType() == b2_dynamicBody && fixture->TestPoint(m_point))
-        {
+        if (body->GetType() == b2_dynamicBody && fixture->TestPoint(m_point)) {
             m_fixture = fixture;
             return false; // Stop the query after finding the first matching fixture
         }
         return true; // Continue the query
     }
 
-    b2Vec2 m_point;
-    b2Fixture* m_fixture;
-};
-
-enum {
-    BallObject,
-    WallObject,
-};
-
-struct Object
-{
-    int type;
-    b2Body *body;
-    b2Fixture *fixture;
+    b2Vec2 m_point; // Query point
+    b2Fixture* m_fixture; // Fixture found by query
 };
 
 #endif // MAINWINDOW_H

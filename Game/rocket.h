@@ -39,24 +39,13 @@ public:
     float getAngularVelocity() const;
 
     // Other functions as needed for animation, rendering, etc.
-
-signals:
-    void rocketExploded();
-
-private slots:
-    void updateAnimation();
-
 private:
     RocketType rocketType;
     QTimer* animationTimer;
-    QVector<QPixmap> explosionFrames;
-    int currentFrameIndex;
 
-    // Other attributes as needed
 
     void createRocketBody(const b2Vec2& position);
-    void loadExplosionFrames();
-    void explode();
+
 };
 
 #endif // ROCKET_H

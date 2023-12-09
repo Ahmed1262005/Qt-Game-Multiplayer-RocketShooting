@@ -1,6 +1,8 @@
 #include "startmenu.h"
 #include "ui_startmenu.h"
 #include "level.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 #include "mainwindow.h"
 
 StartMenu::StartMenu(QWidget *parent) :
@@ -9,8 +11,6 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->setupUi(this);
     QPixmap background(":/Resources/Images/StartMenuBackground.png");
     QPixmap lock("://Resources/Images/lock.png");
-    //int w = ui->labelBackground->width();
-    //int h = ui->labelBackground->height();
     ui->labellock_1->setPixmap(lock.scaled(ui->labellock_1->width(), ui->labellock_1->height()));
     ui->labellock_2->setPixmap(lock.scaled(ui->labellock_2->width(), ui->labellock_2->height()));
     ui->labellock_3->setPixmap(lock.scaled(ui->labellock_3->width(), ui->labellock_3->height()));
@@ -23,11 +23,29 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labellock_10->setPixmap(lock.scaled(ui->labellock_10->width(), ui->labellock_10->height()));
     ui->labelBackground->setPixmap(background.scaled(1920, 1080));
 
+    // Instantiate a QMediaPlayer for music playback
+    MusicPlayer = new QMediaPlayer;
+
+    // Instantiate a QAudioOutput for sound output
+    Speaker = new QAudioOutput;
+
+    // Set the source URL for the music (adjust the path as needed)
+    MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Main_Menu_Song(COD Mobile Season 9) .mp3"));
+
+    // Set the audio output for the music player
+    MusicPlayer->setAudioOutput(Speaker);
+
+    // Set the volume level for the music (adjust as needed)
+    Speaker->setVolume(20);
+
+    // Set the music to loop indefinitely (-1 means infinite loops)
+    MusicPlayer->setLoops(-1);
+
+    //Play the music
+    MusicPlayer->play();
+
     ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
     generateLevels();
-//    setWindowFlags(Qt::Window
-//                   | Qt::WindowMinimizeButtonHint
-//                   | Qt::WindowMaximizeButtonHint);
 }
 void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {
@@ -40,46 +58,51 @@ void StartMenu::generateLevels() {
                 break;
             case 2:
                 // Configuration for level 2
-                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
+                level->AddEnemy(1000.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1200.0f,-10.0f,200.0f,500.0f,1);
                 break;
             case 3:
-                // Configuration for level 2
-                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
+                // Configuration for level 3
+                level->AddTower(700.0f,-10.0f,200.0f,400.0f,1);
+                level->AddTower(1000.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(1400.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 4:
-                // Configuration for level 2
-                level->AddTower(700.0f,-20.0f,340.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                // Configuration for level 4
+                level->AddTower(700.0f,-20.0f,340.0f,600.0f,1);
+                level->AddEnemy(1200.f, -20.f,100.f,100.f,ArmoredEnemy);
+                level->AddEnemy(1000.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1400.0f,-20.0f,340.0f,600.0f,1);
                 break;
             case 5:
-                // Configuration for level 2
+                // Configuration for level 5
                 level->AddTower(700.0f,-20.0f,310.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 6:
-                // Configuration for level 2
+                // Configuration for level 6
                 level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 7:
-                // Configuration for level 2
+                // Configuration for level 7
                 level->AddTower(700.0f,-20.0f,320.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 8:
-                // Configuration for level 2
+                // Configuration for level 8
                 level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,203.f,200.f,ArmoredEnemy);
                 break;
             case 9:
-                // Configuration for level 2
+                // Configuration for level 9
                 level->AddTower(700.0f,-20.0f,354.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 10:
-                // Configuration for level 2
+                // Configuration for level 10
                 level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
                 level->AddEnemy(1200.f, -20.f,220.f,200.f,ArmoredEnemy);
                 break;
@@ -117,6 +140,9 @@ void StartMenu::generateLevels() {
 }
 StartMenu::~StartMenu() {
     delete ui;
+    delete MusicPlayer;
+    delete Speaker;
+
 }
 
 Level *StartMenu::getCurrentLevel() {
@@ -128,7 +154,7 @@ void StartMenu::on_pushButtonlevel1_clicked() {
     currentLevel = 0;
     Level *lvl1 = getCurrentLevel();
     hide();
-
+    MusicPlayer->stop();
     lvl1->drawObstacles();
     lvl1->window->setCurrentLevel(currentLevel);
     lvl1->window->showFullScreen();
@@ -142,7 +168,7 @@ void StartMenu::on_pushButtonlevel2_clicked() {
 
 
         hide();
-
+        MusicPlayer->stop();
         currentLevel = 1;
         Level *lvl2 = getCurrentLevel();
 
@@ -159,7 +185,7 @@ void StartMenu::on_pushButtonlevel3_clicked() {
     if(levels[2]->get_unlocked())
     {
         hide();
-
+        MusicPlayer->stop();
         currentLevel = 2;
         Level *lvl3 = getCurrentLevel();
 
@@ -175,7 +201,7 @@ void StartMenu::on_pushButtonlevel4_clicked() {
     if(levels[3]->get_unlocked())
     {
         hide();
-
+        MusicPlayer->stop();
         currentLevel = 3;
         Level *lvl4 = getCurrentLevel();
 
@@ -190,6 +216,7 @@ void StartMenu::on_pushButtonlevel5_clicked() {
     if(levels[4]->get_unlocked())
     {
     hide();
+    MusicPlayer->stop();
     currentLevel = 4; // Pass the difficulty as a parameter
     Level *lvl5 = getCurrentLevel();
 
@@ -204,6 +231,7 @@ void StartMenu::on_pushButtonlevel6_clicked() {
     if(levels[5]->get_unlocked())
     {
     hide();
+    MusicPlayer->stop();
     currentLevel = 5; // Pass the difficulty as a parameter
     Level *lvl6 = getCurrentLevel();
 
@@ -217,6 +245,7 @@ void StartMenu::on_pushButtonlevel7_clicked() {
     if(levels[6]->get_unlocked())
     {
     hide();
+    MusicPlayer->stop();
     currentLevel = 6; // Pass the difficulty as a parameter
     Level *lvl7 = getCurrentLevel();
 
@@ -230,6 +259,7 @@ void StartMenu::on_pushButtonlevel8_clicked() {
     if(levels[7]->get_unlocked())
     {
     hide();
+    MusicPlayer->stop();
     currentLevel = 7; // Pass the difficulty as a parameter
     Level *lvl8 = getCurrentLevel();
 
@@ -243,6 +273,7 @@ void StartMenu::on_pushButtonlevel9_clicked() {
     if(levels[8]->get_unlocked())
     {
     hide();
+    MusicPlayer->stop();
     currentLevel = 8; // Pass the difficulty as a parameter
     Level *lvl9 = getCurrentLevel();
 
@@ -256,6 +287,7 @@ void StartMenu::on_pushButtonlevel10_clicked() {
     if(levels[9]->get_unlocked())
     {
     hide();
+    MusicPlayer->stop();
     currentLevel = 9; // Pass the difficulty as a parameter
     Level *lvl10 = getCurrentLevel();
 

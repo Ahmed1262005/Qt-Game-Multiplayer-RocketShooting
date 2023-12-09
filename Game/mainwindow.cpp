@@ -12,32 +12,24 @@
 
 
 MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent) {
-    setFixedSize(800, 600);
+    : QMainWindow(parent) {
+    setFixedSize(800, 600); // Set the fixed size for the main window
 
-    initializeBox2D();
-    showBackground();
+    initializeBox2D(); // Initialize the Box2D physics engine
+    showBackground(); // Display the background image or scene
 
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld);
-    timer->start(3); // Update every 16 milliseconds
-    launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png");
-    // Replace with the actual path to your launcher image
-    //evilGuy = new Obstacles(775.0f,-10.0f,100.0f,100.0f,timer,QPixmap("://Resources/Images/EvilGuy.png"),world);
-    //evilGuy->get_body()->SetUserData((void*)"EvilGuy");
-    // Initialize other variables and stuff
+    timer = new QTimer(this); // Create a QTimer object for updating the world
+    connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld); // Connect the timer's timeout signal to the updateWorld slot
+    timer->start(3); // Start the timer to trigger updates every 3 milliseconds
+
+    launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Load the launcher pixmap image
+
+    // Initialize variables and flags
     drawPredictedCollision = true;
-    /*
-    for(auto i = enemies.begin(); i != enemies.end(); i++){
-        enemyCounter++;
-        (*i)->get_body()->SetUserData((void*)"EvilGuy");
+    counter=4;
 
-    }
-*/
-//    predictedCollisionPoint.SetZero();
+    // Use a QTimer singleShot to set the contact listener for the Box2D world after a delay
     timer->singleShot(1000, [this]() { world->SetContactListener(this); });
-
-
 }
 
 void MainWindow::drawLauncher(QPainter *renderer, const b2Vec2 &position, float angle) {
@@ -46,65 +38,85 @@ void MainWindow::drawLauncher(QPainter *renderer, const b2Vec2 &position, float 
 }
 
 void MainWindow::drawRotatedPixmap(QPainter *renderer, const QPixmap &pixmap, const b2Vec2 &position, float angle) {
-    angle -= 13.39;
-    renderer->save();
-    renderer->translate(position.x, height() - position.y);
-    renderer->rotate(-angle * 180 / M_PI);
-    renderer->scale(1, 1);  // Mirror the pixmap horizontally
+    angle -= 13.39; // Adjust the angle (offset) for rendering purposes
+
+    renderer->save(); // Save the current state of the QPainter
+    renderer->translate(position.x, height() - position.y); // Translate to the position (adjusting for screen coordinate system)
+
+    renderer->rotate(-angle * 180 / M_PI); // Rotate the pixmap with the given angle (converted to degrees)
+    renderer->scale(1, 1);  // Mirror the pixmap horizontally (if needed)
+
+    // Draw the rotated pixmap at the specified position with the adjusted angle
     renderer->drawPixmap(-pixmap.width() / 2, -pixmap.height() / 2, pixmap);
-    renderer->restore();
+
+    renderer->restore(); // Restore the saved state of the QPainter to previous settings
 }
 
+
 MainWindow::~MainWindow() {
-    delete world;
+    delete world; // Delete the physics world
+    delete MusicPlayer;
+    delete Speaker;
 }
 
 void MainWindow::drawTrajectory(QPainter *renderer) {
 
-    renderer->setPen(QPen(Qt::black, 1, Qt::SolidLine));
-    if (drawPredictedCollision) {
+    renderer->setPen(QPen(Qt::black, 1, Qt::SolidLine));  // Set pen properties for drawing the trajectory
 
-        TrajectoryRayCastClosestCallback raycastCallback;
-        b2Vec2 lastTP = rocketPosition;
-        b2Vec2 top;
+    if (drawPredictedCollision) {
+        // Initialize variables for trajectory analysis
+        TrajectoryRayCastClosestCallback raycastCallback; // Raycast callback for collision detection
+        b2Vec2 lastTP = rocketPosition; // Store the last tracked trajectory point
+        b2Vec2 top; // Variable to track a specific point in the trajectory
+
+        // Iterate through the trajectory points to visualize the rocket's path
         for (int i = 0; i < trajectoryPointsCount; ++i) {
+            // Calculate the trajectory position at a given time step
             b2Vec2 trajectoryPosition = getTrajectoryPoint(rocketPosition, rocketVelocity, i);
-            // Adjust the y-coordinate to consider the vertical inversion
+
+            // Adjust the y-coordinate to match the display (considering vertical inversion)
             QPointF point(trajectoryPosition.x, height() - trajectoryPosition.y);
+
+            // Draw the trajectory point on the canvas
             renderer->drawPoint(point);
+
+            // Store a specific point in the trajectory (for later use)
             if (i == trajectoryPointsCount / 2 - 900) {
                 top = trajectoryPosition;
             }
+
+            // Check for collision using raycasting between successive points
             if (i > 0) {
-                // Perform a raycast check between successive points
                 world->RayCast(&raycastCallback, lastTP, trajectoryPosition);
+
+                // If a collision is detected, draw the predicted collision point
                 if (raycastCallback.m_hit) {
-                    // Draw the predicted collision point only if drawPredictedCollision is true
                     QPointF collisionPoint(lastTP.x, height() - lastTP.y);
                     renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
                     renderer->drawPoint(collisionPoint);
-                    // Calculate the angle of the launcher based on the trajectory
 
+                    // Store the collision point and exit the loop
                     predictedCollisionPoint = raycastCallback.m_point;
-                    // Calculate the angle of the launcher based on the trajectory
-
-                    break;  // Exit the loop if a collision is detected
+                    break;
                 }
             }
 
+            // Update the last tracked trajectory point
             lastTP = trajectoryPosition;
         }
+
+        // Calculate the angle of the launcher based on the trajectory and draw it
         float angle = atan2(top.y, top.x);
         drawLauncher(renderer, b2Vec2(100.0f, 100.0f), angle);
 
-        // Draw the predicted collision point outside the loop
+        // Draw the predicted collision point outside the loop if necessary
         if (drawPredictedCollision) {
             QPointF collisionPoint(lastTP.x, height() - lastTP.y);
             renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
             renderer->drawPoint(collisionPoint);
         }
-
     }
+
 
 }
 
@@ -138,99 +150,102 @@ void MainWindow::initializeBox2D() {
 }
 
 void MainWindow::createGround() {
-    b2BodyDef groundBodyDef; // Ground 0
-    groundBodyDef.position.Set(0.0f, -100.f); // Move the ground down
+    // Define the body for the ground
+    b2BodyDef groundBodyDef; // Define a body definition for the ground
+    groundBodyDef.position.Set(0.0f, -100.f); // Set the position of the ground (moving it down)
 
+    // Create the ground body in the Box2D world
     groundBody = world->CreateBody(&groundBodyDef);
 
+    // Define the shape of the ground (a large box)
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(8000.0f, 199.0f);
+    groundBox.SetAsBox(8000.0f, 199.0f); // Set the ground shape as a box
 
-    groundBody->CreateFixture(&groundBox, 0.0f);
+    // Create a fixture (physical properties like shape and density) for the ground body
+    groundBody->CreateFixture(&groundBox, 0.0f); // Attach the shape (fixture) to the ground body
+
+    // Set user data to mark this body as "Ground" (for collision identification)
     groundBody->SetUserData((void *) "Ground");
-
 }
 
-// delete this useless function
-void MainWindow::createDynamicBox(float x, float y) {
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(x, y);
-
-    b2Body *body = world->CreateBody(&bodyDef);
-
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1000.0f, 1000.0f);
-
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-
-    body->CreateFixture(&fixtureDef);
-}
 
 float MainWindow::calculateScore() {
-    float totalRockets = (float) lvl->getWinOffset() +
-                         (float) lvl->getDifficulty(); // total rockets is win offset plus remaining rockets
-    float rocketsUsed = totalRockets - (float) counter; // rockets used is total rockets minus remaining rockets
+    // Calculate the total number of rockets available (win offset + difficulty)
+    float totalRockets = (float) lvl->getWinOffset() + (float) lvl->getDifficulty();
+
+    // Calculate the number of rockets used (total rockets - remaining rockets)
+    float rocketsUsed = totalRockets - (float) counter;
+
+    // Calculate the score based on the rockets used and total rockets, capped at 100%
     float score = ((totalRockets - rocketsUsed + (float) lvl->getWinOffset())) / totalRockets * 100;
+
+    // Ensure the score doesn't exceed 100
     if (score > 100) {
-        score = 100; // Ensure score doesn't exceed 100
+        score = 100;
     }
-    return score;
+
+    return score; // Return the calculated score
 }
 
+
 void MainWindow::updateWorld() {
-
-
+    // Update the Box2D world simulation
     world->Step(1.0f / 60.0f, 6, 2);
+
+    // Check if the rocket exists
     if (rocketBody) {
+        // Get the velocity of the rocket
         b2Vec2 velocity = rocketBody->GetLinearVelocity();
+
+        // Check if the rocket's velocity is nearly zero and predicted collision is not drawn
         if (qAbs(velocity.x) < 0.1 && qAbs(velocity.y) < 0.1 && !drawPredictedCollision) {
+            // Set drawPredictedCollision to true to indicate a predicted collision
             drawPredictedCollision = true;
-            //counter ++ lose at 3
+
+            // If conditions met, recreate the rocket at a specific position
             createRocket(100, 100);
-
         }
-
     }
 
-    if (counter == 6) {
-
+    // Check if the rocket count is 2
+    if (counter == 2) {
+        // Create MidMenu and StartMenu instances and retrieve levels
         MidMenu *midmenu = new MidMenu;
         StartMenu *start = new StartMenu;
         std::vector<Level *> levels = start->getLevels();
+
+        // Set levels for the MidMenu
         midmenu->setLevels(levels);
 
+        // Configure MidMenu and set the current level information
         midmenu->get_window(this);
-
-        //MusicPlayer->stop();
         midmenu->level = levels[currentLevel];
         midmenu->currentLevelIndex = currentLevel;
 
-        float totalRockets = (float) midmenu->level->getWinOffset() +
-                             (float) midmenu->level->getDifficulty(); // total rockets is win offset plus remaining rockets
-        float rocketsUsed = totalRockets - (float) counter; // rockets used is total rockets minus remaining rockets
+        // Calculate score and display it in the MidMenu
+        float totalRockets = (float) midmenu->level->getWinOffset() + (float) midmenu->level->getDifficulty();
+        float rocketsUsed = totalRockets - (float) counter;
         float score = ((totalRockets - rocketsUsed + (float) midmenu->level->getWinOffset())) / totalRockets;
+
+        // Ensure the score doesn't exceed 100%
         if (score > 100) {
-            score = 100; // Ensure score doesn't exceed 100
+            score = 100;
         }
+
+        // Set the calculated score in the MidMenu
         midmenu->score = score;
 
+        // Set the current level in the game to the MidMenu
         lvl = midmenu->level;
-
         midmenu->get_level(midmenu->getNextLevel());
 
+        // Show the MidMenu and start the timer
         midmenu->show();
-
-        timer->start(500000);
-
+        timer->start(500000); // Adjust the timer interval as needed
     }
 
-
-    update(); // Schedule a repaint
+    // Schedule a repaint for the MainWindow
+    update();
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
@@ -239,22 +254,18 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     QPainter *renderer = new QPainter(this);
     renderer->setRenderHint(QPainter::Antialiasing, true);
 
-    // Draw Box2D objects here
+    // Draw Box2D objects
 
     // Example: Draw dynamic boxes
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
-//        if (body->GetUserData() == (void *) "TO_DELETE") {
-//            world->DestroyBody(body);
-//            // Remove the corresponding tower from the towers vector
-//
-//        }
+        // Check if the body is flagged for deletion and destroy it
         if (body->GetUserData() == (void*)"TO_DELETE") {
             world->DestroyBody(body);
             continue;
         }
         b2Vec2 position = body->GetPosition();
         if (body->GetFixtureList()->GetDensity() == 1.0f) {
-            // Adjust the rendering to consider the vertical inversion
+            // Render dynamic boxes (adjusting for vertical inversion)
             renderer->drawRect(QRectF(position.x - 0.5, height() - position.y - 0.5, 1, 1));
         }
     }
@@ -262,93 +273,99 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     // Draw the rocket trajectory
     drawTrajectory(renderer);
 
-    renderer->drawText(100, 100, "Cannon Amunition:" + QString::number(counter));
+    // Render text displaying cannon ammunition count
+    renderer->drawText(100, 100, "Cannon Ammunition: " + QString::number(counter));
 
-    // Draw the rocket
+    // Draw the rocket if it exists and predicted collision is not happening
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
         renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
 
         b2Vec2 rocketPosition = rocketBody->GetPosition();
-        // Adjust the rendering to consider the vertical inversion
-//        painter.drawRect(QRectF(rocketPosition.x - 0.5, height() - rocketPosition.y - 0.5, 1, 2));
+        // Render the rocket's pixmap
         renderer->drawPixmap(rocketPosition.x - rocketPixmap.width() / 2,
                              height() - rocketPosition.y - rocketPixmap.height() / 2, rocketPixmap);
-
     }
+
+    // Reset enemy counter
     enemyCounter = 0;
 
+    // Iterate through towers and render them
     for (auto i = towers.begin(); i != towers.end(); i++) {
-
-
-        if ((*i)->getHealth() > 0){
-            if ((*i)->getHealth() <= 20) { // If health is below 20
-                QPixmap crackPixmap("://Resources/Images/crack.png"); // Load the crack image
-                // Draw the crack image on top of the obstacle
+        if ((*i)->getHealth() > 0) {
+            if ((*i)->getHealth() <= 20) {
+                towerPosition = (*i)->get_body()->GetPosition();
+                // Load and render crack image if tower health is low
+                QPixmap crackPixmap("://Resources/Images/crack.png");
                 renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
                                      height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
             }
             towerPosition = (*i)->get_body()->GetPosition();
 
+            // Render tower pixmap
             renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
                                  height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
-        }    }
-    for (auto i = enemies.begin(); i != enemies.end(); i++) {
-        if ((*i)->getHealth() > 0){
-            //enemyCounter++;
-            //(*i)->get_body()->SetUserData((void*)"EvilGuy");
-            enemiesPosition = (*i)->get_body()->GetPosition();
+        }
+    }
 
+    // Iterate through enemies and render them
+    for (auto i = enemies.begin(); i != enemies.end(); i++) {
+        if ((*i)->getHealth() > 0) {
+            enemiesPosition = (*i)->get_body()->GetPosition();
+            if ((*i)->getHealth() <= 20) {
+                // Load and render crack image if tower health is low
+                 enemiesPosition = (*i)->get_body()->GetPosition();
+                QPixmap bloodPixmap("://Resources/Images/blood.png");
+                renderer->drawPixmap(enemiesPosition.x - bloodPixmap.width() / 2,
+                                     height() - enemiesPosition.y - bloodPixmap.height() / 2, bloodPixmap);
+            }
+            // Render enemy pixmap
             renderer->drawPixmap(enemiesPosition.x - (*i)->get_pixmap().width() / 2,
                                  height() - enemiesPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
         }
     }
-
 
     renderer->end();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space && drawPredictedCollision) {
-//        createDynamicBox(100, 100);
+        // If Space key is pressed and predicted collision is enabled
 
         // Launch the rocket
         launchRocket(900.0f);
-//        setMouseTracking(false);
-
-        // Reset rocket position and trajectory
-        //rocketPosition.Set(100.0f, 100.0f);
-        //updateRocketTrajectory();
     }
 }
+
 
 void MainWindow::launchRocket(float desiredHeight) {
     if (rocketBody) {
         // Calculate initial velocity based on the desired height
-//        rocketVelocity = calculateRocketVelocityForHeight(desiredHeight);
+        // rocketVelocity = calculateRocketVelocityForHeight(desiredHeight);
 
-        // Set the rocket's position at the launch point
-//        rocketBody->SetTransform(rocketPosition, 0);
+        // Set various rocket parameters before launch
+        rocketBody->SetAwake(true);            // Ensure the rocket body is awake
+        rocketBody->SetGravityScale(1);        // Apply regular gravity to the rocket
+        rocketBody->SetAngularVelocity(0);     // Set angular velocity to zero
 
-        // Apply impulse to the rocket body based on the new velocity
-        b2Vec2 impulse = rocketVelocity;
+        // Calculate and apply impulse to the rocket body based on the desired launch height
+        b2Vec2 impulse = rocketVelocity;  // Storing the current rocket's velocity
 
-//        rocketBody->SetAngularVelocity(rocketVelocity);
-        rocketBody->SetAwake(true);
-        rocketBody->SetGravityScale(1);
-        rocketBody->SetAngularVelocity(0);
-        b2Vec2 Velocity = calculateRocketVelocityForHeight(desiredHeight);
-
+        // Apply linear impulse to the rocket body
         rocketBody->ApplyLinearImpulse(impulse, rocketBody->GetWorldCenter(), true);
+
+        // Set the linear velocity of the rocket body
         rocketBody->SetLinearVelocity(rocketBody->GetWorldVector(b2Vec2(rocketVelocity)));
 
+        // Output debugging information for initial velocity and applied impulse
         qDebug() << "Rocket Initial Velocity: (" << rocketVelocity.x << ", " << rocketVelocity.y << ")";
         qDebug() << "Applied Impulse: (" << impulse.x << ", " << impulse.y << ")";
 
         // Update the rocket trajectory after launching
-        drawPredictedCollision = false;  // Set drawPredictedCollision to false before updating trajectory
+        drawPredictedCollision = false;  // Disable displaying predicted collision after launch
         updateRocketTrajectory();
     }
 }
+
 
 // Function to calculate the rocket's initial velocity for a desired height
 b2Vec2 MainWindow::calculateRocketVelocityForHeight(float desiredHeight) {
@@ -421,45 +438,8 @@ void MainWindow::createRocket(float x, float y) {
     rocketBody->SetUserData((void *) "Rocket");
 }
 
-void MainWindow::createTarget(float x, float y) {
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_staticBody;
-    bodyDef.position.Set(x, y);
-
-    b2Body *body = world->CreateBody(&bodyDef);
-
-    b2CircleShape staticCircle;
-    staticCircle.m_radius = 1.0f; // Target shape
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &staticCircle;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-
-    body->CreateFixture(&fixtureDef);
-}
-
-void MainWindow::createThrowableObject(float x, float y) {
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(x, y);
-
-    throwableObject = world->CreateBody(&bodyDef);
-
-    b2CircleShape throwableShape;
-    throwableShape.m_radius = 0.5f;
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &throwableShape;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-
-    throwableObject->CreateFixture(&fixtureDef);
-}
-
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     // Adjust the rocket's position and velocity based on the mouse position
-//        setMouseTracking(true);
     b2Vec2 mousePos(event->pos().x(), event->pos().y());
     rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
     rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 110.0f)); // Adjust as needed
@@ -472,34 +452,50 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void MainWindow::setMusicPlayer(bool music) {
+    // Instantiate a QMediaPlayer for music playback
     MusicPlayer = new QMediaPlayer;
 
+    // Instantiate a QAudioOutput for sound output
     Speaker = new QAudioOutput;
 
+    // Set the source URL for the music (adjust the path as needed)
     MusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Leyndell, Royal Capital.mp3"));
 
+    // Set the audio output for the music player
     MusicPlayer->setAudioOutput(Speaker);
 
+    // Set the volume level for the music (adjust as needed)
     Speaker->setVolume(20);
 
+    // Set the music to loop indefinitely (-1 means infinite loops)
     MusicPlayer->setLoops(-1);
 
-
+    // Check the 'music' flag to determine whether to play or stop the music
     if (music) {
+        // If 'music' is true, play the music
         MusicPlayer->play();
     } else {
+        // If 'music' is false, stop the music playback
         MusicPlayer->stop();
     }
 }
 
+
 void MainWindow::showBackground() {
+    // Load the background image
     QPixmap background("://Resources/Images/Level1.webp");
+
+    // Scale the background image to fit the window size (adjust as needed)
     background = background.scaled(1920, 1080, Qt::IgnoreAspectRatio);
+
+    // Create a palette to set the background image
     QPalette pal;
+
+    // Set the background image as the window's background using the palette
     pal.setBrush(QPalette::Window, background);
     this->setPalette(pal);
-
 }
+
 
 void MainWindow::setTowers(QVector<Obstacles *> Towers) {
     towers = Towers;
@@ -528,6 +524,27 @@ void MainWindow::BeginContact(b2Contact *contactPoint) {
         (strcmp(userDataA, "Tower") == 0 && strcmp(userDataB, "Rocket") == 0)) {
         // Handle the collision between the rocket and the tower
         // ...
+        // Instantiate a QMediaPlayer for music playback
+        QMediaPlayer* newMusicPlayer = new QMediaPlayer;
+
+        // Instantiate a QAudioOutput for sound output
+        QAudioOutput* newSpeaker = new QAudioOutput;
+
+        // Set the source URL for the music (adjust the path as needed)
+        newMusicPlayer->setSource(QUrl("qrc:/Resources/Audio/TowerBreak.mp3"));
+
+        // Set the audio output for the music player
+        newMusicPlayer->setAudioOutput(newSpeaker);
+
+        // Set the volume level for the music (adjust as needed)
+        newSpeaker->setVolume(20);
+
+        //Play the effect
+        newMusicPlayer->play();
+
+        //delete newMusicPlayer;
+
+        //delete newSpeaker;
 
         b2Body *towerBody = (strcmp(userDataA, "Tower") == 0) ? bodyA : bodyB;
         for (auto it = towers.begin(); it != towers.end(); ++it) {
@@ -553,6 +570,28 @@ void MainWindow::BeginContact(b2Contact *contactPoint) {
         (strcmp(userDataA, "EvilGuy") == 0 && strcmp(userDataB, "Rocket") == 0)) {
         // Handle the collision between the rocket and the evil guy
         // ...
+        // Instantiate a QMediaPlayer for music playback
+        QMediaPlayer* newMusicPlayer = new QMediaPlayer;
+
+        // Instantiate a QAudioOutput for sound output
+        QAudioOutput* newSpeaker = new QAudioOutput;
+
+        // Set the source URL for the music (adjust the path as needed)
+        newMusicPlayer->setSource(QUrl("qrc:/Resources/Audio/ROBLOX Oof Sound Effect.mp3"));
+
+        // Set the audio output for the music player
+        newMusicPlayer->setAudioOutput(newSpeaker);
+
+        // Set the volume level for the music (adjust as needed)
+        newSpeaker->setVolume(20);
+
+        //Play the effect
+        newMusicPlayer->play();
+
+        //delete newMusicPlayer;
+
+        //delete newSpeaker;
+
         b2Body *evilGuyBody = (strcmp(userDataA, "EvilGuy") == 0) ? bodyA : bodyB;
         if (evilGuyBody) {
             contactPoint->SetEnabled(false);
@@ -563,6 +602,8 @@ void MainWindow::BeginContact(b2Contact *contactPoint) {
                 qDebug() << "Collision inside! " << (*it)->getHealth() << " : " << userDataB;
 
                 (*it)->applyDamage(80);
+
+
                 qDebug() << "Collision damage! " << (*it)->getHealth() << " : " << userDataB;
 
             }
