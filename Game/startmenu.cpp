@@ -26,6 +26,10 @@ StartMenu::StartMenu(QWidget *parent) :
     setMusicPlayer(true);
     ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
     generateLevels();
+
+
+
+
 }
 void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {

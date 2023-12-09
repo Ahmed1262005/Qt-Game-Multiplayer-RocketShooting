@@ -38,7 +38,6 @@ HEADERS += \
 
 FORMS += \
     LobbyWindow.ui \
-    Looby2ndPlayer.ui \
     PhysicsWorld.ui \
     midmenu.ui \
     multiplayermainwindow.ui \
