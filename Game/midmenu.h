@@ -27,7 +27,7 @@ public:
     int currentLevelIndex;
 
     // Constructors and destructor
-    explicit MidMenu(QWidget *parent = nullptr);
+    explicit MidMenu(QWidget *parent=nullptr);
     ~MidMenu();
 
     // Method to get the PhysicsWorld pointer

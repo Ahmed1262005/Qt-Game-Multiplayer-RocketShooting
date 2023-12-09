@@ -3,7 +3,7 @@
 #include "PhysicsWorld.h"
 #include "startmenu.h"
 
-MidMenu::MidMenu(QWidget *parent) :
+MidMenu::MidMenu(QWidget *parent):
     QDialog(parent),
     ui(new Ui::MidMenu)
 {
@@ -26,8 +26,15 @@ MidMenu::MidMenu(QWidget *parent) :
 
     // Adjust the margin of the colored stars image based on the win offset value
     if (winoffset == 0) {
+        ui->labelYouWin->setVisible(false);
+        ui->labelYouLose->setText("You Lose");
+        ui->pushButtonNextLevel->setVisible(false);
         ui->labelColoredStars->setMargin(-200); // Set margin for winoffset = 0
     } else if (winoffset == 1) {
+        // If the score is not 0, display "You Win"
+        ui->labelYouWin->setVisible(true);
+        // Set the text to "You Win"
+        ui->labelYouLose->setVisible(false);
         ui->labelColoredStars->setMargin(-100); // Set margin for winoffset = 1
     }
     // Add handling for other winoffset values if needed
@@ -66,24 +73,25 @@ void MidMenu::on_pushButtonexit_clicked()
 void MidMenu::showScore() {
     if (score == 0) {
         // If the score is 0, display "You Lose" and hide the Next Level button
+        ui->labelYouWin->setVisible(false);
         ui->labelYouLose->setText("You Lose");
         ui->pushButtonNextLevel->setVisible(false);
     } else {
         // If the score is not 0, display "You Win"
-
+         ui->labelYouWin->setVisible(true);
         // Set the text to "You Win"
-        ui->labelYouLose->setText("You Win");
+        ui->labelYouLose->setVisible(false);
 
-        // Calculate the width of the stars image based on the score
-        int totalWidth = ui->labelBlackStars->width();
-        int starsWidth = static_cast<int>(score / 100.0 * totalWidth); // Calculate the width of stars based on the score
+//        // Calculate the width of the stars image based on the score
+//        int totalWidth = ui->labelBlackStars->width();
+//        int starsWidth = static_cast<int>(score / 100.0 * totalWidth); // Calculate the width of stars based on the score
 
-        // Clip the colored stars image based on the calculated width
-        QPixmap coloredStarsPixmap(":/Resources/Images/coloredStars.png");
-        QPixmap clippedPixmap = coloredStarsPixmap.copy(0, 0, starsWidth, coloredStarsPixmap.height());
+//        // Clip the colored stars image based on the calculated width
+//        QPixmap coloredStarsPixmap(":/Resources/Images/coloredStars.png");
+//        QPixmap clippedPixmap = coloredStarsPixmap.copy(0, 0, starsWidth, coloredStarsPixmap.height());
 
-        // Set the clipped image to the label for colored stars
-        ui->labelColoredStars->setPixmap(clippedPixmap);
+//        // Set the clipped image to the label for colored stars
+//        ui->labelColoredStars->setPixmap(clippedPixmap);
     }
 }
 

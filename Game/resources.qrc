@@ -32,6 +32,8 @@
         <file>Resources/Images/blood.png</file>
         <file>Resources/Audio/TowerBreak.mp3</file>
         <file>Resources/Images/canon.png</file>
+        <file>Resources/Audio/Small Bomb Explosion Sound Effect.mp3</file>
+        <file>Resources/Audio/Canon Drop.mp3</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

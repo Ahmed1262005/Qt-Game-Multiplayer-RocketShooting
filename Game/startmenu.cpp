@@ -142,6 +142,7 @@ void StartMenu::on_pushButtonlevel1_clicked() {
     lvl1->drawObstacles();
     lvl1->window->setCurrentLevel(currentLevel);
     lvl1->window->showFullScreen();
+    lvl1->window->setRocketCount(10);
 
 
 }

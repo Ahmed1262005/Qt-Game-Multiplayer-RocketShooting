@@ -34,7 +34,8 @@ public:
 
     // Current level management
     int currentLevel; // Index of the current level
-    void setCurrentLevel(int index) { currentLevel = index; }
+    int getCurrentLevel(); //Getter for the level
+    void setCurrentLevel(int index); // Setter for the level
 
     // Timer and physics world for updating the game
     QTimer *timer;
@@ -47,6 +48,7 @@ public:
 
     // Functions for gameplay and logic
     float calculateScore(); // Calculates the game score
+    void setRocketCount(int); // Setting the rocket number for the level
     void setTowers(QVector<Obstacles*>); // Sets tower objects
     void setEnemies(QVector<Obstacles*>); // Sets enemy objects
 
