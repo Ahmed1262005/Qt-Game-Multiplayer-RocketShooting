@@ -27,6 +27,8 @@
         <file>Resources/Images/Level2.jpg</file>
         <file>Resources/Images/StartMenuBackground.png</file>
         <file>Resources/Images/tower1.png</file>
+        <file>Resources/Images/Title.png</file>
+        <file>Resources/Images/lock.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

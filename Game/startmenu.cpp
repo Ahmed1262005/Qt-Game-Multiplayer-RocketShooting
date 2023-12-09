@@ -11,6 +11,8 @@ StartMenu::StartMenu(QWidget *parent) :
     //int w = ui->labelBackground->width();
     //int h = ui->labelBackground->height();
     ui->labelBackground->setPixmap(background.scaled(1920, 1080));
+
+    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
     generateLevels();
 //    setWindowFlags(Qt::Window
 //                   | Qt::WindowMinimizeButtonHint
@@ -102,6 +104,7 @@ void StartMenu::on_pushButtonlevel1_clicked() {
 }
 
 void StartMenu::on_pushButtonlevel2_clicked() {
+
     hide();
 
     currentLevel = 1;
@@ -195,5 +198,11 @@ void StartMenu::on_pushButtonlevel10_clicked() {
     lvl1->drawObstacles();
     lvl1->window->setCurrentLevel(currentLevel);
     lvl1->window->showFullScreen();
+}
+
+
+void StartMenu::on_pushButtonQuit_clicked()
+{
+    exit(1);
 }
 

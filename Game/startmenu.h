@@ -44,6 +44,9 @@ public slots:
 
     void on_pushButtonlevel10_clicked();
 
+private slots:
+    void on_pushButtonQuit_clicked();
+
 private:
     std::vector<Level*> levels;
 

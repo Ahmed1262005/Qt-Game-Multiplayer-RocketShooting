@@ -86,3 +86,10 @@ DEPENDPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug
 
 RESOURCES += \
     resources.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug/lib/ -lBox2
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug/lib/ -lBox2d
+else:unix: LIBS += -L$$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug/lib/ -lBox2
+
+INCLUDEPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug
+DEPENDPATH += $$PWD/build-Box2D-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug
