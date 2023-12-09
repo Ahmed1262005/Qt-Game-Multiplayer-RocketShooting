@@ -3,7 +3,7 @@
 #include "enemy.h"
 #include <iostream>
 #include <QTimer>
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 #include "obstacles.h"
 
 Level::Level(int difficulty)
@@ -12,7 +12,7 @@ Level::Level(int difficulty)
     float enemySpeed = difficulty * 1.0f; // Adjust as needed
     initializeLevel();
 
-    window = new MainWindow;
+    window = new PhysicsWorld;
 
     window->setTowers(Towers);
 
@@ -42,8 +42,7 @@ void Level::increaseDifficulty() {
 
 void Level::AddTower(qreal x, qreal y, qreal width, qreal height, int towertype, qreal density, qreal friction, qreal restitution)
 {
-    QString towerTypeString = QString::number(towertype);
-    QString image = ":/Resources/Images/tower" + towerTypeString + ".png";
+
     switch (towertype) {
     case 1 :
         Towers.push_back(new Obstacles(x,y,width,height, QPixmap(":/Resources/Images/tower1.png"), window->world, density, friction, restitution));

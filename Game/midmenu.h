@@ -5,7 +5,7 @@
 #include "startmenu.h"
 #include "level.h"
 
-class MainWindow;
+class PhysicsWorld;
 
 namespace Ui {
 class MidMenu;
@@ -30,8 +30,8 @@ public:
     explicit MidMenu(QWidget *parent = nullptr);
     ~MidMenu();
 
-    // Method to get the MainWindow pointer
-    void get_window(MainWindow*);
+    // Method to get the PhysicsWorld pointer
+    void get_window(PhysicsWorld*);
 
     // Method to get the Level pointer
     void get_level(Level*);
@@ -50,7 +50,7 @@ private:
     Ui::MidMenu *ui;
     StartMenu* start;
     std::vector<Level*> levels;
-    MainWindow* main;
+    PhysicsWorld* main;
     int winoffset;
 };
 

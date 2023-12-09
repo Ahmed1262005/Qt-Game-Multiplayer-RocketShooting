@@ -5,7 +5,6 @@
         <file>Resources/Images/AdvancedRocketWithoutFire.png</file>
         <file>Resources/Images/Explosion_Animation.gif</file>
         <file>Resources/Images/Mortar.png</file>
-        <file>Resources/Images/tower.png</file>
         <file>Resources/Images/tower2.png</file>
         <file>Resources/Images/tower3.png</file>
         <file>Resources/Images/RocketLauncher.png</file>
@@ -32,6 +31,7 @@
         <file>Resources/Audio/ROBLOX Oof Sound Effect.mp3</file>
         <file>Resources/Images/blood.png</file>
         <file>Resources/Audio/TowerBreak.mp3</file>
+        <file>Resources/Images/canon.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

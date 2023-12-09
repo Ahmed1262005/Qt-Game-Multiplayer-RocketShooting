@@ -1,7 +1,7 @@
 #include "multiplayermainwindow.h"
 
 MultiplayerMainWindow::MultiplayerMainWindow(QWidget *parent)
-        : MainWindow(parent)
+        : PhysicsWorld(parent)
 {
     gameManager = new GameManager(parent);
     // Connect signals and slots between gameManager and this
@@ -43,5 +43,5 @@ void MultiplayerMainWindow::updateWorld() {
     // Implement the game logic for the multiplayer game
 
     // Call the base class's updateWorld function if needed
-    MainWindow::updateWorld();
+    PhysicsWorld::updateWorld();
 }

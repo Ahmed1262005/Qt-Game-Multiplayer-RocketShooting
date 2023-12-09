@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 #include "level.h"
 #include <QApplication>
 #include <QVector>
@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //MainWindow w;
+    //PhysicsWorld w;
     //w.showFullScreen();
 
     // Create an instance of WebSocketHandler

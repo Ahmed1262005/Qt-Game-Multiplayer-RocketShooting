@@ -6,7 +6,7 @@
 #include <vector>
 #include "obstacles.h"
 
-class MainWindow;
+class PhysicsWorld;
 
 class Level : public QObject {
 public:
@@ -65,8 +65,8 @@ public:
     // Draw obstacles/entities in the level
     void drawObstacles();
 
-    // Pointer to MainWindow for interaction
-    MainWindow *window;
+    // Pointer to PhysicsWorld for interaction
+    PhysicsWorld *window;
 
     // Set the unlock status
     void set_unlocked(bool unlock);
@@ -83,7 +83,7 @@ private:
     int enemyHealth;      // Health/damage threshold for enemies in this level
     bool gamePaused;      // Flag indicating if the game is paused
     int winOffset;        // Win offset for the level
-    bool unlocked=true;        // Flag indicating if the level is unlocked
+    bool unlocked =false;        // Flag indicating if the level is unlocked
 
     QVector<Rocket> rockets;     // Vector of rockets in the level
     QVector<Obstacles *> Towers; // Vector of tower objects in the level

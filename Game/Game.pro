@@ -9,9 +9,9 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    PhysicsWorld.cpp \
     level.cpp \
     main.cpp \
-    mainwindow.cpp \
     midmenu.cpp \
     multiplayermainwindow.cpp \
     rocket.cpp \
@@ -24,8 +24,8 @@ SOURCES += \
 
 
 HEADERS += \
+    PhysicsWorld.h \
     level.h \
-    mainwindow.h \
     midmenu.h \
     multiplayermainwindow.h \
     rocket.h \
@@ -37,7 +37,9 @@ HEADERS += \
     startmenu.h
 
 FORMS += \
-    mainwindow.ui \
+    LobbyWindow.ui \
+    Looby2ndPlayer.ui \
+    PhysicsWorld.ui \
     midmenu.ui \
     multiplayermainwindow.ui \
     startmenu.ui

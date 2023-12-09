@@ -1,6 +1,6 @@
 #include "midmenu.h"
 #include "ui_midmenu.h"
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 #include "startmenu.h"
 
 MidMenu::MidMenu(QWidget *parent) :
@@ -10,7 +10,7 @@ MidMenu::MidMenu(QWidget *parent) :
     ui->setupUi(this);
 
     // Set background image for the menu
-    ui->labelBackground->setPixmap(QPixmap(":/Resources/Images/Level3.png"));
+    ui->labelBackground->setPixmap(QPixmap(":/Resources/Images/lobbyBackground2jpg.jpg"));
 
     // Set window flags for the dialog
     setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
@@ -88,8 +88,8 @@ void MidMenu::showScore() {
 }
 
 
-void MidMenu::get_window(MainWindow* main) {
-    // Store the pointer to the MainWindow instance in the class member
+void MidMenu::get_window(PhysicsWorld* main) {
+    // Store the pointer to the PhysicsWorld instance in the class member
     this->main = main;
 }
 

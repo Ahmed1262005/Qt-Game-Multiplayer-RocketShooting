@@ -1,5 +1,5 @@
 #include "gameitem.h"
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 
 
 #include <iostream>

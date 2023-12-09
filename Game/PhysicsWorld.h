@@ -1,6 +1,5 @@
-
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef PHYSICSWORLD_H
+#define PHYSICSWORLD_H
 
 #include "obstacles.h"
 #include <QMainWindow>
@@ -14,7 +13,7 @@
 
 class Level; // Forward declaration of class Level
 
-class MainWindow : public QMainWindow, public b2ContactListener {
+class PhysicsWorld : public QMainWindow, public b2ContactListener {
     Q_OBJECT
 
 public:
@@ -30,8 +29,8 @@ public:
     QPixmap rocketPixmap;
 
     // Constructor and destructor
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    PhysicsWorld(QWidget *parent = nullptr);
+    ~PhysicsWorld();
 
     // Current level management
     int currentLevel; // Index of the current level
@@ -137,4 +136,4 @@ public:
     b2Fixture* m_fixture; // Fixture found by query
 };
 
-#endif // MAINWINDOW_H
+#endif // PHYSICSWORLD_H

@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 #include <QPainter>
 #include <QMediaPlayer>
 #include <QAudioOutput>
@@ -11,7 +11,7 @@
 #include <midmenu.h>
 
 
-MainWindow::MainWindow(QWidget *parent)
+PhysicsWorld::PhysicsWorld(QWidget *parent)
     : QMainWindow(parent) {
     setFixedSize(800, 600); // Set the fixed size for the main window
 
@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     showBackground(); // Display the background image or scene
 
     timer = new QTimer(this); // Create a QTimer object for updating the world
-    connect(timer, &QTimer::timeout, this, &MainWindow::updateWorld); // Connect the timer's timeout signal to the updateWorld slot
+    connect(timer, &QTimer::timeout, this, &PhysicsWorld::updateWorld); // Connect the timer's timeout signal to the updateWorld slot
     timer->start(3); // Start the timer to trigger updates every 3 milliseconds
 
-    launcherPixmap.load("://Resources/Images/RocketLaunchersmfix.png"); // Load the launcher pixmap image
+    launcherPixmap.load(":/Resources/Images/canon.png"); // Load the launcher pixmap image
 
     // Initialize variables and flags
     drawPredictedCollision = true;
@@ -32,19 +32,19 @@ MainWindow::MainWindow(QWidget *parent)
     timer->singleShot(1000, [this]() { world->SetContactListener(this); });
 }
 
-void MainWindow::drawLauncher(QPainter *renderer, const b2Vec2 &position, float angle) {
+void PhysicsWorld::drawLauncher(QPainter *renderer, const b2Vec2 &position, float angle) {
     // Draw rotated launcher pixmap
     drawRotatedPixmap(renderer, launcherPixmap, position, angle);
 }
 
-void MainWindow::drawRotatedPixmap(QPainter *renderer, const QPixmap &pixmap, const b2Vec2 &position, float angle) {
+void PhysicsWorld::drawRotatedPixmap(QPainter *renderer, const QPixmap &pixmap, const b2Vec2 &position, float angle) {
     angle -= 13.39; // Adjust the angle (offset) for rendering purposes
 
     renderer->save(); // Save the current state of the QPainter
     renderer->translate(position.x, height() - position.y); // Translate to the position (adjusting for screen coordinate system)
 
-    renderer->rotate(-angle * 180 / M_PI); // Rotate the pixmap with the given angle (converted to degrees)
-    renderer->scale(1, 1);  // Mirror the pixmap horizontally (if needed)
+    renderer->rotate(-angle * 180 / M_PI -40); // Rotate the pixmap with the given angle (converted to degrees)
+    renderer->scale(.3, .3);  // Mirror the pixmap horizontally (if needed)
 
     // Draw the rotated pixmap at the specified position with the adjusted angle
     renderer->drawPixmap(-pixmap.width() / 2, -pixmap.height() / 2, pixmap);
@@ -53,13 +53,13 @@ void MainWindow::drawRotatedPixmap(QPainter *renderer, const QPixmap &pixmap, co
 }
 
 
-MainWindow::~MainWindow() {
+PhysicsWorld::~PhysicsWorld() {
     delete world; // Delete the physics world
     delete MusicPlayer;
     delete Speaker;
 }
 
-void MainWindow::drawTrajectory(QPainter *renderer) {
+void PhysicsWorld::drawTrajectory(QPainter *renderer) {
 
     renderer->setPen(QPen(Qt::black, 1, Qt::SolidLine));  // Set pen properties for drawing the trajectory
 
@@ -122,7 +122,7 @@ void MainWindow::drawTrajectory(QPainter *renderer) {
 
 
 // Implement the getTrajectoryPoint function
-b2Vec2 MainWindow::getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &startingVelocity, float n) {
+b2Vec2 PhysicsWorld::getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &startingVelocity, float n) {
     // Velocity and gravity are given per second but we want time step values here
     float t = 1 / 60.0f; // seconds per time step (at 60fps)
     b2Vec2 stepVelocity = t * startingVelocity; // m/s
@@ -135,7 +135,7 @@ b2Vec2 MainWindow::getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &starting
 }
 
 
-void MainWindow::initializeBox2D() {
+void PhysicsWorld::initializeBox2D() {
     b2Vec2 gravity(0.0f, -9.8f); // Earth gravity, 9.8 m/s^2 downward
     world = new b2World(gravity);
 
@@ -149,7 +149,7 @@ void MainWindow::initializeBox2D() {
     trajectoryPointsCount = 2000; // Adjust the count as needed
 }
 
-void MainWindow::createGround() {
+void PhysicsWorld::createGround() {
     // Define the body for the ground
     b2BodyDef groundBodyDef; // Define a body definition for the ground
     groundBodyDef.position.Set(0.0f, -100.f); // Set the position of the ground (moving it down)
@@ -169,7 +169,7 @@ void MainWindow::createGround() {
 }
 
 
-float MainWindow::calculateScore() {
+float PhysicsWorld::calculateScore() {
     // Calculate the total number of rockets available (win offset + difficulty)
     float totalRockets = (float) lvl->getWinOffset() + (float) lvl->getDifficulty();
 
@@ -188,7 +188,7 @@ float MainWindow::calculateScore() {
 }
 
 
-void MainWindow::updateWorld() {
+void PhysicsWorld::updateWorld() {
     // Update the Box2D world simulation
     world->Step(1.0f / 60.0f, 6, 2);
 
@@ -208,7 +208,7 @@ void MainWindow::updateWorld() {
     }
 
     // Check if the rocket count is 2
-    if (counter == 2) {
+    if (counter == 0) {
         // Create MidMenu and StartMenu instances and retrieve levels
         MidMenu *midmenu = new MidMenu;
         StartMenu *start = new StartMenu;
@@ -244,11 +244,11 @@ void MainWindow::updateWorld() {
         timer->start(500000); // Adjust the timer interval as needed
     }
 
-    // Schedule a repaint for the MainWindow
+    // Schedule a repaint for the PhysicsWorld
     update();
 }
 
-void MainWindow::paintEvent(QPaintEvent *event) {
+void PhysicsWorld::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
 
     QPainter *renderer = new QPainter(this);
@@ -327,7 +327,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     renderer->end();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
+void PhysicsWorld::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space && drawPredictedCollision) {
         // If Space key is pressed and predicted collision is enabled
 
@@ -337,7 +337,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 
-void MainWindow::launchRocket(float desiredHeight) {
+void PhysicsWorld::launchRocket(float desiredHeight) {
     if (rocketBody) {
         // Calculate initial velocity based on the desired height
         // rocketVelocity = calculateRocketVelocityForHeight(desiredHeight);
@@ -368,7 +368,7 @@ void MainWindow::launchRocket(float desiredHeight) {
 
 
 // Function to calculate the rocket's initial velocity for a desired height
-b2Vec2 MainWindow::calculateRocketVelocityForHeight(float desiredHeight) {
+b2Vec2 PhysicsWorld::calculateRocketVelocityForHeight(float desiredHeight) {
     if (desiredHeight <= 0)
         return b2Vec2_zero; // Rocket shouldn't go down
 
@@ -397,7 +397,7 @@ b2Vec2 MainWindow::calculateRocketVelocityForHeight(float desiredHeight) {
 }
 
 
-void MainWindow::updateRocketTrajectory() {
+void PhysicsWorld::updateRocketTrajectory() {
     if (rocketBody) {
         // Get the mouse position and adjust the rocket position accordingly
         //
@@ -411,7 +411,7 @@ void MainWindow::updateRocketTrajectory() {
     }
 }
 
-void MainWindow::createRocket(float x, float y) {
+void PhysicsWorld::createRocket(float x, float y) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(x, y);
@@ -438,7 +438,7 @@ void MainWindow::createRocket(float x, float y) {
     rocketBody->SetUserData((void *) "Rocket");
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+void PhysicsWorld::mouseMoveEvent(QMouseEvent *event) {
     // Adjust the rocket's position and velocity based on the mouse position
     b2Vec2 mousePos(event->pos().x(), event->pos().y());
     rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
@@ -451,7 +451,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     updateRocketTrajectory();
 }
 
-void MainWindow::setMusicPlayer(bool music) {
+void PhysicsWorld::setMusicPlayer(bool music) {
     // Instantiate a QMediaPlayer for music playback
     MusicPlayer = new QMediaPlayer;
 
@@ -481,7 +481,7 @@ void MainWindow::setMusicPlayer(bool music) {
 }
 
 
-void MainWindow::showBackground() {
+void PhysicsWorld::showBackground() {
     // Load the background image
     QPixmap background("://Resources/Images/Level1.webp");
 
@@ -497,15 +497,15 @@ void MainWindow::showBackground() {
 }
 
 
-void MainWindow::setTowers(QVector<Obstacles *> Towers) {
+void PhysicsWorld::setTowers(QVector<Obstacles *> Towers) {
     towers = Towers;
 }
 
-void MainWindow::setEnemies(QVector<Obstacles *> e) {
+void PhysicsWorld::setEnemies(QVector<Obstacles *> e) {
     enemies = e;
 }
 
-void MainWindow::BeginContact(b2Contact *contactPoint) {
+void PhysicsWorld::BeginContact(b2Contact *contactPoint) {
     b2Fixture *fixtureA = contactPoint->GetFixtureA();
     b2Fixture *fixtureB = contactPoint->GetFixtureB();
 
@@ -620,7 +620,7 @@ void MainWindow::BeginContact(b2Contact *contactPoint) {
     }
 }
 
-//void MainWindow::BeginContact(
+//void PhysicsWorld::BeginContact(
 //        b2Contact *contactPoint) //cp will tell you which fixtures collided, now we look at which body they are attached to, now which particles are assosiated with these bodies?
 //{//SetUserData and GetUserData are in body class:
 //    //we set a name to a body

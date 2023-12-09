@@ -1,13 +1,13 @@
 #ifndef MULTIPLAYERMAINWINDOW_H
 #define MULTIPLAYERMAINWINDOW_H
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 #include "gamemanager.h"
 #include <QWidget>
 
 namespace Ui {
 class MultiplayerMainWindow;
 }
-class MultiplayerMainWindow : public MainWindow
+class MultiplayerMainWindow : public PhysicsWorld
 {
 Q_OBJECT
 

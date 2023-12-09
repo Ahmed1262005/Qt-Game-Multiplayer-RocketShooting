@@ -3,7 +3,7 @@
 #include "level.h"
 #include <QMediaPlayer>
 #include <QAudioOutput>
-#include "mainwindow.h"
+#include "PhysicsWorld.h"
 
 StartMenu::StartMenu(QWidget *parent) :
         QDialog(parent),
