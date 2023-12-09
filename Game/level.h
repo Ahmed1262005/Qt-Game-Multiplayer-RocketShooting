@@ -24,6 +24,10 @@ public:
 
     int getCurrentDifficulty() const;
 
+    void set_unlocked(bool);
+
+    bool get_unlocked();
+
     enum RocketType {
         Qassam1,
         BasicRocket
@@ -84,6 +88,8 @@ private:
     void checkWinCondition();
 
     void checkLoseCondition();
+
+    bool unlocked = false;
 
 
     QVector<Obstacles *> Towers;

@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButtonlevel1">
    <property name="geometry">
     <rect>
-     <x>760</x>
-     <y>440</y>
+     <x>750</x>
+     <y>320</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -35,8 +35,8 @@
   <widget class="QPushButton" name="pushButtonlevel2">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>440</y>
+     <x>880</x>
+     <y>320</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -54,8 +54,8 @@
   <widget class="QPushButton" name="pushButtonlevel3">
    <property name="geometry">
     <rect>
-     <x>760</x>
-     <y>500</y>
+     <x>750</x>
+     <y>380</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -73,8 +73,8 @@
   <widget class="QPushButton" name="pushButtonlevel4">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>500</y>
+     <x>880</x>
+     <y>380</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -92,8 +92,8 @@
   <widget class="QPushButton" name="pushButtonlevel5">
    <property name="geometry">
     <rect>
-     <x>760</x>
-     <y>560</y>
+     <x>750</x>
+     <y>440</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -111,8 +111,8 @@
   <widget class="QPushButton" name="pushButtonlevel6">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>560</y>
+     <x>880</x>
+     <y>440</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -130,8 +130,8 @@
   <widget class="QPushButton" name="pushButtonlevel7">
    <property name="geometry">
     <rect>
-     <x>760</x>
-     <y>620</y>
+     <x>750</x>
+     <y>500</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -149,8 +149,8 @@
   <widget class="QPushButton" name="pushButtonlevel8">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>620</y>
+     <x>880</x>
+     <y>500</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -168,8 +168,8 @@
   <widget class="QPushButton" name="pushButtonlevel9">
    <property name="geometry">
     <rect>
-     <x>760</x>
-     <y>680</y>
+     <x>750</x>
+     <y>560</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -187,8 +187,8 @@
   <widget class="QPushButton" name="pushButtonlevel10">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>680</y>
+     <x>880</x>
+     <y>560</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -228,8 +228,8 @@
   <widget class="QPushButton" name="pushButtonQuit">
    <property name="geometry">
     <rect>
-     <x>1720</x>
-     <y>980</y>
+     <x>1710</x>
+     <y>860</y>
      <width>200</width>
      <height>100</height>
     </rect>
@@ -265,6 +265,136 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:72pt; font-weight:700; font-style:italic; color:#ffaa00;&quot;&gt;Cosmic Chaos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labellock_1">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>340</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_2">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>340</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_3">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>400</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_4">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>400</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_5">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>460</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_6">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>460</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_7">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>520</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_8">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>520</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_9">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>580</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labellock_10">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>580</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
   <zorder>labelBackground</zorder>
   <zorder>pushButtonlevel1</zorder>
   <zorder>pushButtonlevel2</zorder>
@@ -278,6 +408,16 @@
   <zorder>pushButtonlevel10</zorder>
   <zorder>pushButtonQuit</zorder>
   <zorder>labelTitle</zorder>
+  <zorder>labellock_1</zorder>
+  <zorder>labellock_2</zorder>
+  <zorder>labellock_3</zorder>
+  <zorder>labellock_4</zorder>
+  <zorder>labellock_5</zorder>
+  <zorder>labellock_6</zorder>
+  <zorder>labellock_7</zorder>
+  <zorder>labellock_8</zorder>
+  <zorder>labellock_9</zorder>
+  <zorder>labellock_10</zorder>
  </widget>
  <resources/>
  <connections/>

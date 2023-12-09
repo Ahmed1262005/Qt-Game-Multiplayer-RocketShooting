@@ -103,3 +103,13 @@ int Level::getWinOffset() const
 {
      return winOffset;
 }
+
+void Level::set_unlocked(bool unlock)
+{
+     unlocked = unlock;
+}
+
+bool Level::get_unlocked()
+{
+     return unlocked;
+}
