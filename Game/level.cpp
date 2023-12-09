@@ -1,6 +1,4 @@
 #include "level.h"
-#include "rocket.h"
-#include "enemy.h"
 #include <iostream>
 #include <QTimer>
 #include "PhysicsWorld.h"
@@ -8,8 +6,6 @@
 
 Level::Level(int difficulty)
 {
-    int numEnemies = difficulty * 10; // Adjust as needed
-    float enemySpeed = difficulty * 1.0f; // Adjust as needed
     initializeLevel();
 
     window = new PhysicsWorld;

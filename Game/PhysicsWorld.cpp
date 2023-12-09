@@ -26,10 +26,14 @@ PhysicsWorld::PhysicsWorld(QWidget *parent)
 
     // Initialize variables and flags
     drawPredictedCollision = true;
-    counter=4;
 
     // Use a QTimer singleShot to set the contact listener for the Box2D world after a delay
     timer->singleShot(1000, [this]() { world->SetContactListener(this); });
+}
+
+void PhysicsWorld::setRocketCount(int count)
+{
+    counter=count;
 }
 
 void PhysicsWorld::drawLauncher(QPainter *renderer, const b2Vec2 &position, float angle) {
@@ -207,7 +211,7 @@ void PhysicsWorld::updateWorld() {
         }
     }
 
-    // Check if the rocket count is 2
+    // Check if the rocket count is 0
     if (counter == 0) {
         // Create MidMenu and StartMenu instances and retrieve levels
         MidMenu *midmenu = new MidMenu;
@@ -275,7 +279,12 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
     drawTrajectory(renderer);
 
     // Render text displaying cannon ammunition count
-    renderer->drawText(100, 100, "Cannon Ammunition: " + QString::number(counter));
+    renderer->setFont(QFont("times",22));
+    renderer->drawText(50, 50, "Cannon Ammunition: " + QString::number(counter));
+
+    // Render text displaying the current level
+    renderer->setFont(QFont("times",22));
+    renderer->drawText(1500, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
 
     // Draw the rocket if it exists and predicted collision is not happening
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
@@ -331,6 +340,23 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
 void PhysicsWorld::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space && drawPredictedCollision) {
         // If Space key is pressed and predicted collision is enabled
+        // Instantiate a QMediaPlayer for music playback
+        QMediaPlayer* newMusicPlayer = new QMediaPlayer;
+
+        // Instantiate a QAudioOutput for sound output
+        QAudioOutput* newSpeaker = new QAudioOutput;
+
+        // Set the source URL for the music (adjust the path as needed)
+        newMusicPlayer->setSource(QUrl("qrc:/Resources/Audio/Small Bomb Explosion Sound Effect.mp3"));
+
+        // Set the audio output for the music player
+        newMusicPlayer->setAudioOutput(newSpeaker);
+
+        // Set the volume level for the music (adjust as needed)
+        newSpeaker->setVolume(20);
+
+        //Play the effect
+        newMusicPlayer->play();
 
         // Launch the rocket
         launchRocket(900.0f);
@@ -506,6 +532,14 @@ void PhysicsWorld::setEnemies(QVector<Obstacles *> e) {
     enemies = e;
 }
 
+int PhysicsWorld::getCurrentLevel(){return currentLevel;}
+
+void PhysicsWorld::setCurrentLevel(int index)
+{
+    currentLevel=index;
+
+}
+
 void PhysicsWorld::BeginContact(b2Contact *contactPoint) {
     b2Fixture *fixtureA = contactPoint->GetFixtureA();
     b2Fixture *fixtureB = contactPoint->GetFixtureB();
@@ -516,6 +550,7 @@ void PhysicsWorld::BeginContact(b2Contact *contactPoint) {
     // Cast the user data back to char* and print it
     char *userDataA = static_cast<char *>(bodyA->GetUserData());
     char *userDataB = static_cast<char *>(bodyB->GetUserData());
+
 
     qDebug() << "Collision detected! " << userDataA << " : " << userDataB;
 
