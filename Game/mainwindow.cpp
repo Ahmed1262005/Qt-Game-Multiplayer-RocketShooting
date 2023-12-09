@@ -212,6 +212,7 @@ void MainWindow::updateWorld() {
         // Create MidMenu and StartMenu instances and retrieve levels
         MidMenu *midmenu = new MidMenu;
         StartMenu *start = new StartMenu;
+        start->setMusicPlayer(false);
         std::vector<Level *> levels = start->getLevels();
 
         // Set levels for the MidMenu
