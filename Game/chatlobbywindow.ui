@@ -1,70 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>ChatLobbyWindow</class>
+ <widget class="QDialog" name="ChatLobbyWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>727</width>
-    <height>443</height>
+    <width>690</width>
+    <height>402</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>280</y>
-     <width>93</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Start</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>330</y>
-     <width>93</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Send</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>320</y>
-     <width>241</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Enter Text ...&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="text">
-    <string>Enter Text ...</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>60</y>
      <width>171</width>
      <height>181</height>
@@ -196,33 +148,32 @@
     </property>
    </widget>
   </widget>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>20</y>
-     <width>441</width>
-     <height>281</height>
+     <x>300</x>
+     <y>320</y>
+     <width>241</width>
+     <height>41</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>330</y>
-     <width>71</width>
-     <height>31</height>
-    </rect>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Enter Text ...&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Message:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Enter Text ...</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>220</x>
      <y>30</y>
      <width>421</width>
      <height>261</height>
@@ -241,6 +192,55 @@
      </rect>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>280</y>
+     <width>93</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>330</y>
+     <width>93</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>330</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Message:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>20</y>
+     <width>441</width>
+     <height>281</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -10,7 +10,9 @@ CONFIG += c++17
 
 SOURCES += \
     PhysicsWorld.cpp \
+    chatlobbywindow.cpp \
     level.cpp \
+    lobbywindow.cpp \
     main.cpp \
     midmenu.cpp \
     multiplayermainwindow.cpp \
@@ -25,7 +27,9 @@ SOURCES += \
 
 HEADERS += \
     PhysicsWorld.h \
+    chatlobbywindow.h \
     level.h \
+    lobbywindow.h \
     midmenu.h \
     multiplayermainwindow.h \
     rocket.h \
@@ -37,8 +41,8 @@ HEADERS += \
     startmenu.h
 
 FORMS += \
-    LobbyWindow.ui \
     PhysicsWorld.ui \
+    chatlobbywindow.ui \
     midmenu.ui \
     multiplayermainwindow.ui \
     startmenu.ui

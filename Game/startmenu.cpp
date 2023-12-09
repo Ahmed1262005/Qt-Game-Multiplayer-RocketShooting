@@ -100,6 +100,7 @@ void StartMenu::generateLevels() {
     }
 
     levels[0]->set_unlocked(1);
+    levels[2]->set_unlocked(1);
 
     ui->labellock_1->setVisible(0);
 
