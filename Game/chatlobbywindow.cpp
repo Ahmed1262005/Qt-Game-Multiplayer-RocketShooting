@@ -23,6 +23,8 @@ ChatLobbyWindow::ChatLobbyWindow(GameManager *gameManager, QWidget *parent)
 //    // Connect the newLobbyMessage signal from the message handler to the onNewMessageReadyForProcessing slot
     connect(m_gameManager, &GameManager::newLobbyMessage, this,
             &ChatLobbyWindow::onNewMessageReadyForProcessing);
+    connect(m_gameManager, &GameManager::newLobbyMessage, this,
+            &ChatLobbyWindow::onNewMessageReadyForProcessing);
 }
 
 ChatLobbyWindow::~ChatLobbyWindow() {

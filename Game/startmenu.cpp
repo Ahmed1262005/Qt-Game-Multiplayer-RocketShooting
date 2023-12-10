@@ -27,11 +27,8 @@ StartMenu::StartMenu(QWidget *parent, GameManager* manager) :
     ui->labelBackground->setPixmap(background.scaled(1920, 1080));
 
     setMusicPlayer(true);
-    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
+    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(700,200,Qt::KeepAspectRatio));
     generateLevels();
-
-
-
 
 }
 
