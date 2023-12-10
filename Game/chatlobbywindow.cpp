@@ -6,8 +6,8 @@
 //     , ui(new Ui::ChatLobbyWindow),
 //     Player(player)
 // {
-//     ui->setupUi(this);
-//     connect(player, &QAbstractSocket::readyRead, this, &QWebSocketPrivate::processData);
+//     //ui->setupUi(this);
+//     //connect(player, &QAbstractSocket::readyRead, this, &QWebSocketPrivate::processData);
 // }
 
 // ChatLobbyWindow::~ChatLobbyWindow()

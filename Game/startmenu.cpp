@@ -39,7 +39,7 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labelColoredStarsL9->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
     ui->labelColoredStarsL10->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
 
-    ui->labelColoredStarsL1 ->setVisible(1);
+    ui->labelColoredStarsL1 ->setVisible(0);
     ui->labelColoredStarsL2 ->setVisible(0);
     ui->labelColoredStarsL3 ->setVisible(0);
     ui->labelColoredStarsL4 ->setVisible(0);
@@ -74,6 +74,9 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labelBlackStars_9 ->setVisible(1);
     ui->labelBlackStars_10 ->setVisible(1);
 
+
+
+
 }
 void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {
@@ -82,7 +85,7 @@ void StartMenu::generateLevels() {
             case 1: //one enemy >> DONE
                 // Configuration for level 1
                 level->AddTower(800.0f,-10.0f,200.0f,500.0f,2);
-                level->AddEnemy(1100.f, -10.f,100.f,100.f,ArmoredEnemy);
+                level->AddEnemy(1100.f, -10.f,200.f,200.f,ArmoredEnemy);
                 break;
             case 2: //one enemy >> DONE
                 // Configuration for level 2
@@ -92,7 +95,7 @@ void StartMenu::generateLevels() {
                 break;
             case 3: //one enemy >> DONE
                 // Configuration for level 3
-                level->AddTower(700.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(700.0f,-10.0f,200.0f,600.0f,2);
                 level->AddTower(910.0f,-10.0f,150.0f,400.0f,1); //short
                 level->AddEnemy(1080.f, -20.f,200.f,200.f,ArmoredEnemy);
                 level->AddTower(1300.0f,-10.0f,200.0f,500.0f,2);
@@ -100,8 +103,8 @@ void StartMenu::generateLevels() {
             case 4: //two enemies >> DONE
                 // Configuration for level 4
                 level->AddEnemy(700.f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(820.0f,-20.0f,200.0f,600.0f,1);
-                level->AddEnemy(1020.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(905.0f,-20.0f,200.0f,600.0f,1);
+                level->AddEnemy(1110.f, -20.f,200.f,200.f,ArmoredEnemy);
 
                 break;
             case 5://two enemies >> DONE
@@ -137,22 +140,22 @@ void StartMenu::generateLevels() {
                 break;
             case 9: //three enemies
                 // Configuration for level 9
-                level->AddTower(650.0f,-20.0f,150.0f,400.0f,2);
-                level->AddEnemy(805.f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(1010.0f,-20.0f,200.0f,500.0f,2);
-                level->AddEnemy(1220.0f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(1425.0f,-20.0f,150.0f,400.0f,2);
-                level->AddEnemy(1580.0f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(550.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(702.f, -20.f,150.f,175.f,ArmoredEnemy);
+                level->AddTower(855.0f,-20.0f,150.0f,500.0f,2);
+                level->AddEnemy(1010.0f, -20.f,150.f,175.f,ArmoredEnemy);
+                level->AddTower(1165.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(1320.0f, -20.f,150.f,175.f,ArmoredEnemy);
                 break;
             case 10: //three enemies
                 // Configuration for level 10
-                level->AddTower(600.0f,-20.0f,200.0f,500.0f,2);
-                level->AddTower(800.0f,-20.0f,150.0f,400.0f,1);
-                level->AddEnemy(960.f, -20.f,150.f,150.f,ArmoredEnemy);
-                level->AddTower(1115.0f,-20.0f,200.0f,500.0f,2);//tower3
-                level->AddEnemy(1320.f, -20.f,150.f,150.f,ArmoredEnemy);
-                level->AddTower(1475.0f,-20.0f,150.0f,400.0f,1);
-                level->AddEnemy(1625.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(500.0f,-20.0f,150.0f,500.0f,2);
+                level->AddTower(650.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(805.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(960.0f,-20.0f,150.0f,600.0f,2);//tower3
+                level->AddEnemy(1115.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(1270.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(1325.f, -20.f,150.f,150.f,ArmoredEnemy);
                 break;
             default:
                 // Default configuration for levels without a specific case
@@ -164,21 +167,6 @@ void StartMenu::generateLevels() {
     }
 
     levels[0]->set_unlocked(1);
-    levels[2]->set_unlocked(1);
-
-
-    //Testing
-    levels[1]->set_unlocked(1);
-    levels[2]->set_unlocked(1);
-    levels[3]->set_unlocked(1);
-    levels[4]->set_unlocked(1);
-    levels[5]->set_unlocked(1);
-    levels[6]->set_unlocked(1);
-    levels[7]->set_unlocked(1);
-    levels[8]->set_unlocked(1);
-    levels[9]->set_unlocked(1);
-    //
-
 
     ui->labellock_1->setVisible(0);
 
@@ -206,8 +194,8 @@ void StartMenu::on_pushButtonlevel1_clicked() {
     lvl1->window->showFullScreen();
     lvl1->window->setRocketCount(4);
     lvl1->window->get_startmenu(this);
-    lvl1->window->get_currentlevelindex(currentLevel);
-    lvl1->window->set_winoffset(4);
+    lvl1->window->set_currentlevelindex(currentLevel);
+    lvl1->window->set_winoffset(3);
 
 
 }
@@ -226,7 +214,9 @@ void StartMenu::on_pushButtonlevel2_clicked() {
         lvl2->window->setCurrentLevel(currentLevel);
         lvl2->window->showFullScreen();
         lvl2->window->get_startmenu(this);
-        lvl2->window->get_currentlevelindex(currentLevel);
+        lvl2->window->set_currentlevelindex(currentLevel);
+        lvl2->window->setRocketCount(10);
+        lvl2->window->set_winoffset(5);
     }
 }
 
@@ -244,9 +234,10 @@ void StartMenu::on_pushButtonlevel3_clicked() {
         lvl3->drawObstacles();
         lvl3->window->setCurrentLevel(currentLevel);
         lvl3->window->showFullScreen();
-        lvl3->window->setRocketCount(4);
         lvl3->window->get_startmenu(this);
-        lvl3->window->get_currentlevelindex(currentLevel);
+        lvl3->window->set_currentlevelindex(currentLevel);
+        lvl3->window->setRocketCount(6);
+        lvl3->window->set_winoffset(3);
     }
 
 }
@@ -264,7 +255,9 @@ void StartMenu::on_pushButtonlevel4_clicked() {
         lvl4->window->setCurrentLevel(currentLevel);
         lvl4->window->showFullScreen();
         lvl4->window->get_startmenu(this);
-        lvl4->window->get_currentlevelindex(currentLevel);
+        lvl4->window->set_currentlevelindex(currentLevel);
+        lvl4->window->setRocketCount(7);
+        lvl4->window->set_winoffset(3);
     }
 }
 
@@ -281,7 +274,9 @@ void StartMenu::on_pushButtonlevel5_clicked() {
     lvl5->window->setCurrentLevel(currentLevel);
     lvl5->window->showFullScreen();
     lvl5->window->get_startmenu(this);
-    lvl5->window->get_currentlevelindex(currentLevel);
+    lvl5->window->set_currentlevelindex(currentLevel);
+    lvl5->window->setRocketCount(7);
+    lvl5->window->set_winoffset(3);
     }
 }
 
@@ -298,7 +293,9 @@ void StartMenu::on_pushButtonlevel6_clicked() {
     lvl6->window->setCurrentLevel(currentLevel);
     lvl6->window->showFullScreen();
     lvl6->window->get_startmenu(this);
-    lvl6->window->get_currentlevelindex(currentLevel);
+    lvl6->window->set_currentlevelindex(currentLevel);
+    lvl6->window->setRocketCount(10);
+    lvl6->window->set_winoffset(5);
     }
 }
 
@@ -314,7 +311,9 @@ void StartMenu::on_pushButtonlevel7_clicked() {
     lvl7->window->setCurrentLevel(currentLevel);
     lvl7->window->showFullScreen();
     lvl7->window->get_startmenu(this);
-    lvl7->window->get_currentlevelindex(currentLevel);
+    lvl7->window->set_currentlevelindex(currentLevel);
+    lvl7->window->setRocketCount(10);
+    lvl7->window->set_winoffset(5);
     }
 }
 
@@ -330,7 +329,9 @@ void StartMenu::on_pushButtonlevel8_clicked() {
     lvl8->window->setCurrentLevel(currentLevel);
     lvl8->window->showFullScreen();
     lvl8->window->get_startmenu(this);
-    lvl8->window->get_currentlevelindex(currentLevel);
+    lvl8->window->set_currentlevelindex(currentLevel);
+    lvl8->window->setRocketCount(6);
+    lvl8->window->set_winoffset(3);
     }
 }
 
@@ -346,7 +347,9 @@ void StartMenu::on_pushButtonlevel9_clicked() {
     lvl9->window->setCurrentLevel(currentLevel);
     lvl9->window->showFullScreen();
     lvl9->window->get_startmenu(this);
-    lvl9->window->get_currentlevelindex(currentLevel);
+    lvl9->window->set_currentlevelindex(currentLevel);
+    lvl9->window->setRocketCount(9);
+    lvl9->window->set_winoffset(4);
     }
 }
 
@@ -362,7 +365,9 @@ void StartMenu::on_pushButtonlevel10_clicked() {
     lvl10->window->setCurrentLevel(currentLevel);
     lvl10->window->showFullScreen();
     lvl10->window->get_startmenu(this);
-    lvl10->window->get_currentlevelindex(currentLevel);
+    lvl10->window->set_currentlevelindex(currentLevel);
+    lvl10->window->setRocketCount(15);
+    lvl10->window->set_winoffset(7);
     }
 }
 void StartMenu::setMusicPlayer(bool music) {
@@ -419,4 +424,28 @@ void StartMenu::renderer_unlocked() const
     ui->labellock_9->setVisible(0);
     if(levels[9]->get_unlocked())
     ui->labellock_10->setVisible(0);
+}
+
+void StartMenu::renderer_stars()
+{
+    if(levels[0]->get_unlocked())
+    ui->labelColoredStarsL1->setVisible(1);
+    if(levels[1]->get_unlocked())
+    ui->labelColoredStarsL2->setVisible(1);
+    if(levels[2]->get_unlocked())
+    ui->labelColoredStarsL3->setVisible(1);
+    if(levels[3]->get_unlocked())
+    ui->labelColoredStarsL4->setVisible(1);
+    if(levels[4]->get_unlocked())
+    ui->labelColoredStarsL5->setVisible(1);
+    if(levels[5]->get_unlocked())
+    ui->labelColoredStarsL6->setVisible(1);
+    if(levels[6]->get_unlocked())
+    ui->labelColoredStarsL7->setVisible(1);
+    if(levels[7]->get_unlocked())
+    ui->labelColoredStarsL8->setVisible(1);
+    if(levels[8]->get_unlocked())
+    ui->labelColoredStarsL9->setVisible(1);
+    if(levels[9]->get_unlocked())
+    ui->labelColoredStarsL10->setVisible(1);
 }

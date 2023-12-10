@@ -25,6 +25,8 @@ public:
     void setMusicPlayer(bool);
     ~StartMenu();
     void renderer_unlocked() const;
+    void renderer_stars();
+    Ui::StartMenu *ui;
 
 public slots:
     void on_pushButtonlevel1_clicked();
@@ -57,7 +59,7 @@ private slots:
 private:
     std::vector<Level*> levels;
 
-    Ui::StartMenu *ui;
+
 
     QMediaPlayer* MusicPlayer;
 

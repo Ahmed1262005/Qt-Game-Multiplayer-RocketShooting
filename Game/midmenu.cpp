@@ -53,16 +53,38 @@ Level* MidMenu::getNextLevel() {
 
 void MidMenu::on_pushButtonexit_clicked()
 {
-    // Hide the main window and the current dialog window
+
     main->hide();
     hide();
 
     // Stop the music player associated with the main window
     main->setMusicPlayer(false);
+    start->showFullScreen();
+    if(ui->labelYouWin->isVisible() == false)
+
+    {
+    // Hide the main window and the current dialog window
+
 
     // Create a new instance of the StartMenu and display it in full screen
-    start = new StartMenu;
-    start->showFullScreen();
+    int counter = main->get_currentlevelindex();
+    for(int i = 0; i < counter+1; i++)
+    {
+        start->getLevels()[i]->set_unlocked(true);
+        start->renderer_stars();
+    }
+
+
+    for(int i = 0; i < counter+2; i++)
+    {
+        start->getLevels()[i]->set_unlocked(true);
+
+    }
+
+    start->renderer_unlocked();
+
+
+    }
 }
 
 void MidMenu::showScore() {
@@ -97,6 +119,27 @@ void MidMenu::on_pushButtonretry_clicked() {
     // Stop the music and set it to false
     main->setMusicPlayer(false);
 
+    StartMenu* menu2 = new StartMenu;
+    if (main->get_currentlevelindex() == 0) {
+        menu2->on_pushButtonlevel1_clicked();
+    } else if (main->get_currentlevelindex() == 1) {
+        menu2->on_pushButtonlevel2_clicked();
+    } else if (main->get_currentlevelindex() == 2) {
+        menu2->on_pushButtonlevel3_clicked();
+    } else if (main->get_currentlevelindex() == 3) {
+        menu2->on_pushButtonlevel4_clicked();
+    } else if (main->get_currentlevelindex() == 4) {
+        menu2->on_pushButtonlevel5_clicked();
+    } else if (main->get_currentlevelindex() == 5) {
+        menu2->on_pushButtonlevel6_clicked();
+    } else if (main->get_currentlevelindex() == 6) {
+        menu2->on_pushButtonlevel7_clicked();
+    } else if (main->get_currentlevelindex() == 7) {
+        menu2->on_pushButtonlevel8_clicked();
+    } else if (main->get_currentlevelindex() == 8) {
+        menu2->on_pushButtonlevel9_clicked();
+    } else if (main->get_currentlevelindex() == 9) {
+        menu2->on_pushButtonlevel10_clicked();}
     // Create a new StartMenu instance and navigate to level 1
 
 
@@ -110,7 +153,47 @@ void MidMenu::on_pushButtonNextLevel_clicked() {
     // Stop the music and set it to false
     main->setMusicPlayer(false);
 
-    // Create a new StartMenu instance and navigate to level 2
+    if(ui->labelYouWin->isVisible() == false)
+
+    {
+        // Hide the main window and the current dialog window
+
+
+        // Create a new instance of the StartMenu and display it in full screen
+        int counter = main->get_currentlevelindex();
+
+
+
+        for(int i = 0; i < counter+2; i++)
+        {
+        start->getLevels()[i]->set_unlocked(true);
+        }
+
+        start->renderer_unlocked();
+
+        if (main->get_currentlevelindex() == 0) {
+        start->on_pushButtonlevel2_clicked();
+        } else if (main->get_currentlevelindex() == 1) {
+        start->on_pushButtonlevel3_clicked();
+        } else if (main->get_currentlevelindex() == 2) {
+        start->on_pushButtonlevel4_clicked();
+        } else if (main->get_currentlevelindex() == 3) {
+        start->on_pushButtonlevel5_clicked();
+        } else if (main->get_currentlevelindex() == 4) {
+        start->on_pushButtonlevel6_clicked();
+        } else if (main->get_currentlevelindex() == 5) {
+        start->on_pushButtonlevel7_clicked();
+        } else if (main->get_currentlevelindex() == 6) {
+        start->on_pushButtonlevel8_clicked();
+        } else if (main->get_currentlevelindex() == 7) {
+        start->on_pushButtonlevel9_clicked();
+        } else if (main->get_currentlevelindex() == 8) {
+        start->on_pushButtonlevel10_clicked();
+        }
+
+
+    }
+
 
 }
 
@@ -124,7 +207,7 @@ void MidMenu::calculate_stars()
      ui->labelYouLose->setVisible(false);
      ui->labelYouWin->setVisible(true);
      float percentage = ((float)main->get_counter()/(float)main->get_winoffset()) * 100;
-     if((percentage < 75) && (percentage > 25))
+     if((percentage <= 80) && (percentage > 25))
      {
         ui->labelColoredStars->setMargin(-100);
      }

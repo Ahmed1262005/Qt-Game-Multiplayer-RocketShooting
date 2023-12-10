@@ -302,7 +302,7 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
             if ((*i)->getHealth() <= 20) {
                 towerPosition = (*i)->get_body()->GetPosition();
                 // Load and render crack image if tower health is low
-                QPixmap crackPixmap("://Resources/Images/crack.png");
+                QPixmap crackPixmap("://Resources/Images/cracks.png");
                 renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
                                      height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
             }
@@ -695,7 +695,7 @@ void PhysicsWorld::get_startmenu(StartMenu* start)
     Menu = start;
 }
 
-void PhysicsWorld::get_currentlevelindex(int curr)
+void PhysicsWorld::set_currentlevelindex(int curr)
 {
     currentlevelindex = curr;
 }

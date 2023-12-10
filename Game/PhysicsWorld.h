@@ -40,7 +40,8 @@ public:
     int getCurrentLevel(); //Getter for the level
     void setCurrentLevel(int index); // Setter for the level
     void get_startmenu(StartMenu*);
-    void get_currentlevelindex(int);
+    void set_currentlevelindex(int);
+    int get_currentlevelindex() {return currentlevelindex;}
     int get_winoffset();
     void set_winoffset(int);
     int get_counter();
