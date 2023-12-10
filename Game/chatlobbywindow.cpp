@@ -1,13 +1,13 @@
 // #include "chatlobbywindow.h"
 // #include "ui_chatlobbywindow.h"
 
-// #include <QTime>
-
-// ChatLobbyWindow::ChatLobbyWindow(QWidget *parent)
+// ChatLobbyWindow::ChatLobbyWindow(WebSocketHandler *player, QWidget *parent)
 //     : QWidget(parent)
-//     , ui(new Ui::ChatLobbyWindow)
+//     , ui(new Ui::ChatLobbyWindow),
+//     Player(player)
 // {
 //     ui->setupUi(this);
+//     connect(player, &QAbstractSocket::readyRead, this, &QWebSocketPrivate::processData);
 // }
 
 // ChatLobbyWindow::~ChatLobbyWindow()
@@ -15,11 +15,19 @@
 //     delete ui;
 // }
 
-// void ChatLobbyWindow::setMessage(QString message, bool isMyMessage)
+// void ChatLobbyWindow:: dataRecieved()
 // {
-//     if(isMyMessage)
-//         ui->lineEditMessage->setAlignment(Qt::AlignRight);
 
-//     ui->lineEditMessage->setText(message);
-//     ui->lineEditMessage->setText(QTime::currentTime().toString("HH:mm"));
 // }
+
+// void ChatLobbyWindow::on_pushButtonStart_clicked()
+// {
+
+// }
+
+
+// void ChatLobbyWindow::on_pushButtonSendMessage_clicked()
+// {
+
+// }
+

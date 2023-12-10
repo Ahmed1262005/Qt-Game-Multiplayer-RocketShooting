@@ -24,11 +24,55 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labelBackground->setPixmap(background.scaled(1920, 1080));
 
     setMusicPlayer(true);
-    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
+    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(700,200,Qt::KeepAspectRatio));
     generateLevels();
 
+    QPixmap coloredStarsPic(":/Resources/Images/coloredStars.png");
+    ui->labelColoredStarsL1->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL1->width(), ui->labelColoredStarsL1->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL2->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL3->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL4->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL5->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL6->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL7->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL8->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL9->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL10->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+
+    ui->labelColoredStarsL1 ->setVisible(1);
+    ui->labelColoredStarsL2 ->setVisible(0);
+    ui->labelColoredStarsL3 ->setVisible(0);
+    ui->labelColoredStarsL4 ->setVisible(0);
+    ui->labelColoredStarsL5 ->setVisible(0);
+    ui->labelColoredStarsL6 ->setVisible(0);
+    ui->labelColoredStarsL7 ->setVisible(0);
+    ui->labelColoredStarsL8 ->setVisible(0);
+    ui->labelColoredStarsL9 ->setVisible(0);
+    ui->labelColoredStarsL10 ->setVisible(0);
 
 
+    QPixmap blackStarsPic(":/Resources/Images/blackStars.png");
+    ui->labelBlackStars_1->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_1->width(), ui->labelBlackStars_1->height()));
+    ui->labelBlackStars_2->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_2->width(), ui->labelBlackStars_2->height()));
+    ui->labelBlackStars_3->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_3->width(), ui->labelBlackStars_3->height()));
+    ui->labelBlackStars_4->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_4->width(), ui->labelBlackStars_4->height()));
+    ui->labelBlackStars_5->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_5->width(), ui->labelBlackStars_5->height()));
+    ui->labelBlackStars_6->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_6->width(), ui->labelBlackStars_6->height()));
+    ui->labelBlackStars_7->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_7->width(), ui->labelBlackStars_7->height()));
+    ui->labelBlackStars_8->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_8->width(), ui->labelBlackStars_8->height()));
+    ui->labelBlackStars_9->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_9->width(), ui->labelBlackStars_9->height()));
+    ui->labelBlackStars_10->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_10->width(), ui->labelBlackStars_10->height()));
+
+    ui->labelBlackStars_1 ->setVisible(1);
+    ui->labelBlackStars_2 ->setVisible(1);
+    ui->labelBlackStars_3 ->setVisible(1);
+    ui->labelBlackStars_4 ->setVisible(1);
+    ui->labelBlackStars_5 ->setVisible(1);
+    ui->labelBlackStars_6 ->setVisible(1);
+    ui->labelBlackStars_7 ->setVisible(1);
+    ui->labelBlackStars_8 ->setVisible(1);
+    ui->labelBlackStars_9 ->setVisible(1);
+    ui->labelBlackStars_10 ->setVisible(1);
 
 }
 void StartMenu::generateLevels() {
@@ -314,5 +358,17 @@ void StartMenu::setMusicPlayer(bool music) {
 void StartMenu::on_pushButtonQuit_clicked()
 {
     exit(1);
+}
+
+
+void StartMenu::on_pushButtonlevelCreateGame_clicked()
+{
+
+}
+
+
+void StartMenu::on_pushButtonlevelJoinGame_clicked()
+{
+
 }
 
