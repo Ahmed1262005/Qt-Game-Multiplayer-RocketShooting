@@ -23,14 +23,20 @@ ChatLobbyWindow::ChatLobbyWindow(GameManager *gameManager, QWidget *parent)
 //    // Connect the newLobbyMessage signal from the message handler to the onNewMessageReadyForProcessing slot
     connect(m_gameManager, &GameManager::newLobbyMessage, this,
             &ChatLobbyWindow::onNewMessageReadyForProcessing);
-    connect(m_gameManager, &GameManager::newLobbyMessage, this,
-            &ChatLobbyWindow::onNewMessageReadyForProcessing);
+    connect(m_gameManager, &GameManager::clientsInLobbyChanged, this, &ChatLobbyWindow::updateStartButton);
 }
 
 ChatLobbyWindow::~ChatLobbyWindow() {
     delete ui;
 }
 
+void ChatLobbyWindow::updateStartButton() {
+    if (m_gameManager->clientsInLobby().size() > 1) {
+        ui->pushButtonStart->setEnabled(true);
+    } else {
+        ui->pushButtonStart->setEnabled(false);
+    }
+}
 void ChatLobbyWindow::dataRecieved() {
 
 }
