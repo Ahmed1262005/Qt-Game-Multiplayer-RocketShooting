@@ -1,35 +1,35 @@
-// #ifndef CHATLOBBYWINDOW_H
-// #define CHATLOBBYWINDOW_H
+#ifndef CHATLOBBYWINDOW_H
+#define CHATLOBBYWINDOW_H
 
-// #include <QWidget>
-// #include <websockethandler.h> //need to recieve
-// //kinda shitty
+#include <QDialog>
+#include <QWidget>
+#include "gamemanager.h"
+#include "messageprocesshandler.h"
 
-// namespace Ui {
-// class ChatLobbyWindow;
-// }
+namespace Ui {
+    class ChatLobbyWindow;
+}
 
-// class ChatLobbyWindow : public QWidget
-// {
-//     Q_OBJECT
+class ChatLobbyWindow : public QDialog
+        {
+Q_OBJECT
 
-// public:
-//     explicit ChatLobbyWindow(WebSocketHandler *player ,QWidget *parent = nullptr);
-//     ~ChatLobbyWindow();
+public:
+    explicit ChatLobbyWindow(GameManager *gameManager, QWidget *parent = nullptr);
+    ~ChatLobbyWindow();
 
-//     void setMessage(QString message, bool isMyMessage = false);
+    void setMessage(QString message, bool isMyMessage = false);
 
-// private slots:
-//     void dataRecieved();
+private slots:
+    void dataRecieved();
+    void on_pushButtonStart_clicked();
+    void on_pushButtonSendMessage_clicked();
+    void onNewMessageReadyForProcessing(QString message);
 
+private:
+    Ui::ChatLobbyWindow *ui;
+    GameManager *m_gameManager;
+    MessageProcessHandler *m_messageHandler;
+};
 
-//     void on_pushButtonStart_clicked();
-
-//     void on_pushButtonSendMessage_clicked();
-
-// private:
-//     Ui::ChatLobbyWindow *ui;
-//     WebSocketHandler *Player;
-// };
-
-// #endif // CHATLOBBYWINDOW_H
+#endif // CHATLOBBYWINDOW_H

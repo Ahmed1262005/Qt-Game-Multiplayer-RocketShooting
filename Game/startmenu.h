@@ -5,6 +5,9 @@
 #include <QVector>
 #include <vector>
 #include "level.h"
+#include "gamemanager.h"
+#include "chatlobbywindow.h"
+
 class QMediaPlayer;
 class QAudioOutput;
 namespace Ui {
@@ -16,11 +19,12 @@ class StartMenu : public QDialog
     Q_OBJECT
 
 public:
-   explicit StartMenu(QWidget *parent = nullptr);
+   explicit StartMenu(QWidget *parent = nullptr , GameManager* manager = nullptr);
     int currentLevel;
 
     std::vector<Level*>& getLevels() { return levels; }
     void generateLevels();
+    void openChatLobbyWindow();
     Level *getCurrentLevel();
     void setMusicPlayer(bool);
     ~StartMenu();
@@ -57,6 +61,7 @@ private:
     std::vector<Level*> levels;
 
     Ui::StartMenu *ui;
+    GameManager* manager;
 
     QMediaPlayer* MusicPlayer;
 

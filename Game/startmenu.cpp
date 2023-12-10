@@ -5,9 +5,12 @@
 #include <QAudioOutput>
 #include "PhysicsWorld.h"
 
-StartMenu::StartMenu(QWidget *parent) :
+StartMenu::StartMenu(QWidget *parent, GameManager* manager) :
         QDialog(parent),
         ui(new Ui::StartMenu) {
+    this->manager = manager;
+    connect(manager, &GameManager::inGameLobby, this, &StartMenu::openChatLobbyWindow);
+
     ui->setupUi(this);
     QPixmap background(":/Resources/Images/StartMenuBackground.png");
     QPixmap lock("://Resources/Images/lock.png");
@@ -74,6 +77,17 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labelBlackStars_9 ->setVisible(1);
     ui->labelBlackStars_10 ->setVisible(1);
 
+}
+
+void StartMenu::openChatLobbyWindow()
+{
+    qDebug() << "Joined lobby";
+    ChatLobbyWindow *chatLobbyWindow = new ChatLobbyWindow(manager, this);
+    chatLobbyWindow->show();
+    this->hide(); // Optionally, hide the current window//    chatLobbyWindow.setModal(true);
+//    chatLobbyWindow.exec();
+//    chatLobbyWindow.show();
+//    hide();
 }
 void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {
@@ -363,12 +377,15 @@ void StartMenu::on_pushButtonQuit_clicked()
 
 void StartMenu::on_pushButtonlevelCreateGame_clicked()
 {
+// Call the createGameRequest function from the GameManager instance
+    manager->createGameRequest();
 
 }
 
 
 void StartMenu::on_pushButtonlevelJoinGame_clicked()
 {
-
+    QString lobbyId = ui->lineEditJoinGame->text();
+    ui->lineEditJoinGame->clear();
+    manager->joinLobbyRequest(lobbyId);
 }
-
