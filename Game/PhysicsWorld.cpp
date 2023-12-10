@@ -284,7 +284,7 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
 
     // Render text displaying the current level
     renderer->setFont(QFont("times",22));
-    renderer->drawText(1500, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
+    renderer->drawText(900, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
 
     // Draw the rocket if it exists and predicted collision is not happening
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {

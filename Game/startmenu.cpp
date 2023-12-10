@@ -79,60 +79,80 @@ void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {
         Level* level = new Level(i);
         switch (i) {
-            case 1:
+            case 1: //one enemy >> DONE
                 // Configuration for level 1
-                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(800.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1100.f, -10.f,100.f,100.f,ArmoredEnemy);
                 break;
-            case 2:
+            case 2: //one enemy >> DONE
                 // Configuration for level 2
                 level->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
-                level->AddEnemy(1000.f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(1200.0f,-10.0f,200.0f,500.0f,1);
+                level->AddTower(850.0f,-10.0f,200.0f,500.0f,1);
+                level->AddEnemy(1050.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 3:
+            case 3: //one enemy >> DONE
                 // Configuration for level 3
-                level->AddTower(700.0f,-10.0f,200.0f,400.0f,1);
-                level->AddTower(1000.0f,-10.0f,200.0f,500.0f,2);
-                level->AddTower(1400.0f,-10.0f,200.0f,500.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(700.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(910.0f,-10.0f,150.0f,400.0f,1); //short
+                level->AddEnemy(1080.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1300.0f,-10.0f,200.0f,500.0f,2);
                 break;
-            case 4:
+            case 4: //two enemies >> DONE
                 // Configuration for level 4
-                level->AddTower(700.0f,-20.0f,340.0f,600.0f,1);
-                level->AddEnemy(1200.f, -20.f,100.f,100.f,ArmoredEnemy);
-                level->AddEnemy(1000.f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(1400.0f,-20.0f,340.0f,600.0f,1);
+                level->AddEnemy(700.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(820.0f,-20.0f,200.0f,600.0f,1);
+                level->AddEnemy(1020.f, -20.f,200.f,200.f,ArmoredEnemy);
+
                 break;
-            case 5:
+            case 5://two enemies >> DONE
                 // Configuration for level 5
-                level->AddTower(700.0f,-20.0f,310.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(700.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(860.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1070.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1275.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 6:
+            case 6: //two enemies >>DONE
                 // Configuration for level 6
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(600.0f,-20.0f,200.0f,500.0f,2); //tall
+                level->AddTower(820.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(975.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1180.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1385.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 7:
+            case 7: //three enemies >>
                 // Configuration for level 7
-                level->AddTower(700.0f,-20.0f,320.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddEnemy(650.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(851.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1055.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1260.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(1420.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 8:
+            case 8: //three enemies
                 // Configuration for level 8
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,203.f,200.f,ArmoredEnemy);
+                level->AddTower(650.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(805.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1010.0f,-20.0f,200.0f,500.0f,2); //tower 3
+                level->AddEnemy(1215.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddEnemy(1420.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 9:
+            case 9: //three enemies
                 // Configuration for level 9
-                level->AddTower(700.0f,-20.0f,354.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(650.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(805.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1010.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1220.0f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1425.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(1580.0f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 10:
+            case 10: //three enemies
                 // Configuration for level 10
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,220.f,200.f,ArmoredEnemy);
+                level->AddTower(600.0f,-20.0f,200.0f,500.0f,2);
+                level->AddTower(800.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(960.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(1115.0f,-20.0f,200.0f,500.0f,2);//tower3
+                level->AddEnemy(1320.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(1475.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(1625.f, -20.f,150.f,150.f,ArmoredEnemy);
                 break;
             default:
                 // Default configuration for levels without a specific case
@@ -144,7 +164,20 @@ void StartMenu::generateLevels() {
     }
 
     levels[0]->set_unlocked(1);
+
+
+    //Testing
+    levels[1]->set_unlocked(1);
     levels[2]->set_unlocked(1);
+    levels[3]->set_unlocked(1);
+    levels[4]->set_unlocked(1);
+    levels[5]->set_unlocked(1);
+    levels[6]->set_unlocked(1);
+    levels[7]->set_unlocked(1);
+    levels[8]->set_unlocked(1);
+    levels[9]->set_unlocked(1);
+    //
+
 
     ui->labellock_1->setVisible(0);
 
