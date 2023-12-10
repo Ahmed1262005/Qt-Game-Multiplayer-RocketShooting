@@ -302,20 +302,18 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
     // Iterate through towers and render them
     for (auto i = towers.begin(); i != towers.end(); i++) {
         if ((*i)->getHealth() > 0) {
+            if ((*i)->getHealth() <= 20) {
+                towerPosition = (*i)->get_body()->GetPosition();
+                // Load and render crack image if tower health is low
+                QPixmap crackPixmap("://Resources/Images/crack.png");
+                renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
+                                     height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
+            }
             towerPosition = (*i)->get_body()->GetPosition();
 
             // Render tower pixmap
             renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
                                  height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
-
-            if ((*i)->getHealth() <= 20) {
-                towerPosition = (*i)->get_body()->GetPosition();
-                // Load and render crack image if tower health is low
-                QPixmap crackPixmap(":/Resources/Images/cracks.png");
-                renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
-                                     height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
-            }
-
         }
     }
 
@@ -449,7 +447,7 @@ void PhysicsWorld::createRocket(float x, float y) {
     rocketBody = world->CreateBody(&bodyDef);
     // Use an image for the rocket
     QPixmap rocketixmap("://Resources/Images/RoundShot.png");
-    rocketPixmap = rocketixmap.scaled(50, 50); // Adjust the size as needed
+    rocketPixmap = rocketixmap.scaled(30, 30); // Adjust the size as needed
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
