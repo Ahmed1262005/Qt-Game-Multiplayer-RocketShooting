@@ -2,6 +2,7 @@
 #define PHYSICSWORLD_H
 
 #include "obstacles.h"
+#include "startmenu.h"
 #include <QMainWindow>
 #include <QTimer>
 #include <QPainter>
@@ -12,6 +13,8 @@
 #include <vector>
 
 class Level; // Forward declaration of class Level
+
+class StartMenu;
 
 class PhysicsWorld : public QMainWindow, public b2ContactListener {
     Q_OBJECT
@@ -36,6 +39,11 @@ public:
     int currentLevel; // Index of the current level
     int getCurrentLevel(); //Getter for the level
     void setCurrentLevel(int index); // Setter for the level
+    void get_startmenu(StartMenu*);
+    void get_currentlevelindex(int);
+    int get_winoffset();
+    void set_winoffset(int);
+    int get_counter();
 
     // Timer and physics world for updating the game
     QTimer *timer;
@@ -71,6 +79,8 @@ protected:
     // Audio-related variables
     QMediaPlayer* MusicPlayer; // Media player for game music
     QAudioOutput* Speaker; // Output device for audio
+    StartMenu* Menu;
+    int currentlevelindex;
 
     // Variables for trajectory prediction
     bool drawPredictedCollision; // Flag for drawing predicted collision
@@ -114,6 +124,7 @@ protected:
     void BeginContact(b2Contact * contact); // Handles contact between bodies
     int enemyCounter; // Counter for enemies
     int counter; // General counter
+    int winoffset;
     QVector<Obstacles*> towers; // Vector of tower objects
     QVector<Obstacles*> enemies; // Vector of enemy objects
 

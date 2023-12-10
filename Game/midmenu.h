@@ -19,7 +19,7 @@ public:
     void showScore();
 
     // Setter for setting the levels
-    void setLevels(std::vector<Level*>& levels) { this->levels = levels; }
+    //void setLevels(std::vector<Level*>& levels) { this->levels = levels; }
 
     // Public member variables
     float score;
@@ -34,10 +34,13 @@ public:
     void get_window(PhysicsWorld*);
 
     // Method to get the Level pointer
-    void get_level(Level*);
-
     // Method to retrieve the next level
     Level* getNextLevel();
+
+    void get_startmenu(StartMenu*);
+
+    void calculate_stars();
+
 
 private slots:
     // Slots for button clicks
@@ -49,9 +52,8 @@ private:
     // Private members
     Ui::MidMenu *ui;
     StartMenu* start;
-    std::vector<Level*> levels;
     PhysicsWorld* main;
-    int winoffset;
+
 };
 
 #endif // MIDMENU_H

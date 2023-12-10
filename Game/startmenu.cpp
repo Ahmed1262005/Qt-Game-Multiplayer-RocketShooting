@@ -49,7 +49,7 @@ void StartMenu::generateLevels() {
             case 3:
                 // Configuration for level 3
                 level->AddTower(700.0f,-10.0f,200.0f,400.0f,1);
-                level->AddTower(1000.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(1000.0f,-10.0f,200.0f,200.0f,2);
                 level->AddTower(1400.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
@@ -100,27 +100,11 @@ void StartMenu::generateLevels() {
     }
 
     levels[0]->set_unlocked(1);
+    levels[2]->set_unlocked(1);
 
     ui->labellock_1->setVisible(0);
 
-    if(levels[1]->get_unlocked())
-        ui->labellock_2->setVisible(0);
-    if(levels[2]->get_unlocked())
-        ui->labellock_3->setVisible(0);
-    if(levels[3]->get_unlocked())
-        ui->labellock_4->setVisible(0);
-    if(levels[4]->get_unlocked())
-        ui->labellock_5->setVisible(0);
-    if(levels[5]->get_unlocked())
-        ui->labellock_6->setVisible(0);
-    if(levels[6]->get_unlocked())
-        ui->labellock_7->setVisible(0);
-    if(levels[7]->get_unlocked())
-        ui->labellock_8->setVisible(0);
-    if(levels[8]->get_unlocked())
-        ui->labellock_9->setVisible(0);
-    if(levels[9]->get_unlocked())
-        ui->labellock_10->setVisible(0);
+
 }
 StartMenu::~StartMenu() {
     delete ui;
@@ -142,7 +126,10 @@ void StartMenu::on_pushButtonlevel1_clicked() {
     lvl1->drawObstacles();
     lvl1->window->setCurrentLevel(currentLevel);
     lvl1->window->showFullScreen();
-    lvl1->window->setRocketCount(10);
+    lvl1->window->setRocketCount(4);
+    lvl1->window->get_startmenu(this);
+    lvl1->window->get_currentlevelindex(currentLevel);
+    lvl1->window->set_winoffset(4);
 
 
 }
@@ -160,6 +147,8 @@ void StartMenu::on_pushButtonlevel2_clicked() {
         lvl2->drawObstacles();
         lvl2->window->setCurrentLevel(currentLevel);
         lvl2->window->showFullScreen();
+        lvl2->window->get_startmenu(this);
+        lvl2->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -177,6 +166,9 @@ void StartMenu::on_pushButtonlevel3_clicked() {
         lvl3->drawObstacles();
         lvl3->window->setCurrentLevel(currentLevel);
         lvl3->window->showFullScreen();
+        lvl3->window->setRocketCount(4);
+        lvl3->window->get_startmenu(this);
+        lvl3->window->get_currentlevelindex(currentLevel);
     }
 
 }
@@ -193,6 +185,8 @@ void StartMenu::on_pushButtonlevel4_clicked() {
         lvl4->drawObstacles();
         lvl4->window->setCurrentLevel(currentLevel);
         lvl4->window->showFullScreen();
+        lvl4->window->get_startmenu(this);
+        lvl4->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -208,6 +202,8 @@ void StartMenu::on_pushButtonlevel5_clicked() {
     lvl5->drawObstacles();
     lvl5->window->setCurrentLevel(currentLevel);
     lvl5->window->showFullScreen();
+    lvl5->window->get_startmenu(this);
+    lvl5->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -223,6 +219,8 @@ void StartMenu::on_pushButtonlevel6_clicked() {
     lvl6->drawObstacles();
     lvl6->window->setCurrentLevel(currentLevel);
     lvl6->window->showFullScreen();
+    lvl6->window->get_startmenu(this);
+    lvl6->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -237,6 +235,8 @@ void StartMenu::on_pushButtonlevel7_clicked() {
     lvl7->drawObstacles();
     lvl7->window->setCurrentLevel(currentLevel);
     lvl7->window->showFullScreen();
+    lvl7->window->get_startmenu(this);
+    lvl7->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -251,6 +251,8 @@ void StartMenu::on_pushButtonlevel8_clicked() {
     lvl8->drawObstacles();
     lvl8->window->setCurrentLevel(currentLevel);
     lvl8->window->showFullScreen();
+    lvl8->window->get_startmenu(this);
+    lvl8->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -265,6 +267,8 @@ void StartMenu::on_pushButtonlevel9_clicked() {
     lvl9->drawObstacles();
     lvl9->window->setCurrentLevel(currentLevel);
     lvl9->window->showFullScreen();
+    lvl9->window->get_startmenu(this);
+    lvl9->window->get_currentlevelindex(currentLevel);
     }
 }
 
@@ -279,6 +283,8 @@ void StartMenu::on_pushButtonlevel10_clicked() {
     lvl10->drawObstacles();
     lvl10->window->setCurrentLevel(currentLevel);
     lvl10->window->showFullScreen();
+    lvl10->window->get_startmenu(this);
+    lvl10->window->get_currentlevelindex(currentLevel);
     }
 }
 void StartMenu::setMusicPlayer(bool music) {
@@ -315,3 +321,24 @@ void StartMenu::on_pushButtonQuit_clicked()
     exit(1);
 }
 
+void StartMenu::renderer_unlocked() const
+{
+    if(levels[1]->get_unlocked())
+    ui->labellock_2->setVisible(0);
+    if(levels[2]->get_unlocked())
+    ui->labellock_3->setVisible(0);
+    if(levels[3]->get_unlocked())
+    ui->labellock_4->setVisible(0);
+    if(levels[4]->get_unlocked())
+    ui->labellock_5->setVisible(0);
+    if(levels[5]->get_unlocked())
+    ui->labellock_6->setVisible(0);
+    if(levels[6]->get_unlocked())
+    ui->labellock_7->setVisible(0);
+    if(levels[7]->get_unlocked())
+    ui->labellock_8->setVisible(0);
+    if(levels[8]->get_unlocked())
+    ui->labellock_9->setVisible(0);
+    if(levels[9]->get_unlocked())
+    ui->labellock_10->setVisible(0);
+}

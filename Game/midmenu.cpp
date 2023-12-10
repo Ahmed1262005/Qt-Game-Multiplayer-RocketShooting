@@ -22,22 +22,22 @@ MidMenu::MidMenu(QWidget *parent):
     ui->labelColoredStars->setPixmap(QPixmap(":/Resources/Images/coloredStars.png").scaled(300, 100));
 
     // Set the win offset to a default value (1 in this case)
-    winoffset = 1;
+//    winoffset = 1;
 
-    // Adjust the margin of the colored stars image based on the win offset value
-    if (winoffset == 0) {
-        ui->labelYouWin->setVisible(false);
-        ui->labelYouLose->setText("You Lose");
-        ui->pushButtonNextLevel->setVisible(false);
-        ui->labelColoredStars->setMargin(-200); // Set margin for winoffset = 0
-    } else if (winoffset == 1) {
-        // If the score is not 0, display "You Win"
-        ui->labelYouWin->setVisible(true);
-        // Set the text to "You Win"
-        ui->labelYouLose->setVisible(false);
-        ui->labelColoredStars->setMargin(-100); // Set margin for winoffset = 1
-    }
-    // Add handling for other winoffset values if needed
+//    // Adjust the margin of the colored stars image based on the win offset value
+//    if (winoffset == 0) {
+//        ui->labelYouWin->setVisible(false);
+//        ui->labelYouLose->setText("You Lose");
+//        ui->pushButtonNextLevel->setVisible(false);
+//        ui->labelColoredStars->setMargin(-200); // Set margin for winoffset = 0
+//    } else if (winoffset == 1) {
+//        // If the score is not 0, display "You Win"
+//        ui->labelYouWin->setVisible(true);
+//        // Set the text to "You Win"
+//        ui->labelYouLose->setVisible(false);
+//        ui->labelColoredStars->setMargin(-100); // Set margin for winoffset = 1
+//    }
+//    // Add handling for other winoffset values if needed
 }
 
 
@@ -48,12 +48,7 @@ MidMenu::~MidMenu()
 
 Level* MidMenu::getNextLevel() {
     // Check if there is a next level available in the levels vector
-    if (currentLevelIndex + 1 < levels.size()) {
-        // If yes, increment the current level index and return the next level
-        return levels[++currentLevelIndex];
-    }
-    // If no next level is available, return nullptr (or handle the case based on your application's logic)
-    return nullptr;
+
 }
 
 void MidMenu::on_pushButtonexit_clicked()
@@ -82,16 +77,7 @@ void MidMenu::showScore() {
         // Set the text to "You Win"
         ui->labelYouLose->setVisible(false);
 
-//        // Calculate the width of the stars image based on the score
-//        int totalWidth = ui->labelBlackStars->width();
-//        int starsWidth = static_cast<int>(score / 100.0 * totalWidth); // Calculate the width of stars based on the score
 
-//        // Clip the colored stars image based on the calculated width
-//        QPixmap coloredStarsPixmap(":/Resources/Images/coloredStars.png");
-//        QPixmap clippedPixmap = coloredStarsPixmap.copy(0, 0, starsWidth, coloredStarsPixmap.height());
-
-//        // Set the clipped image to the label for colored stars
-//        ui->labelColoredStars->setPixmap(clippedPixmap);
     }
 }
 
@@ -101,10 +87,7 @@ void MidMenu::get_window(PhysicsWorld* main) {
     this->main = main;
 }
 
-void MidMenu::get_level(Level* level) {
-    // Store the pointer to the Level instance in the class member
-    this->level = level;
-}
+
 
 void MidMenu::on_pushButtonretry_clicked() {
     // Hide the main window and this MidMenu window
@@ -115,8 +98,8 @@ void MidMenu::on_pushButtonretry_clicked() {
     main->setMusicPlayer(false);
 
     // Create a new StartMenu instance and navigate to level 1
-    StartMenu start;
-    start.on_pushButtonlevel1_clicked();
+
+
 }
 
 void MidMenu::on_pushButtonNextLevel_clicked() {
@@ -128,7 +111,31 @@ void MidMenu::on_pushButtonNextLevel_clicked() {
     main->setMusicPlayer(false);
 
     // Create a new StartMenu instance and navigate to level 2
-    StartMenu start;
-    start.on_pushButtonlevel2_clicked();
+
 }
 
+void MidMenu::get_startmenu(StartMenu* menu)
+{
+    start = menu;
+}
+
+void MidMenu::calculate_stars()
+{
+     ui->labelYouLose->setVisible(false);
+     ui->labelYouWin->setVisible(true);
+     float percentage = ((float)main->get_counter()/(float)main->get_winoffset()) * 100;
+     if((percentage < 75) && (percentage > 25))
+     {
+        ui->labelColoredStars->setMargin(-100);
+     }
+     else if ((percentage <= 25) && (percentage > 0))
+     {
+        ui->labelColoredStars->setMargin(-200);
+     }
+     else if(percentage <=0)
+     {
+        ui->labelColoredStars->setMargin(-300);
+        ui->labelYouWin->setVisible(false);
+        ui->labelYouLose->setVisible(true);
+     }
+}
