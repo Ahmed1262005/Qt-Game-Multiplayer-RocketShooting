@@ -24,71 +24,135 @@ StartMenu::StartMenu(QWidget *parent) :
     ui->labelBackground->setPixmap(background.scaled(1920, 1080));
 
     setMusicPlayer(true);
-    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(600,100,Qt::KeepAspectRatio));
+    ui->labelTitle->setPixmap(QPixmap(":/Resources/Images/Title.png").scaled(700,200,Qt::KeepAspectRatio));
     generateLevels();
 
+    QPixmap coloredStarsPic(":/Resources/Images/coloredStars.png");
+    ui->labelColoredStarsL1->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL1->width(), ui->labelColoredStarsL1->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL2->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL3->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL4->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL5->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL6->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL7->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL8->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL9->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+    ui->labelColoredStarsL10->setPixmap(coloredStarsPic.scaled(ui->labelColoredStarsL2->width(), ui->labelColoredStarsL2->height(),Qt::KeepAspectRatio));
+
+    ui->labelColoredStarsL1 ->setVisible(1);
+    ui->labelColoredStarsL2 ->setVisible(0);
+    ui->labelColoredStarsL3 ->setVisible(0);
+    ui->labelColoredStarsL4 ->setVisible(0);
+    ui->labelColoredStarsL5 ->setVisible(0);
+    ui->labelColoredStarsL6 ->setVisible(0);
+    ui->labelColoredStarsL7 ->setVisible(0);
+    ui->labelColoredStarsL8 ->setVisible(0);
+    ui->labelColoredStarsL9 ->setVisible(0);
+    ui->labelColoredStarsL10 ->setVisible(0);
 
 
+    QPixmap blackStarsPic(":/Resources/Images/blackStars.png");
+    ui->labelBlackStars_1->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_1->width(), ui->labelBlackStars_1->height()));
+    ui->labelBlackStars_2->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_2->width(), ui->labelBlackStars_2->height()));
+    ui->labelBlackStars_3->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_3->width(), ui->labelBlackStars_3->height()));
+    ui->labelBlackStars_4->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_4->width(), ui->labelBlackStars_4->height()));
+    ui->labelBlackStars_5->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_5->width(), ui->labelBlackStars_5->height()));
+    ui->labelBlackStars_6->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_6->width(), ui->labelBlackStars_6->height()));
+    ui->labelBlackStars_7->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_7->width(), ui->labelBlackStars_7->height()));
+    ui->labelBlackStars_8->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_8->width(), ui->labelBlackStars_8->height()));
+    ui->labelBlackStars_9->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_9->width(), ui->labelBlackStars_9->height()));
+    ui->labelBlackStars_10->setPixmap(blackStarsPic.scaled(ui->labelBlackStars_10->width(), ui->labelBlackStars_10->height()));
+
+    ui->labelBlackStars_1 ->setVisible(1);
+    ui->labelBlackStars_2 ->setVisible(1);
+    ui->labelBlackStars_3 ->setVisible(1);
+    ui->labelBlackStars_4 ->setVisible(1);
+    ui->labelBlackStars_5 ->setVisible(1);
+    ui->labelBlackStars_6 ->setVisible(1);
+    ui->labelBlackStars_7 ->setVisible(1);
+    ui->labelBlackStars_8 ->setVisible(1);
+    ui->labelBlackStars_9 ->setVisible(1);
+    ui->labelBlackStars_10 ->setVisible(1);
 
 }
 void StartMenu::generateLevels() {
     for (int i = 1; i <= 10; ++i) {
         Level* level = new Level(i);
         switch (i) {
-            case 1:
+            case 1: //one enemy >> DONE
                 // Configuration for level 1
-                level->AddTower(600.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(800.0f,-10.0f,200.0f,500.0f,2);
                 level->AddEnemy(1100.f, -10.f,100.f,100.f,ArmoredEnemy);
                 break;
-            case 2:
+            case 2: //one enemy >> DONE
                 // Configuration for level 2
                 level->AddTower(600.0f,-10.0f,200.0f,500.0f,1);
-                level->AddEnemy(1000.f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(1200.0f,-10.0f,200.0f,500.0f,1);
+                level->AddTower(850.0f,-10.0f,200.0f,500.0f,1);
+                level->AddEnemy(1050.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 3:
+            case 3: //one enemy >> DONE
                 // Configuration for level 3
-                level->AddTower(700.0f,-10.0f,200.0f,400.0f,1);
-                level->AddTower(1000.0f,-10.0f,200.0f,200.0f,2);
-                level->AddTower(1400.0f,-10.0f,200.0f,500.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(700.0f,-10.0f,200.0f,500.0f,2);
+                level->AddTower(910.0f,-10.0f,150.0f,400.0f,1); //short
+                level->AddEnemy(1080.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1300.0f,-10.0f,200.0f,500.0f,2);
                 break;
-            case 4:
+            case 4: //two enemies >> DONE
                 // Configuration for level 4
-                level->AddTower(700.0f,-20.0f,340.0f,600.0f,1);
-                level->AddEnemy(1200.f, -20.f,100.f,100.f,ArmoredEnemy);
-                level->AddEnemy(1000.f, -20.f,200.f,200.f,ArmoredEnemy);
-                level->AddTower(1400.0f,-20.0f,340.0f,600.0f,1);
+                level->AddEnemy(700.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(820.0f,-20.0f,200.0f,600.0f,1);
+                level->AddEnemy(1020.f, -20.f,200.f,200.f,ArmoredEnemy);
+
                 break;
-            case 5:
+            case 5://two enemies >> DONE
                 // Configuration for level 5
-                level->AddTower(700.0f,-20.0f,310.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(700.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(860.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1070.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1275.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 6:
+            case 6: //two enemies >>DONE
                 // Configuration for level 6
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(600.0f,-20.0f,200.0f,500.0f,2); //tall
+                level->AddTower(820.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(975.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1180.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1385.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 7:
+            case 7: //three enemies >>
                 // Configuration for level 7
-                level->AddTower(700.0f,-20.0f,320.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddEnemy(650.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(851.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1055.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1260.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(1420.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 8:
+            case 8: //three enemies
                 // Configuration for level 8
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,203.f,200.f,ArmoredEnemy);
+                level->AddTower(650.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(805.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1010.0f,-20.0f,200.0f,500.0f,2); //tower 3
+                level->AddEnemy(1215.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddEnemy(1420.f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 9:
+            case 9: //three enemies
                 // Configuration for level 9
-                level->AddTower(700.0f,-20.0f,354.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(650.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(805.f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1010.0f,-20.0f,200.0f,500.0f,2);
+                level->AddEnemy(1220.0f, -20.f,200.f,200.f,ArmoredEnemy);
+                level->AddTower(1425.0f,-20.0f,150.0f,400.0f,2);
+                level->AddEnemy(1580.0f, -20.f,200.f,200.f,ArmoredEnemy);
                 break;
-            case 10:
+            case 10: //three enemies
                 // Configuration for level 10
-                level->AddTower(700.0f,-20.0f,300.0f,600.0f,2);
-                level->AddEnemy(1200.f, -20.f,220.f,200.f,ArmoredEnemy);
+                level->AddTower(600.0f,-20.0f,200.0f,500.0f,2);
+                level->AddTower(800.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(960.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(1115.0f,-20.0f,200.0f,500.0f,2);//tower3
+                level->AddEnemy(1320.f, -20.f,150.f,150.f,ArmoredEnemy);
+                level->AddTower(1475.0f,-20.0f,150.0f,400.0f,1);
+                level->AddEnemy(1625.f, -20.f,150.f,150.f,ArmoredEnemy);
                 break;
             default:
                 // Default configuration for levels without a specific case
@@ -101,6 +165,20 @@ void StartMenu::generateLevels() {
 
     levels[0]->set_unlocked(1);
     levels[2]->set_unlocked(1);
+
+
+    //Testing
+    levels[1]->set_unlocked(1);
+    levels[2]->set_unlocked(1);
+    levels[3]->set_unlocked(1);
+    levels[4]->set_unlocked(1);
+    levels[5]->set_unlocked(1);
+    levels[6]->set_unlocked(1);
+    levels[7]->set_unlocked(1);
+    levels[8]->set_unlocked(1);
+    levels[9]->set_unlocked(1);
+    //
+
 
     ui->labellock_1->setVisible(0);
 

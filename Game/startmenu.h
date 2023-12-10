@@ -50,6 +50,10 @@ public slots:
 private slots:
     void on_pushButtonQuit_clicked();
 
+    void on_pushButtonlevelCreateGame_clicked();
+
+    void on_pushButtonlevelJoinGame_clicked();
+
 private:
     std::vector<Level*> levels;
 

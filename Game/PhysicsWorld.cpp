@@ -455,7 +455,7 @@ void PhysicsWorld::createRocket(float x, float y) {
     rocketBody = world->CreateBody(&bodyDef);
     // Use an image for the rocket
     QPixmap rocketixmap("://Resources/Images/RoundShot.png");
-    rocketPixmap = rocketixmap.scaled(30, 30); // Adjust the size as needed
+    rocketPixmap = rocketixmap.scaled(50, 50); // Adjust the size as needed
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
