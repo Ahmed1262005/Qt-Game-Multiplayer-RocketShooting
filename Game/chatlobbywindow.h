@@ -19,6 +19,7 @@ public:
     ~ChatLobbyWindow();
 
     void setMessage(QString message, bool isMyMessage = false);
+    void updateStartButton();
 
 private slots:
     void dataRecieved();
