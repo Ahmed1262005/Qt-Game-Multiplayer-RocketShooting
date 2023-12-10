@@ -215,12 +215,12 @@ void PhysicsWorld::updateWorld() {
     if (counter == 0) {
         // Create MidMenu and StartMenu instances and retrieve levels
         MidMenu *midmenu = new MidMenu;
-        StartMenu *start = new StartMenu;
-        start->setMusicPlayer(false);
-        std::vector<Level *> levels = start->getLevels();
+
+        Menu->setMusicPlayer(false);
+        std::vector<Level *> levels = Menu->getLevels();
 
         // Set levels for the MidMenu
-        midmenu->setLevels(levels);
+        //midmenu->setLevels(levels);
 
         // Configure MidMenu and set the current level information
         midmenu->get_window(this);
@@ -242,7 +242,7 @@ void PhysicsWorld::updateWorld() {
 
         // Set the current level in the game to the MidMenu
         lvl = midmenu->level;
-        midmenu->get_level(midmenu->getNextLevel());
+        //midmenu->get_level(midmenu->getNextLevel());
 
         // Show the MidMenu and start the timer
         midmenu->show();
@@ -284,7 +284,30 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
 
     // Render text displaying the current level
     renderer->setFont(QFont("times",22));
-    renderer->drawText(1500, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
+    renderer->drawText(500, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
+
+    for (auto i = towers.begin(); i != towers.end(); i++) {
+        if ((*i)->getHealth() > 0) {
+
+            towerPosition = (*i)->get_body()->GetPosition();
+
+            if((*i)->get_body() == rocketBody)
+            {
+                continue;
+            }
+
+            // Render tower pixmap
+            renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
+                                 height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
+            if ((*i)->getHealth() <= 20) {
+                towerPosition = (*i)->get_body()->GetPosition();
+                // Load and render crack image if tower health is low
+                QPixmap crackPixmap("://Resources/Images/crack.png");
+                renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
+                                     height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
+            }
+        }
+    }
 
     // Draw the rocket if it exists and predicted collision is not happening
     if (rocketBody && !rocketPixmap.isNull() && !drawPredictedCollision) {
@@ -300,22 +323,7 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
     enemyCounter = 0;
 
     // Iterate through towers and render them
-    for (auto i = towers.begin(); i != towers.end(); i++) {
-        if ((*i)->getHealth() > 0) {
-            if ((*i)->getHealth() <= 20) {
-                towerPosition = (*i)->get_body()->GetPosition();
-                // Load and render crack image if tower health is low
-                QPixmap crackPixmap("://Resources/Images/crack.png");
-                renderer->drawPixmap(towerPosition.x - crackPixmap.width() / 2,
-                                     height() - towerPosition.y - crackPixmap.height() / 2, crackPixmap);
-            }
-            towerPosition = (*i)->get_body()->GetPosition();
 
-            // Render tower pixmap
-            renderer->drawPixmap(towerPosition.x - (*i)->get_pixmap().width() / 2,
-                                 height() - towerPosition.y - (*i)->get_pixmap().height() / 2, (*i)->get_pixmap());
-        }
-    }
 
     // Iterate through enemies and render them
     for (auto i = enemies.begin(); i != enemies.end(); i++) {
@@ -447,15 +455,16 @@ void PhysicsWorld::createRocket(float x, float y) {
     rocketBody = world->CreateBody(&bodyDef);
     // Use an image for the rocket
     QPixmap rocketixmap("://Resources/Images/RoundShot.png");
-    rocketPixmap = rocketixmap.scaled(30, 30); // Adjust the size as needed
+    rocketPixmap = rocketixmap.scaled(50, 50); // Adjust the size as needed
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 2.0f); // Rocket shape
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 3.0f;
+    fixtureDef.density = 1.0f;
     fixtureDef.friction = 100.3f;
+  //fixtureDef.restitution = 10.0f;
 
     rocketBody->CreateFixture(&fixtureDef);
 
@@ -598,6 +607,9 @@ void PhysicsWorld::BeginContact(b2Contact *contactPoint) {
             }
 
         }
+        towers.erase(std::remove_if(towers.begin(), towers.end(),
+                                    [](const Obstacles *tower) { return tower->getHealth() <= 0; }),
+                     towers.end());
 
         // Remove towers with health less than or equal to zero
     }
@@ -653,7 +665,54 @@ void PhysicsWorld::BeginContact(b2Contact *contactPoint) {
         enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
                                      [](const Obstacles *enemy) { return enemy->getHealth() <= 0; }),
                       enemies.end());
+
+        if(enemies.empty())
+        {
+                MidMenu *midmenu = new MidMenu;
+
+                midmenu->get_startmenu(Menu);
+
+                midmenu->get_window(this);
+
+                counter--;
+
+                update();
+
+                midmenu->calculate_stars();
+
+                midmenu->show();
+
+                timer->start(500000); // Adjust the timer interval as needed
+
+        }
+
     }
+
+}
+
+void PhysicsWorld::get_startmenu(StartMenu* start)
+{
+    Menu = start;
+}
+
+void PhysicsWorld::get_currentlevelindex(int curr)
+{
+    currentlevelindex = curr;
+}
+
+int PhysicsWorld::get_winoffset()
+{
+    return winoffset;
+}
+
+void PhysicsWorld::set_winoffset(int wincon)
+{
+    winoffset= wincon;
+}
+
+int PhysicsWorld::get_counter()
+{
+    return counter;
 }
 
 //void PhysicsWorld::BeginContact(

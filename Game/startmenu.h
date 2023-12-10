@@ -28,6 +28,7 @@ public:
     Level *getCurrentLevel();
     void setMusicPlayer(bool);
     ~StartMenu();
+    void renderer_unlocked() const;
 
 public slots:
     void on_pushButtonlevel1_clicked();
