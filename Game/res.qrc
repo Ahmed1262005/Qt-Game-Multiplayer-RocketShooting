@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/Audio/Rocket_Launching_and_Hitting_a_Target_Sound.mp3</file>
+
+    </qresource>
+</RCC>

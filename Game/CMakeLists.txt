@@ -16,20 +16,19 @@ find_package(Qt5Quick REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5WebSockets REQUIRED)
 
-add_executable(Game main.cpp MainWindow.cpp MainWindow.h
+add_executable(Game main.cpp
         level.cpp
         websockethandler.cpp
         messageprocesshandler.cpp
         gameitem.cpp
-        enemy.cpp
         gamemanager.cpp
         obstacles.cpp
         startmenu.cpp
         startmenu.cpp
-        midmenu.h
         midmenu.cpp
         multiplayermainwindow.h
-        multiplayermainwindow.cpp)
+        multiplayermainwindow.cpp
+        chatlobbywindow.cpp)
 
 target_link_libraries(Game Qt5::Core)
 target_link_libraries(Game Qt5::Widgets)

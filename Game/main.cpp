@@ -5,6 +5,7 @@
 #include <cmath>
 #include "startmenu.h"
 #include "websockethandler.h"
+#include "gamemanager.h"
 
 
 int main(int argc, char *argv[])
@@ -19,8 +20,10 @@ int main(int argc, char *argv[])
     // Connect to the server
     webSocketHandler.connectToServer("ws://lothgha.com:8585");  // Replace with your server address
 
-
-    StartMenu s;
+    GameManager gameManager;
+    QObject::connect( &webSocketHandler, &WebSocketHandler::newMessageReadyForProcessing, &gameManager, &GameManager::processSocketMessage );
+    QObject::connect( &gameManager, &GameManager::newMessageReadyToSend, &webSocketHandler, &WebSocketHandler::sendMessageToServer );
+    StartMenu s(nullptr, &gameManager);
     s.showFullScreen();
 
    /* QVector<Level> levels;

@@ -35,7 +35,7 @@ void GameManager::createGameRequest() {
         }
     }
 
-    if (clientsInLobby >= 2) {  // Adjust this value based on your game requirements
+    if (clientsInLobby <= 2) {  // Adjust this value based on your game requirements
         emit newMessageReadyToSend("type:createGame;payLoad:0;sender:" + m_clientID);
     }
 }

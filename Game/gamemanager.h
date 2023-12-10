@@ -45,6 +45,7 @@ signals:
     void inGameLobby();
     void newLobbyMessage( QString message );
 
+
 private:
     QString m_clientID;
     QStringList m_clientsInLobby;
