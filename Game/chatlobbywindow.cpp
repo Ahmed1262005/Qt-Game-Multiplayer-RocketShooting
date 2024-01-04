@@ -3,9 +3,9 @@
 #include <QString>
 #include <QList>
 #include "multiplayermainwindow.h"
-
 ChatLobbyWindow::ChatLobbyWindow(GameManager *gameManager, QWidget *parent)
         : QDialog(parent), ui(new Ui::ChatLobbyWindow), m_gameManager(gameManager),
+
           m_messageHandler(new MessageProcessHandler(this)) {
     ui->setupUi(this); // Uncomment this line
 //    ui->lobbyId->setText(
@@ -18,6 +18,13 @@ ChatLobbyWindow::ChatLobbyWindow(GameManager *gameManager, QWidget *parent)
             usersText += "ID: " + id + "\n";
         }
     }
+    this->setWindowTitle("Game Lobby");
+    setWindowIcon(QIcon(":/Resources/Images/Title.ico"));
+
+
+    ui->pushButtonStart->setEnabled(false);
+    ui->pushButtonStart->setStyleSheet("QPushButton:disabled{ background: transparent; }");
+
     ui->users->setText(usersText); // Set the users label to the list of users in the lobby from gameManager
 //
 //    // Connect the newLobbyMessage signal from the message handler to the onNewMessageReadyForProcessing slot
@@ -31,21 +38,34 @@ ChatLobbyWindow::~ChatLobbyWindow() {
 }
 
 void ChatLobbyWindow::updateStartButton() {
-    if (m_gameManager->clientsInLobby().size() > 1) {
+    QString usersText = "";
+
+    const QStringList &Clients = m_gameManager->clientsInLobby();
+    QList<QString> clients = Clients;
+    if (!clients.isEmpty()) {
+        for (const QString &id: clients) {
+            usersText += "ID: " + id + "\n";
+        }
+    }
+    ui->users->setText(usersText); // Set the users label to the list of users in the lobby from gameManager
+    if (Clients.size() > 1) {
         ui->pushButtonStart->setEnabled(true);
+        ui->pushButtonStart->setStyleSheet("");
     } else {
         ui->pushButtonStart->setEnabled(false);
+        ui->pushButtonStart->setStyleSheet("QPushButton:disabled{ background: transparent; }");
     }
 }
+
 void ChatLobbyWindow::dataRecieved() {
 
 }
 
 
 void ChatLobbyWindow::on_pushButtonStart_clicked() {
-//    MultiplayerMainWindow *multiplayerWindow = new MultiplayerMainWindow(this);
-//    multiplayerWindow->show();
-//    this->hide(); // Optionally, hide the current window
+    MultiplayerMainWindow *multiplayerWindow = new MultiplayerMainWindow(m_gameManager,this);
+    multiplayerWindow->showFullScreen();
+    this->hide(); // Optionally, hide the current window
 }
 
 void ChatLobbyWindow::on_pushButtonSendMessage_clicked() {
@@ -62,4 +82,9 @@ void ChatLobbyWindow::onNewMessageReadyForProcessing(QString message) {
         currentText += message + "\n";
         ui->messages->setText(currentText);
     }
+}
+void ChatLobbyWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event);
+    QApplication::quit();
 }

@@ -804,39 +804,39 @@
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="labelBlackStars">
+  <widget class="QLabel" name="labelBlackStars_1">
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>290</y>
+     <y>260</y>
      <width>131</width>
-     <height>21</height>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
     <string>blackStars</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelColoredStars">
+  <widget class="QLabel" name="labelColoredStarsL1">
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>290</y>
+     <y>260</y>
      <width>131</width>
-     <height>21</height>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
     <string>ColoredStars</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelColoredStars_2">
+  <widget class="QLabel" name="labelColoredStarsL2">
    <property name="geometry">
     <rect>
-     <x>810</x>
-     <y>550</y>
+     <x>320</x>
+     <y>370</y>
      <width>131</width>
-     <height>21</height>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
@@ -846,17 +846,235 @@
   <widget class="QLabel" name="labelBlackStars_2">
    <property name="geometry">
     <rect>
-     <x>810</x>
-     <y>550</y>
+     <x>320</x>
+     <y>370</y>
      <width>131</width>
-     <height>21</height>
+     <height>50</height>
     </rect>
    </property>
    <property name="text">
     <string>blackStars</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelColoredStarsL3">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_3">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_4">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL4">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_5">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL5">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL6">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_6">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL7">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_7">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_8">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL8">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_9">
+   <property name="geometry">
+    <rect>
+     <x>920</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL10">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelBlackStars_10">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>370</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>blackStars</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelColoredStarsL9">
+   <property name="geometry">
+    <rect>
+     <x>920</x>
+     <y>260</y>
+     <width>131</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ColoredStars</string>
+   </property>
+  </widget>
   <zorder>labelBackground</zorder>
+  <zorder>labelBlackStars_1</zorder>
+  <zorder>labelBlackStars_10</zorder>
+  <zorder>labelBlackStars_2</zorder>
+  <zorder>labelBlackStars_3</zorder>
+  <zorder>labelBlackStars_4</zorder>
+  <zorder>labelBlackStars_5</zorder>
+  <zorder>labelBlackStars_6</zorder>
+  <zorder>labelBlackStars_7</zorder>
+  <zorder>labelBlackStars_8</zorder>
+  <zorder>labelBlackStars_9</zorder>
   <zorder>pushButtonlevel1</zorder>
   <zorder>pushButtonlevel2</zorder>
   <zorder>pushButtonlevel3</zorder>
@@ -880,10 +1098,16 @@
   <zorder>labellock_9</zorder>
   <zorder>labellock_10</zorder>
   <zorder>groupBoxMultiPlayerMode</zorder>
-  <zorder>labelBlackStars</zorder>
-  <zorder>labelColoredStars</zorder>
-  <zorder>labelColoredStars_2</zorder>
-  <zorder>labelBlackStars_2</zorder>
+  <zorder>labelColoredStarsL1</zorder>
+  <zorder>labelColoredStarsL2</zorder>
+  <zorder>labelColoredStarsL3</zorder>
+  <zorder>labelColoredStarsL4</zorder>
+  <zorder>labelColoredStarsL5</zorder>
+  <zorder>labelColoredStarsL6</zorder>
+  <zorder>labelColoredStarsL7</zorder>
+  <zorder>labelColoredStarsL8</zorder>
+  <zorder>labelColoredStarsL10</zorder>
+  <zorder>labelColoredStarsL9</zorder>
  </widget>
  <resources/>
  <connections/>

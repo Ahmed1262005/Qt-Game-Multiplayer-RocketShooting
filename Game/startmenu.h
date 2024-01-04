@@ -63,7 +63,6 @@ private slots:
 private:
     std::vector<Level*> levels;
 
-    Ui::StartMenu *ui;
     GameManager* manager;
 
     QMediaPlayer* MusicPlayer;

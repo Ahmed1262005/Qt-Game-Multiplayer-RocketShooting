@@ -72,11 +72,11 @@ void MessageProcessHandler::processMessage(QString message) {
         emit newLobbyMessage(displayMessage);
     } else if (message.startsWith("type:rocketLaunch")) {
         // Parse the position and direction from the message
-        QRegularExpression rx("position:(\\d+),(\\d+);direction:(\\d+),(\\d+)");
+        QRegularExpression rx("position:(-?\\d+(\\.\\d+)?),(-?\\d+(\\.\\d+)?);direction:(-?\\d+(\\.\\d+)?),(-?\\d+(\\.\\d+)?)");
         QRegularExpressionMatch match = rx.match(message);
         if (match.hasMatch()) {
-            b2Vec2 position(match.captured(1).toDouble(), match.captured(2).toDouble());
-            b2Vec2 direction(match.captured(3).toDouble(), match.captured(4).toDouble());
+            b2Vec2 position(match.captured(1).toDouble(), match.captured(3).toDouble());
+            b2Vec2 direction(match.captured(5).toDouble(), match.captured(7).toDouble());
 
             // Emit the rocketLaunchMessageReceived signal
             emit rocketLaunchMessageReceived(position, direction);

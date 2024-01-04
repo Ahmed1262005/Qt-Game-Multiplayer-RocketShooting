@@ -31,6 +31,7 @@ private:
     Ui::ChatLobbyWindow *ui;
     GameManager *m_gameManager;
     MessageProcessHandler *m_messageHandler;
+protected:
+    void closeEvent(QCloseEvent *event) override; // Add this line
 };
-
 #endif // CHATLOBBYWINDOW_H

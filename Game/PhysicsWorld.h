@@ -20,6 +20,10 @@ class PhysicsWorld : public QMainWindow, public b2ContactListener {
     Q_OBJECT
 
 public:
+
+// Add these member variables to your PhysicsWorld class
+//    b2Vec2 previousPosition;
+//    std::chrono::high_resolution_clock::time_point previousTime;
     // Functions and variables related to creating and managing the game world
     void createRocket(float x, float y); // Creates a rocket at given coordinates
     // Variables for managing physics bodies and interactions
@@ -51,7 +55,7 @@ public:
     b2World *world;
 
     // Functions for painting the game's visual elements
-    void paintEvent(QPaintEvent *event); // Paints the game elements
+    virtual void paintEvent(QPaintEvent *event); // Paints the game elements
     QPainter* get_renderer() const; // Retrieves the painter object
     void setMusicPlayer(bool); // Sets the music player
 
@@ -117,7 +121,7 @@ protected:
     void showBackground(); //Draws the background of the world
     void initializeBox2D(); // Initializes Box2D
     void createGround(); // Creates the ground
-    void launchRocket(float desiredHeight); // Launches the rocket
+    virtual void launchRocket(float desiredHeight); // Launches the rocket
     void updateRocketTrajectory(); // Updates rocket trajectory
 
     // Method for drawing rotated pixmaps

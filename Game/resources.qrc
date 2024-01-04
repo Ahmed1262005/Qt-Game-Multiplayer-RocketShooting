@@ -34,6 +34,9 @@
         <file>Resources/Images/canon.png</file>
         <file>Resources/Audio/Small Bomb Explosion Sound Effect.mp3</file>
         <file>Resources/Audio/Canon Drop.mp3</file>
+        <file>Resources/Images/cracks.png</file>
+        <file>Resources/Images/R.png</file>
+        <file>C:/Users/User 2/Downloads/Title.ico</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

@@ -28,7 +28,8 @@ add_executable(Game main.cpp
         midmenu.cpp
         multiplayermainwindow.h
         multiplayermainwindow.cpp
-        chatlobbywindow.cpp)
+        chatlobbywindow.cpp
+        PhysicsWorld.cpp)
 
 target_link_libraries(Game Qt5::Core)
 target_link_libraries(Game Qt5::Widgets)

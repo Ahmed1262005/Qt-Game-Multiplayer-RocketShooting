@@ -9,6 +9,7 @@
 #include "level.h"
 #include "startmenu.h"
 #include <midmenu.h>
+#include <chrono> // Include this at the top of your file
 
 
 PhysicsWorld::PhysicsWorld(QWidget *parent)
@@ -26,7 +27,7 @@ PhysicsWorld::PhysicsWorld(QWidget *parent)
 
     // Initialize variables and flags
     drawPredictedCollision = true;
-
+    setCursor(Qt::CrossCursor);
     // Use a QTimer singleShot to set the contact listener for the Box2D world after a delay
     timer->singleShot(1000, [this]() { world->SetContactListener(this); });
 }
@@ -132,8 +133,8 @@ b2Vec2 PhysicsWorld::getTrajectoryPoint(b2Vec2 &startingPosition, b2Vec2 &starti
     b2Vec2 stepVelocity = t * startingVelocity; // m/s
     b2Vec2 stepGravity = t * t * world->GetGravity(); // m/s/s
 
-    float x = startingPosition.x + n * stepVelocity.x + 0.5f * (n * n + n) * stepGravity.x;
-    float y = startingPosition.y + n * stepVelocity.y + 0.5f * (n * n + n) * stepGravity.y;
+    float x = startingPosition.x + n * stepVelocity.x + 0.5f * (n * n +n ) * stepGravity.x;
+    float y = startingPosition.y + n * stepVelocity.y + 0.5f * (n * n +n) * stepGravity.y;
 
     return b2Vec2(x, y);
 }
@@ -194,12 +195,24 @@ float PhysicsWorld::calculateScore() {
 
 void PhysicsWorld::updateWorld() {
     // Update the Box2D world simulation
+
     world->Step(1.0f / 60.0f, 6, 2);
+    world->Step(1.0f / 60.0f, 6, 2);
+
+//    // Update the Box2D world simulation
+    world->Step(1.0f / 60.0f, 6, 2);
+    world->Step(1.0f / 60.0f, 6, 2);
+    world->Step(1.0f / 60.0f, 6, 2);
+    world->Step(1.0f / 60.0f, 6, 2);
+
+    // Your existing code here...
 
     // Check if the rocket exists
     if (rocketBody) {
         // Get the velocity of the rocket
+
         b2Vec2 velocity = rocketBody->GetLinearVelocity();
+//        qDebug() << "Rocket Velocity: " << (float)velocity.x << (float)velocity.y;
 
         // Check if the rocket's velocity is nearly zero and predicted collision is not drawn
         if (qAbs(velocity.x) < 0.1 && qAbs(velocity.y) < 0.1 && !drawPredictedCollision) {
@@ -251,6 +264,7 @@ void PhysicsWorld::updateWorld() {
 
     // Schedule a repaint for the PhysicsWorld
     update();
+    // Get the end time
 }
 
 void PhysicsWorld::paintEvent(QPaintEvent *event) {
@@ -264,7 +278,9 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
     // Example: Draw dynamic boxes
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext()) {
         // Check if the body is flagged for deletion and destroy it
-        if (body->GetUserData() == (void*)"TO_DELETE") {
+        char *userData = static_cast<char *>(body->GetUserData());
+
+        if (strcmp(userData, "TO_DELETE") == 0) {
             world->DestroyBody(body);
             continue;
         }
@@ -277,14 +293,16 @@ void PhysicsWorld::paintEvent(QPaintEvent *event) {
 
     // Draw the rocket trajectory
     drawTrajectory(renderer);
+    renderer->setPen(QPen(Qt::white, 5, Qt::SolidLine));
 
     // Render text displaying cannon ammunition count
-    renderer->setFont(QFont("times",22));
+    renderer->setFont(QFont("AngryBirds",22));
     renderer->drawText(50, 50, "Cannon Ammunition: " + QString::number(counter));
 
     // Render text displaying the current level
-    renderer->setFont(QFont("times",22));
-    renderer->drawText(500, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
+    renderer->setFont(QFont("AngryBirds",22));
+    renderer->drawText(width() - 250, 50, "Current Level: " + QString::number(getCurrentLevel()+1));
+    renderer->setPen(QPen(Qt::red, 5, Qt::SolidLine));
 
     for (auto i = towers.begin(); i != towers.end(); i++) {
         if ((*i)->getHealth() > 0) {
@@ -399,6 +417,7 @@ void PhysicsWorld::launchRocket(float desiredHeight) {
         drawPredictedCollision = false;  // Disable displaying predicted collision after launch
         updateRocketTrajectory();
     }
+
 }
 
 
@@ -462,7 +481,7 @@ void PhysicsWorld::createRocket(float x, float y) {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
+    fixtureDef.density = 0.1f;
     fixtureDef.friction = 100.3f;
   //fixtureDef.restitution = 10.0f;
 
@@ -477,8 +496,9 @@ void PhysicsWorld::createRocket(float x, float y) {
 void PhysicsWorld::mouseMoveEvent(QMouseEvent *event) {
     // Adjust the rocket's position and velocity based on the mouse position
     b2Vec2 mousePos(event->pos().x(), event->pos().y());
-    rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
-    rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 110.0f)); // Adjust as needed
+
+//    rocketPosition.Set(qBound(100.f, mousePos.x, 100.f), qBound(100.0f, mousePos.y, 100.0f)); // Adjust as needed
+    rocketVelocity.Set(mousePos.x, qBound(0.0f, height() - mousePos.y, 100.0f)); // Adjust as needed
 
     // You can print the rocket's position for debugging
     qDebug() << "Rocket Position: (" << rocketPosition.x << ", " << rocketPosition.y << ")";
