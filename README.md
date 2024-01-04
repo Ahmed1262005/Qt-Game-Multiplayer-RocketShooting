@@ -25,7 +25,10 @@ Stellar Strike is a real-time multiplayer rocket shooting game developed using t
 ## Game Trailer
 
 A full developed trailer of the game is available.
-[Game Trailer.mp4](Game%2FGame%20Trailer.mp4)
+
+https://github.com/Ahmed1262005/Qt-Game-Multiplayer-RocketShooting/assets/58309465/a81a3fd9-47b4-47b5-9a6a-5e3679afa0fc
+
+
 ## Executable
 
 The game executable is available in the folder `Executable` [Game.exe](Executable%2FGame.exe).
