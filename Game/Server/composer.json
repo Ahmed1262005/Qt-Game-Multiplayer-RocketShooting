@@ -1,0 +1,23 @@
+{
+
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-ctype": "*",
+        "ext-dom": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*",
+        "ext-xml": "*",
+        "ext-xmlreader": "*",
+        "ext-xmlwriter": "*",
+        "ext-zip": "*",
+        "ext-zlib": "*",
+        "cboden/ratchet": "^0.4.3",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-curl": "*"
+    }
+}

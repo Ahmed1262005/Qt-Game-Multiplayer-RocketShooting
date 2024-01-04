@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     WebSocketHandler webSocketHandler;
 
     // Connect to the server
-    webSocketHandler.connectToServer("ws://lothgha.com:8585");  // Replace with your server address
+    webSocketHandler.connectToServer("ws://localhost:8585");  // Replace with your server address
 
     GameManager gameManager;
     QObject::connect( &webSocketHandler, &WebSocketHandler::newMessageReadyForProcessing, &gameManager, &GameManager::processSocketMessage );
